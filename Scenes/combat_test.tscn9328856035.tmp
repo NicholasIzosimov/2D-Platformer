@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://bjq60whfylylw"]
+
+[ext_resource type="PackedScene" uid="uid://bvq24t0udl8op" path="res://Scenes/Player.tscn" id="1_x0xd4"]
+[ext_resource type="PackedScene" uid="uid://6220bkfhoh4t" path="res://Scenes/Dummy.tscn" id="2_q16qq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5ixxa"]
+size = Vector2(1159, 75.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pm0ju"]
+size = Vector2(9.5, 484)
+
+[node name="CombatTest" type="Node2D" unique_id=312659833]
+
+[node name="player" parent="." unique_id=1164345268 instance=ExtResource("1_x0xd4")]
+
+[node name="dummy" parent="." unique_id=146326705 instance=ExtResource("2_q16qq")]
+position = Vector2(307, 50)
+
+[node name="RoofFloor" type="StaticBody2D" parent="." unique_id=2005800879]
+
+[node name="Floor" type="CollisionShape2D" parent="RoofFloor" unique_id=1155896166]
+position = Vector2(-3, 194)
+shape = SubResource("RectangleShape2D_5ixxa")
+debug_color = Color(0.98974866, 0, 0.28111458, 1)
+
+[node name="Roof" type="CollisionShape2D" parent="RoofFloor" unique_id=553499625]
+position = Vector2(2, -286)
+shape = SubResource("RectangleShape2D_5ixxa")
+debug_color = Color(0.98974866, 0, 0.28111458, 1)
+
+[node name="Walls" type="StaticBody2D" parent="." unique_id=898357448]
+
+[node name="right" type="CollisionShape2D" parent="Walls" unique_id=1864853297]
+position = Vector2(574, -31)
+shape = SubResource("RectangleShape2D_pm0ju")
+
+[node name="left" type="CollisionShape2D" parent="Walls" unique_id=2141329223]
+position = Vector2(-571, -15)
+shape = SubResource("RectangleShape2D_pm0ju")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1539475494]

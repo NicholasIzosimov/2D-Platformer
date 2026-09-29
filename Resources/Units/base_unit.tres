@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="UnitData" format=3 uid="uid://bl5puig3wbk7d"]
+
+[ext_resource type="Resource" uid="uid://dd8jlgmp5kp1f" path="res://Resources/Powers/bile.tres" id="1_5d6fh"]
+[ext_resource type="Script" uid="uid://djkq3ofrj4kyw" path="res://Scripts/ResourceScripts/unit_data.gd" id="1_chb6n"]
+
+[resource]
+script = ExtResource("1_chb6n")
+name = "Base"
+base_health = 100.0
+power = ExtResource("1_5d6fh")
+base_armor = 100.0
+base_crit_chance = 5.0
+base_miss_chance = 5.0
+base_dodge_chance = 5.0
+base_move_speed = 150.0
+xp_reward = 100.0
+metadata/_custom_type_script = "uid://djkq3ofrj4kyw"

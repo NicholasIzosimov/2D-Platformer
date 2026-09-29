@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="CaveBandsShape" format=3 uid="uid://drgoootrvg048"]
+
+[ext_resource type="Script" uid="uid://bdkptyd6raco1" path="res://Scripts/ResourceScripts/cave_bands_shape.gd" id="1_l2f2m"]
+
+[resource]
+script = ExtResource("1_l2f2m")
+metadata/_custom_type_script = "uid://bdkptyd6raco1"

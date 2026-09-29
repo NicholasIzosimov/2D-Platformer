@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://b0eqcr5beyybg"]
+
+[ext_resource type="PackedScene" uid="uid://cekfdndcc4y2w" path="res://Scenes/Unit.tscn" id="1_m1htj"]
+[ext_resource type="Script" uid="uid://c84jrct7xjue7" path="res://Scripts/enemy_combat_controller.gd" id="2_wovta"]
+[ext_resource type="Script" uid="uid://5j6i1rvnlhe2" path="res://Scripts/ResourceScripts/ability_data.gd" id="3_xeo28"]
+[ext_resource type="Resource" uid="uid://dsk04y4qu2q5q" path="res://Resources/Abilities/NPCs/basic_strike.tres" id="4_kpr8r"]
+
+[node name="Unit" unique_id=1164345268 groups=["enemies"] instance=ExtResource("1_m1htj")]
+collision_layer = 4
+
+[node name="EnemyCombatController" type="Node" parent="." index="4" unique_id=78062697]
+script = ExtResource("2_wovta")
+abilities = Array[ExtResource("3_xeo28")]([ExtResource("4_kpr8r")])
+
+[node name="HeightCheck1" type="RayCast2D" parent="." index="10" unique_id=958888922]
+position = Vector2(0, -38)
+target_position = Vector2(40, 0)
+
+[node name="HeightCheck2" type="RayCast2D" parent="." index="11" unique_id=299988039]
+position = Vector2(0, -102)
+target_position = Vector2(40, 0)

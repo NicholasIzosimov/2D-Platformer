@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://cr3sddidhicqq"]
+
+[ext_resource type="Script" uid="uid://dlnvgkpad6ukw" path="res://Scripts/gear_slot.gd" id="1_q6bon"]
+
+[node name="GearSlot" type="Panel" unique_id=930356990]
+custom_minimum_size = Vector2(48, 48)
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_q6bon")
+
+[node name="Icon" type="TextureRect" parent="." unique_id=2121901888]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5

@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://d0cpyodsk2niv"]
+
+[ext_resource type="Script" uid="uid://b1et7p3ng4x47" path="res://Scripts/debuff_icon.gd" id="1_h8qd1"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pa315"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.19793722, 0.19793728, 0.1979371, 1)
+
+[sub_resource type="Gradient" id="Gradient_h8qd1"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_orcho"]
+gradient = SubResource("Gradient_h8qd1")
+width = 23
+height = 23
+fill_from = Vector2(1, 0)
+
+[node name="DebuffIcon" type="Panel" unique_id=562804786]
+custom_minimum_size = Vector2(24, 24)
+theme_override_styles/panel = SubResource("StyleBoxFlat_pa315")
+script = ExtResource("1_h8qd1")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=2027472373]
+custom_minimum_size = Vector2(22, 22)
+custom_maximum_size = Vector2(22, 22)
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 23.0
+offset_bottom = 23.0
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="." unique_id=1970816838]
+custom_minimum_size = Vector2(22, 22)
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 65.0
+offset_bottom = 65.0
+fill_mode = 4
+texture_progress = SubResource("GradientTexture2D_orcho")
+tint_progress = Color(1, 1, 1, 0.34117648)
+
+[node name="Label" type="Label" parent="." unique_id=152195178]
+layout_mode = 0
+offset_right = 24.0
+offset_bottom = 24.0
+horizontal_alignment = 1
+vertical_alignment = 1

@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="AbilityData" format=3 uid="uid://coc4vppt5h5ck"]
+
+[ext_resource type="Script" uid="uid://do4vdp8v5ea1s" path="res://Scripts/ResourceScripts/ability_effect.gd" id="1_p3xpc"]
+[ext_resource type="Script" uid="uid://5j6i1rvnlhe2" path="res://Scripts/ResourceScripts/ability_data.gd" id="2_2s15s"]
+[ext_resource type="Texture2D" uid="uid://coyiho755qvby" path="res://Assets/AbilityIcons/Putrefy.png" id="2_r2pxu"]
+
+[sub_resource type="Resource" id="Resource_jqclb"]
+script = ExtResource("1_p3xpc")
+name = "Putrefy"
+damage = 2.0
+power_gain = 2.0
+is_debuff = true
+spell_duration = 10.0
+tick_interval = 2.0
+icon = ExtResource("2_r2pxu")
+metadata/_custom_type_script = "uid://do4vdp8v5ea1s"
+
+[sub_resource type="Resource" id="Resource_2ip8y"]
+script = ExtResource("1_p3xpc")
+damage = 1.0
+metadata/_custom_type_script = "uid://do4vdp8v5ea1s"
+
+[resource]
+script = ExtResource("2_2s15s")
+icon = ExtResource("2_r2pxu")
+name = "Putrefy"
+triggers_gcd = true
+range = 10.0
+effects = Array[ExtResource("1_p3xpc")]([SubResource("Resource_jqclb"), SubResource("Resource_2ip8y")])
+metadata/_custom_type_script = "uid://5j6i1rvnlhe2"

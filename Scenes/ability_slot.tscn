@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://df1kljab75tjb"]
+
+[ext_resource type="Script" uid="uid://b81de2pceuy41" path="res://Scripts/ability_slot.gd" id="1_p0j81"]
+
+[sub_resource type="Gradient" id="Gradient_p0j81"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_7uj85"]
+gradient = SubResource("Gradient_p0j81")
+width = 80
+height = 80
+fill_to = Vector2(0, 0)
+
+[node name="AbilitySlot" type="Button" unique_id=145900171]
+custom_minimum_size = Vector2(80, 80)
+offset_right = 48.0
+offset_bottom = 48.0
+expand_icon = true
+script = ExtResource("1_p0j81")
+
+[node name="Label" type="Label" parent="." unique_id=1393376668]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="." unique_id=1293501655]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+fill_mode = 5
+texture_progress = SubResource("GradientTexture2D_7uj85")
+tint_progress = Color(1, 1, 1, 0.27450982)

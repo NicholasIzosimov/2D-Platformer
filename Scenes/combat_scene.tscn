@@ -1,0 +1,179 @@
+[gd_scene format=4 uid="uid://bjq60whfylylw"]
+
+[ext_resource type="PackedScene" uid="uid://bvq24t0udl8op" path="res://Scenes/Player.tscn" id="1_qumoa"]
+[ext_resource type="PackedScene" uid="uid://ur1htw0fkivh" path="res://Scenes/action_bar.tscn" id="1_rdqa8"]
+[ext_resource type="Texture2D" uid="uid://boofidmbpnbr3" path="res://Assets/SkyNight.png" id="1_sso1v"]
+[ext_resource type="PackedScene" uid="uid://b0eqcr5beyybg" path="res://Scenes/Enemy.tscn" id="2_2ip8y"]
+[ext_resource type="Script" uid="uid://c1f27rlg282ua" path="res://Scripts/error_text.gd" id="2_vtehv"]
+[ext_resource type="Script" uid="uid://cqlwpi23btuns" path="res://Scripts/player_combat_controller.gd" id="4_7uj85"]
+[ext_resource type="Script" uid="uid://yti72ecb3xss" path="res://Scripts/enemy_spawner.gd" id="6_vtehv"]
+[ext_resource type="Script" uid="uid://yon5ea1deaj3" path="res://Scripts/debug_tools.gd" id="7_loea4"]
+[ext_resource type="Texture2D" uid="uid://h0prnvh3rwo0" path="res://Assets/Tiny Swords (Free Pack)/Terrain/Tileset/Tilemap_color1.png" id="8_sv7pb"]
+[ext_resource type="Script" uid="uid://coe7kbwm1s5ca" path="res://Scripts/nameplate_stacker.gd" id="9_cy4jt"]
+[ext_resource type="Script" uid="uid://hh0g0qnqves" path="res://Scripts/world_generator.gd" id="11_f12wh"]
+[ext_resource type="Resource" uid="uid://cho4trmodg566" path="res://Resources/Zones/plains.tres" id="12_2usbb"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cy4jt"]
+texture = ExtResource("8_sv7pb")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+1:0/0 = 0
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+2:0/0 = 0
+2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+3:0/0 = 0
+3:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+5:0/0 = 0
+5:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+6:0/0 = 0
+6:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+7:0/0 = 0
+7:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+8:0/0 = 0
+8:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+0:1/0 = 0
+0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+1:1/0 = 0
+1:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+2:1/0 = 0
+2:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+3:1/0 = 0
+3:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+5:1/0 = 0
+5:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+6:1/0 = 0
+6:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+7:1/0 = 0
+7:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+8:1/0 = 0
+8:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+0:2/0 = 0
+0:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+1:2/0 = 0
+1:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+2:2/0 = 0
+2:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+3:2/0 = 0
+3:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+5:2/0 = 0
+5:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+6:2/0 = 0
+6:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+7:2/0 = 0
+7:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+8:2/0 = 0
+8:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+0:3/0 = 0
+0:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+1:3/0 = 0
+1:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+2:3/0 = 0
+2:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+3:3/0 = 0
+3:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+5:3/0 = 0
+5:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+6:3/0 = 0
+6:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+7:3/0 = 0
+7:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+8:3/0 = 0
+8:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+0:4/0 = 0
+3:4/0 = 0
+5:4/0 = 0
+5:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+6:4/0 = 0
+6:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+7:4/0 = 0
+7:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+8:4/0 = 0
+8:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+0:5/0 = 0
+3:5/0 = 0
+5:5/0 = 0
+5:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+6:5/0 = 0
+6:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+7:5/0 = 0
+7:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+8:5/0 = 0
+8:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+
+[sub_resource type="TileSet" id="TileSet_pm0ju"]
+tile_size = Vector2i(64, 64)
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_cy4jt")
+
+[node name="CombatScene" type="Node2D" unique_id=312659833]
+
+[node name="Background" type="Parallax2D" parent="." unique_id=1346562611]
+scroll_scale = Vector2(0.3, 0.3)
+repeat_size = Vector2(2548, 1588)
+repeat_times = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="Background" unique_id=791566989]
+scale = Vector2(4, 4)
+texture = ExtResource("1_sso1v")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 2, 637, 397)
+
+[node name="Terrain" type="TileMapLayer" parent="." unique_id=401014400]
+scale = Vector2(0.5, 0.5)
+tile_map_data = PackedByteArray("AADs/wIAAAAFAAQAAADt/wIAAAAFAAQAAADu/wIAAAAFAAQAAADv/wIAAAAFAAQAAADw/wIAAAAFAAQAAADx/wIAAAAFAAQAAADy/wIAAAAFAAQAAADz/wIAAAAFAAQAAAD0/wIAAAAFAAQAAAD1/wIAAAAFAAQAAAD2/wIAAAAFAAQAAAD3/wIAAAAFAAQAAAD4/wIAAAAFAAQAAAD5/wIAAAAFAAQAAAD6/wIAAAAFAAQAAAD7/wIAAAAFAAQAAAD8/wIAAAAFAAQAAAD9/wEAAAAFAAQAAAD+/wEAAAAFAAQAAAD//wEAAAAFAAQAAAAAAAEAAAAFAAQAAAABAAEAAAAFAAQAAAACAAEAAAAFAAQAAAADAAAAAAAFAAQAAAAEAAAAAAAFAAQAAAAFAAAAAAAFAAQAAAAGAAAAAAAFAAQAAAAHAAAAAAAFAAQAAAAIAAEAAAAFAAQAAAAJAAEAAAAFAAQAAAAKAAEAAAAFAAQAAAALAAEAAAAFAAQAAAAMAAAAAAAFAAQAAAAMAP//AAAFAAQAAAANAP7/AAAFAAQAAAAOAP7/AAAFAAQAAAAPAP7/AAAFAAQAAAAQAP7/AAAFAAQAAAARAPz/AAAFAAQAAAARAP3/AAAFAAQAAAASAPz/AAAFAAQAAAATAPz/AAAFAAQAAAATAPf/AAAFAAQAAAATAPj/AAAFAAQAAAASAPj/AAAFAAQAAAASAPn/AAAFAAQAAAASAPr/AAAFAAQAAAARAPr/AAAFAAQAAAARAPv/AAAFAAQAAAATAPn/AAAFAAQAAAATAPr/AAAFAAQAAAASAPv/AAAFAAQAAAATAPv/AAAFAAQAAADv/wEAAAAFAAQAAADu/wEAAAAFAAQAAADu/wAAAAAFAAQAAADt////AAAFAAQAAADt//7/AAAFAAQAAADs//7/AAAFAAQAAADs//3/AAAFAAQAAADs////AAAFAAQAAADs/wAAAAAFAAQAAADt/wAAAAAFAAQAAADt/wEAAAAFAAQAAADs/wEAAAAFAAQAAADs//z/AAAFAAQAAADs//v/AAAFAAQAAADs//r/AAAFAAQAAADs//n/AAABAAAAAADt//3/AAABAAAAAADu////AAABAAAAAADv/wAAAAABAAAAAADw/wEAAAABAAAAAADx/wEAAAABAAAAAADy/wEAAAABAAAAAADz/wEAAAABAAAAAAD0/wEAAAABAAAAAAD1/wEAAAABAAAAAAD2/wEAAAABAAAAAAD3/wEAAAABAAAAAAD4/wEAAAABAAAAAAD5/wEAAAABAAAAAAD6/wEAAAABAAAAAAD7/wEAAAABAAAAAAD8/wEAAAABAAAAAAD9/wAAAAABAAAAAAD+/wAAAAABAAAAAAD//wAAAAABAAAAAAAAAAAAAAABAAAAAAABAAAAAAABAAAAAAACAAAAAAABAAAAAAADAP//AAABAAAAAAAEAP//AAABAAAAAAAFAP//AAABAAAAAAAGAP//AAABAAAAAAAHAP//AAABAAAAAAAIAAAAAAABAAAAAAAJAAAAAAABAAAAAAAKAAAAAAABAAAAAAALAAAAAAABAAAAAAAMAP7/AAABAAAAAAANAP3/AAABAAAAAAAOAP3/AAABAAAAAAAPAP3/AAABAAAAAAAQAP3/AAABAAAAAAARAPn/AAABAAAAAAASAPf/AAABAAAAAAATAPb/AAABAAAAAAA=")
+tile_set = SubResource("TileSet_pm0ju")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=653473165]
+
+[node name="ActionBar" parent="CanvasLayer" unique_id=171746954 instance=ExtResource("1_rdqa8")]
+anchors_preset = -1
+offset_bottom = -275.0
+
+[node name="ErrorText" type="Label" parent="CanvasLayer" unique_id=1617025841]
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -0.5
+offset_top = -11.5
+offset_right = 0.5
+offset_bottom = -373.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("2_vtehv")
+
+[node name="player" parent="." unique_id=664299930 instance=ExtResource("1_qumoa")]
+
+[node name="SpawnPoint" type="Marker2D" parent="player" unique_id=1426186859]
+position = Vector2(300, -40)
+
+[node name="PlayerCombatController" type="Node" parent="." unique_id=829671021 node_paths=PackedStringArray("action_bar", "error_text", "cast_bar")]
+script = ExtResource("4_7uj85")
+action_bar = NodePath("../CanvasLayer/ActionBar")
+error_text = NodePath("../CanvasLayer/ErrorText")
+cast_bar = NodePath("../CanvasLayer/ActionBar/HUD/CastBar")
+
+[node name="EnemySpawner" type="Node" parent="." unique_id=159914997]
+script = ExtResource("6_vtehv")
+
+[node name="DebugTools" type="Node" parent="." unique_id=64277418 node_paths=PackedStringArray("enemy_spawner", "spawn_point")]
+script = ExtResource("7_loea4")
+enemy_spawner = NodePath("../EnemySpawner")
+enemy_scene = ExtResource("2_2ip8y")
+spawn_point = NodePath("../player/SpawnPoint")
+
+[node name="NameplateStacker" type="Node" parent="." unique_id=1547484641]
+script = ExtResource("9_cy4jt")
+
+[node name="WorldGenerator" type="Node" parent="." unique_id=1442959269 node_paths=PackedStringArray("terrain", "player")]
+script = ExtResource("11_f12wh")
+terrain = NodePath("../Terrain")
+player = NodePath("../player")
+shape = ExtResource("12_2usbb")
+
+[editable path="CanvasLayer/ActionBar"]

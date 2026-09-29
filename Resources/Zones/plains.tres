@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="PlainsShape" format=3 uid="uid://cho4trmodg566"]
+
+[ext_resource type="Script" uid="uid://dsa6t682trysg" path="res://Scripts/ResourceScripts/plains_shape.gd" id="1_5qoop"]
+
+[resource]
+script = ExtResource("1_5qoop")
+metadata/_custom_type_script = "uid://dsa6t682trysg"
