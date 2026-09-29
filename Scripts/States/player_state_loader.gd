@@ -6,6 +6,7 @@ func _ready() -> void:
 	stats.set_power_data(PlayerState.class_data.power)
 	stats.max_health += PlayerState.bonus_health
 	stats.current_health += PlayerState.bonus_health
+	stats.modify_vigor(PlayerState.bonus_vigor)
 	stats.modify_armor(PlayerState.bonus_armor)
 	stats.modify_primary_stat(PlayerState.bonus_primary_stat)
 	stats.modify_damage_reduction(PlayerState.bonus_damage_reduction)

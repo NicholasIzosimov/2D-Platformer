@@ -88,7 +88,7 @@ func resolve_effects(ability, target) -> void:
 	if ability.cooldown > 0:
 		ability_cooldowns[ability] = true
 		cooldown_started.emit(ability, ability.cooldown)
-		get_tree().create_timer(ability.cooldown).timeout.connect(_end_cooldown.bind(ability))
+		get_tree().create_timer(ability.cooldown, false).timeout.connect(_end_cooldown.bind(ability))
 
 func cast_cancel() -> void:
 	if is_casting and cast_timer:

@@ -22,6 +22,7 @@ var bonus_power_generation: float = 0.0
 var level: int = 1
 var xp: float = 0.0
 var talent_points: int = 0
+var bonus_vigor: float = 0.0
 
 const XP_BASE: float = 100.0
 const XP_GROWTH: float = 1.5

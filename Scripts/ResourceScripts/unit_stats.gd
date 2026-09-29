@@ -2,6 +2,7 @@ extends Node
 
 const ARMOR_K: float = 400.0
 const ARMOR_MAX: float = 0.75
+const HEALTH_PER_VIGOR: float = 10.0
 @export var unit_data: UnitData
 var current_primary_stat: float
 var power_data: PowerData
@@ -10,6 +11,7 @@ var max_power: float
 var current_power_generation: float
 var current_health: float
 var max_health: float
+var current_vigor: float
 var current_armor: float
 var current_block_chance: float
 var current_crit_chance: float
@@ -30,8 +32,9 @@ signal damage_taken(amount, crit_multiplier)
 signal attack_missed
 
 func _ready() -> void:
-	current_health = unit_data.base_health
-	max_health = unit_data.base_health
+	current_vigor = unit_data.base_vigor
+	max_health = unit_data.base_health + current_vigor * HEALTH_PER_VIGOR
+	current_health = max_health
 	current_primary_stat = unit_data.base_primary_stat
 	current_armor = unit_data.base_armor
 	current_damage_reduction = unit_data.base_damage_reduction
@@ -90,12 +93,14 @@ func modify_damage_reduction(amount: float) -> void:
 	current_damage_reduction += amount
 func modify_primary_stat(amount: float) -> void:
 	current_primary_stat += amount
-
+func modify_vigor(amount: float) -> void:
+	current_vigor += amount
+	modify_max_health(amount * HEALTH_PER_VIGOR)
+	
 func take_damage(raw_damage: float, crit_multiplier: float = 1.0) -> void:
 	if is_dead:
 		return
-	var armor: float = max(current_armor, 0.0)
-	var armor_reduction: float = ARMOR_MAX * armor / (armor + ARMOR_K)
+	var armor_reduction: float = get_armor_reduction()
 	var damage: float = raw_damage * crit_multiplier
 	damage *= 1.0 - armor_reduction
 	damage *= 1.0 - clamp(current_damage_reduction, 0.0, 100.0) / 100.0
@@ -115,3 +120,7 @@ func heal_to_full() -> void:
 		return
 	current_health = max_health
 	health_changed.emit(0.0)
+
+func get_armor_reduction() -> float:
+	var armor: float = max(current_armor, 0.0)
+	return ARMOR_MAX * armor / (armor + ARMOR_K)

@@ -17,3 +17,4 @@ class_name UnitData
 @export var base_move_speed: float
 @export var base_haste: float
 @export var xp_reward: float = 10.0
+@export var base_vigor: float = 0.0

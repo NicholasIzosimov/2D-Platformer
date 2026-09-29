@@ -12,5 +12,5 @@ script = ExtResource("2_ccjo1")
 name = "Malefactor"
 abilities = Array[ExtResource("1_ypp7p")]([ExtResource("2_s82rk"), ExtResource("4_s82rk"), ExtResource("3_slkvj")])
 power = ExtResource("5_m5ek2")
-primary_stat_name = "Virulence"
+primary_stat_name = "Magic"
 metadata/_custom_type_script = "uid://bblgktlu50lqb"
