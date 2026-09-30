@@ -46,8 +46,17 @@ func _process(_delta: float) -> void:
 			unload_chunk(c)
 
 func player_chunk() -> Vector2i:
-	var cell: Vector2i = ground.local_to_map(ground.to_local(player.global_position))
+	return pos_to_chunk(player.global_position)
+
+func pos_to_chunk(pos: Vector2) -> Vector2i:
+	var cell: Vector2i = ground.local_to_map(ground.to_local(pos))
 	return Vector2i(floori(cell.x / float(chunk_size.x)), floori(cell.y / float(chunk_size.y)))
+
+func is_loaded(pos: Vector2) -> bool:
+	return loaded.has(pos_to_chunk(pos))
+
+func is_open(pos: Vector2) -> bool:
+	return is_loaded(pos) and not blocked.has(ground.local_to_map(ground.to_local(pos)))
 
 func generate_chunk(c: Vector2i) -> void:
 	for x in range(c.x * chunk_size.x, (c.x + 1) * chunk_size.x):

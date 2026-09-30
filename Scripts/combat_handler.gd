@@ -5,6 +5,8 @@ const CRIT_MIN: float = 1.5
 const CRIT_MAX: float = 2.0
 const PRIMARY_STAT_SCALING: float = 0.01
 const LINE_OF_SIGHT_MASK: int = 1
+const MISS_LEVEL_SCALE: float = 3.0
+const MISS_LEVEL_GROWTH: float = 1.4
 var active_effects: Dictionary = {}
 var ability_cooldowns: Dictionary = {}
 var own_stats: Node
@@ -39,7 +41,7 @@ func cast_ability(ability, target) -> String:
 	var caster_position = get_parent().global_position
 	if caster_position.distance_to(target.global_position) > ability.range * PIXELS_PER_UNIT:
 		return "Out of range"
-	if not has_line_of_sight(get_parent().global_position, target.global_position):
+	if not units_have_line_of_sight(get_parent(), target):
 		return "Target not in line of sight"
 	if ability.triggers_gcd and gcd_active:
 		return "Global cooldown active"
@@ -64,7 +66,7 @@ func cast_ability(ability, target) -> String:
 			is_casting = false
 			cast_finished.emit()
 			cast_timer.queue_free()
-			if not is_instance_valid(target):
+			if not is_instance_valid(target) or target.get_node("UnitStats").is_dead:
 				return
 			own_stats.modify_power(-ability.power_cost)
 			resolve_effects(ability, target)
@@ -77,7 +79,7 @@ func cast_ability(ability, target) -> String:
 
 func resolve_effects(ability, target) -> void:
 	var target_stats = target.get_node("UnitStats")
-	if randf() * 100.0 < own_stats.current_miss_chance:
+	if randf() * 100.0 < miss_chance_against(target_stats):
 		target_stats.register_miss()
 	else:
 		var crit_multiplier: float = roll_crit()
@@ -95,6 +97,7 @@ func resolve_effects(ability, target) -> void:
 
 func cast_cancel() -> void:
 	if is_casting and cast_timer:
+		cast_timer.stop()
 		cast_timer.queue_free()
 		is_casting = false
 		gcd_active = false
@@ -154,7 +157,11 @@ func roll_crit() -> float:
 	if randf() * 100.0 < own_stats.current_crit_chance:
 		return randf_range(CRIT_MIN, CRIT_MAX) + own_stats.current_crit_damage
 	return 1.0
-
+	
+func miss_chance_against(target_stats: Node) -> float:
+	var level_diff: int = target_stats.level - own_stats.level
+	return own_stats.current_miss_chance + MISS_LEVEL_SCALE * (pow(MISS_LEVEL_GROWTH, level_diff) - 1.0)
+	
 func effect_damage(effect) -> float:
 	return effect.damage * (1.0 + own_stats.current_primary_stat * PRIMARY_STAT_SCALING)
 
@@ -162,3 +169,7 @@ func has_line_of_sight(from: Vector2, to: Vector2) -> bool:
 	var query := PhysicsRayQueryParameters2D.create(from, to, LINE_OF_SIGHT_MASK)
 	var hit: Dictionary = get_parent().get_world_2d().direct_space_state.intersect_ray(query)
 	return hit.is_empty()
+
+func units_have_line_of_sight(a: Node2D, b: Node2D) -> bool:
+	return has_line_of_sight(a.get_node("CollisionShape2D").global_position, 
+	b.get_node("CollisionShape2D").global_position)

@@ -24,12 +24,14 @@ var current_move_speed: float
 var current_parry_chance: float
 var current_haste: float
 var is_dead: bool = false
+var level: int = 1
 
 signal health_changed
 signal died
 signal power_changed(amount, show_text)
 signal damage_taken(amount, crit_multiplier)
 signal attack_missed
+signal level_changed
 
 func _ready() -> void:
 	current_vigor = unit_data.base_vigor
@@ -47,7 +49,23 @@ func _ready() -> void:
 	current_parry_chance = unit_data.base_parry_chance
 	current_haste = unit_data.base_haste
 	set_power_data(unit_data.power)
-
+	apply_level_scaling(1, level)
+	assert(max_health > 0.0, "%s has no health: set level_scaling, base_vigor or base_health" % unit_data.name)
+	
+func set_level(new_level: int) -> void:
+	if is_node_ready():
+		apply_level_scaling(level, new_level)
+	level = new_level
+	level_changed.emit()
+	
+func apply_level_scaling(from_level: int, to_level: int) -> void:
+	var scaling: LevelScaling = unit_data.level_scaling
+	if scaling == null:
+		return
+	modify_vigor(scaling.vigor_at(to_level) - scaling.vigor_at(from_level))
+	modify_primary_stat(scaling.primary_stat_at(to_level) - scaling.primary_stat_at(from_level))
+	modify_armor(scaling.armor_at(to_level) - scaling.armor_at(from_level))
+	
 func set_power_data(new_power: PowerData) -> void:
 	power_data = new_power
 	max_power = power_data.max_power

@@ -7,7 +7,6 @@ var hovered_target: Node
 @export var cast_bar: Node
 
 func _ready() -> void:
-	set_target(get_tree().get_first_node_in_group("enemies"))
 	var combat_handler = get_node("../player/CombatHandler")
 	combat_handler.gcd_started.connect(_on_gcd_started)
 	combat_handler.cast_cancelled.connect(_on_cast_cancelled)
@@ -36,6 +35,9 @@ func _on_cast_cancelled() -> void:
 	get_node("../player").stop_channel_animation()
 
 func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):
+		set_target(null)
+		return
 	if Input.is_action_just_pressed("tab_target"):
 		cycle_target()
 		return
@@ -49,7 +51,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	var i = 1
 	for slot in action_bar.current_slots:
 		if Input.is_action_just_pressed("cast_" + str(i)):
-			var target = get_valid_target()
+			var target = get_cast_target()
 			if target == null:
 				error_text.show_message("No target")
 				return
@@ -68,15 +70,13 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _process(delta: float) -> void:
 	update_hover()
-	var target = get_valid_target()
-	if target == null:
-		return
+	var target = get_cast_target()
 	var combat_handler = get_node("../player/CombatHandler")
 	var own_stats = get_node("../player/UnitStats")
 	var caster_position = get_node("../player").global_position
 	for slot in action_bar.current_slots:
 		var ability = slot.ability
-		var in_range = caster_position.distance_to(target.global_position) <= ability.range * combat_handler.PIXELS_PER_UNIT
+		var in_range = target == null or caster_position.distance_to(target.global_position) <= ability.range * combat_handler.PIXELS_PER_UNIT
 		var has_power = own_stats.current_power >= ability.power_cost
 		slot.set_validity(in_range, has_power)
 
@@ -89,9 +89,13 @@ func get_living_enemies() -> Array:
 
 func get_valid_target() -> Node:
 	if not is_instance_valid(current_target) or current_target.get_node("UnitStats").is_dead:
-		var enemies = get_living_enemies()
-		set_target(enemies[0] if enemies.size() > 0 else null)
+		set_target(null)
 	return current_target
+	
+func get_cast_target() -> Node:
+	if is_instance_valid(hovered_target) and not hovered_target.get_node("UnitStats").is_dead:
+		return hovered_target
+	return get_valid_target()
 
 func cycle_target() -> void:
 	var enemies = get_living_enemies()

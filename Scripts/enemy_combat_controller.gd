@@ -13,6 +13,7 @@ extends Node
 @export var wander_radius: float = 150.0
 @export var wander_speed_factor: float = 0.4
 @export var social_radius: float = 250.0
+@export var corpse_time: float = 3.0
 
 var target: Node
 var cast_timer: float = 3.0
@@ -26,6 +27,7 @@ var aggro: bool = false
 var out_of_range_timer: float = 0.0
 var wander_target: Vector2
 var wander_timer: float = 0.0
+var dead: bool = false
 
 func _ready() -> void:
 	target = get_tree().get_first_node_in_group("player")
@@ -43,6 +45,8 @@ func _ready() -> void:
 	stats.damage_taken.connect(_on_damage_taken)
 	
 func _physics_process(delta: float) -> void:
+	if dead:
+		return
 	time += delta
 	var enemy = get_parent()
 	var stats = get_node("../UnitStats")
@@ -50,7 +54,7 @@ func _physics_process(delta: float) -> void:
 	var distance = enemy.global_position.distance_to(target.global_position)
 	var in_range = distance <= abilities[0].range * combat_handler.PIXELS_PER_UNIT
 
-	var sees_player: bool = distance <= aggro_range and combat_handler.has_line_of_sight(enemy.global_position, target.global_position)
+	var sees_player: bool = distance <= aggro_range and combat_handler.units_have_line_of_sight(enemy, target)
 	if sees_player:
 		start_aggro()
 	elif aggro:
@@ -100,8 +104,19 @@ func _physics_process(delta: float) -> void:
 			get_node("../AnimatedSprite2D").play("warrior_attack1")
 
 func _on_died() -> void:
-	PlayerState.add_xp(get_node("../UnitStats").unit_data.xp_reward)
-	get_parent().queue_free()
+	dead = true
+	var enemy = get_parent()
+	enemy.remove_from_group("enemies")
+	enemy.add_to_group("corpses")
+	get_node("../CombatHandler").cast_cancel()
+	get_node("../CollisionShape2D").set_deferred("disabled", true)
+	get_node("../Bars").visible = false
+	var sprite = get_node("../AnimatedSprite2D")
+	sprite.speed_scale = 1.0
+	sprite.play("warrior_die_2")
+	var tween = create_tween()
+	tween.tween_property(sprite, "modulate:a", 0.0, corpse_time)
+	tween.tween_callback(enemy.queue_free)
 	
 func get_separation(enemy: Node2D) -> Vector2:
 	var push := Vector2.ZERO

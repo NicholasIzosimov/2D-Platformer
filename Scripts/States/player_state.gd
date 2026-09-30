@@ -1,6 +1,5 @@
 extends Node
 
-var bonus_health: float = 0.0
 var bonus_primary_stat: float = 0.0
 var bonus_armor: float = 0.0
 var bonus_damage_reduction: float = 0.0
@@ -23,16 +22,15 @@ var level: int = 1
 var xp: float = 0.0
 var talent_points: int = 0
 var bonus_vigor: float = 0.0
-
-const XP_BASE: float = 100.0
-const XP_GROWTH: float = 1.5
+var xp_curve: XpCurve
 
 signal loadout_changed
 signal gold_changed(new_amount)
 signal xp_changed
 signal leveled_up(new_level)
 
-func _ready() -> void:
+func _init() -> void:
+	xp_curve = load("res://Resources/Progression/xp_curve.tres")
 	equipped_abilities.resize(max_abilities)
 	class_data = load("res://Resources/Classes/malefactor.tres")
 	for ability in class_data.abilities:
@@ -80,10 +78,9 @@ func spend_gold(amount: int) -> bool:
 	gold -= amount
 	gold_changed.emit(gold)
 	return true
-
+	
 func xp_to_next_level() -> float:
-	return XP_BASE * pow(level, XP_GROWTH)
-
+	return xp_curve.xp_to_next_level(level)
 func add_xp(amount: float) -> void:
 	xp += amount
 	while xp >= xp_to_next_level():

@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="LevelColors" format=3 uid="uid://c2cw31vjqcfij"]
+
+[ext_resource type="Script" uid="uid://bown5gqvlt3fk" path="res://Scripts/ResourceScripts/level_colors.gd" id="1_46g21"]
+
+[resource]
+script = ExtResource("1_46g21")
+metadata/_custom_type_script = "uid://bown5gqvlt3fk"

@@ -10,10 +10,12 @@
 [ext_resource type="Script" uid="uid://yti72ecb3xss" path="res://Scripts/enemy_spawner.gd" id="6_vtehv"]
 [ext_resource type="Script" uid="uid://yon5ea1deaj3" path="res://Scripts/debug_tools.gd" id="7_loea4"]
 [ext_resource type="Texture2D" uid="uid://h0prnvh3rwo0" path="res://Assets/Tiny Swords (Free Pack)/Terrain/Tileset/Tilemap_color1.png" id="8_sv7pb"]
+[ext_resource type="Resource" uid="uid://dkxxluk1bxxtm" path="res://Resources/Progression/spawn_level_rule.tres" id="9_b1s7y"]
 [ext_resource type="Script" uid="uid://coe7kbwm1s5ca" path="res://Scripts/nameplate_stacker.gd" id="9_cy4jt"]
 [ext_resource type="Script" uid="uid://hh0g0qnqves" path="res://Scripts/world_generator.gd" id="11_f12wh"]
 [ext_resource type="Script" uid="uid://iljt3cqmf55k" path="res://Scripts/ResourceScripts/meadow_shape.gd" id="13_efsqc"]
 [ext_resource type="Script" uid="uid://drniy7ox0d5uy" path="res://Scripts/flow_field.gd" id="14_4nmng"]
+[ext_resource type="Script" uid="uid://4nvgpejblxaf" path="res://Scripts/spawn_director.gd" id="16_y63gj"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cy4jt"]
 texture = ExtResource("8_sv7pb")
@@ -179,6 +181,7 @@ cast_bar = NodePath("../CanvasLayer/ActionBar/HUD/CastBar")
 
 [node name="EnemySpawner" type="Node" parent="." unique_id=159914997]
 script = ExtResource("6_vtehv")
+level_rule = ExtResource("9_b1s7y")
 
 [node name="DebugTools" type="Node" parent="." unique_id=64277418 node_paths=PackedStringArray("enemy_spawner", "spawn_point")]
 script = ExtResource("7_loea4")
@@ -201,5 +204,11 @@ script = ExtResource("14_4nmng")
 world = NodePath("../WorldGenerator")
 player = NodePath("../player")
 field_radius = 36
+
+[node name="SpawnDirector" type="Node" parent="." unique_id=938874853 node_paths=PackedStringArray("enemy_spawner", "world")]
+script = ExtResource("16_y63gj")
+enemy_spawner = NodePath("../EnemySpawner")
+world = NodePath("../WorldGenerator")
+enemy_scenes = Array[PackedScene]([ExtResource("2_2ip8y")])
 
 [editable path="CanvasLayer/ActionBar"]

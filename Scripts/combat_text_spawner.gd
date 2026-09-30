@@ -7,7 +7,10 @@ extends Node
 
 var unit_stats: Node
 var side: float = 1.0
+var anchor: Node2D
+
 func _ready() -> void:
+	anchor = owner.get_node("CombatText")
 	unit_stats = get_node("../UnitStats")
 	unit_stats.damage_taken.connect(_on_damage_taken)
 	unit_stats.attack_missed.connect(_on_attack_missed)
@@ -22,19 +25,19 @@ func _on_damage_taken(amount: float, crit_multiplier: float) -> void:
 		number.set_crit(crit_multiplier)
 	if owner.is_in_group("player"):
 		number.set_color(player_damage_color)
-	owner.get_node("Bars").add_child(number)
+	anchor.add_child(number)
 
 func _on_attack_missed() -> void:
 	var number = create_number()
 	number.set_miss()
-	owner.get_node("Bars").add_child(number)
+	anchor.add_child(number)
 
 func _on_power_changed(amount: float, show_text: bool) -> void:
 	if not show_text:
 		return
 	var number = create_number()
 	number.set_value(amount)
-	owner.get_node("Bars").add_child(number)
+	anchor.add_child(number)
 
 func create_number() -> Node:
 	side = -side
@@ -49,4 +52,4 @@ func spawn_text(text: String, color: Color, font_size: int) -> void:
 	number.text = text
 	number.set_color(color)
 	number.add_theme_font_size_override("font_size", font_size)
-	owner.get_node("Bars").add_child(number)
+	anchor.add_child(number)

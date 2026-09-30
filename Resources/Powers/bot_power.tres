@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="PowerData" format=3 uid="uid://d3p0cq81lslwu"]
+
+[ext_resource type="Script" uid="uid://s0hm6vu1m0mo" path="res://Scripts/ResourceScripts/power_data.gd" id="1_e0cmq"]
+
+[resource]
+script = ExtResource("1_e0cmq")
+power_generation = 1.0
+name = "Bot Power"
+metadata/_custom_type_script = "uid://s0hm6vu1m0mo"
