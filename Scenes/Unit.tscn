@@ -16,9 +16,8 @@
 [ext_resource type="Script" uid="uid://bq2rt3o2ir0ln" path="res://Scripts/ellipse_ring.gd" id="14_1duij"]
 [ext_resource type="Script" uid="uid://c5rjrc8wcs8g8" path="res://Scripts/unit_cast_bar.gd" id="15_7ftqo"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nn08x"]
-radius = 30.945
-height = 61.89
+[sub_resource type="CircleShape2D" id="CircleShape2D_m5ek2"]
+radius = 14.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u1ivc"]
 bg_color = Color(0.36862746, 0.64705884, 0.7254902, 0.22352941)
@@ -199,9 +198,11 @@ bg_color = Color(0.6, 0.6, 0.6, 0.47058824)
 bg_color = Color(0.33871102, 0.68437856, 0.46821302, 1)
 
 [node name="Unit" type="CharacterBody2D" unique_id=1164345268]
+motion_mode = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1642381980]
-shape = SubResource("CapsuleShape2D_nn08x")
+position = Vector2(0, 24)
+shape = SubResource("CircleShape2D_m5ek2")
 
 [node name="UnitStats" type="Node" parent="." unique_id=937660047]
 script = ExtResource("1_qk68r")
@@ -215,6 +216,7 @@ floating_number_scene = ExtResource("4_u1ivc")
 script = ExtResource("6_ppost")
 
 [node name="Bars" type="Node2D" parent="." unique_id=1050830573]
+z_index = 3
 
 [node name="PowerBar" type="ProgressBar" parent="Bars" unique_id=1462988098]
 offset_left = -35.0

@@ -9,10 +9,6 @@
 [ext_resource type="Texture2D" uid="uid://bhrdammfl4say" path="res://Assets/Tiny Swords (Free Pack)/Units/Black Units/Monk/Heal.png" id="5_52ee3"]
 [ext_resource type="Script" uid="uid://bs6beqb88dx4m" path="res://Scripts/endurance_bar.gd" id="8_bhhdu"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nn08x"]
-radius = 25.0
-height = 61.88
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pm0ju"]
 bg_color = Color(0.06920656, 0.17557243, 0.1329174, 1)
 
@@ -187,9 +183,6 @@ animations = [{
 [node name="Unit" unique_id=1164345268 groups=["player"] instance=ExtResource("1_rpqav")]
 collision_layer = 2
 script = ExtResource("2_kyqiw")
-
-[node name="CollisionShape2D" parent="." index="0" unique_id=1642381980]
-shape = SubResource("CapsuleShape2D_nn08x")
 
 [node name="Endurance" type="Node" parent="." index="2" unique_id=686278152]
 script = ExtResource("3_52ee3")

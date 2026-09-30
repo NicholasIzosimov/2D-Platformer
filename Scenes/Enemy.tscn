@@ -8,14 +8,11 @@
 [node name="Unit" unique_id=1164345268 groups=["enemies"] instance=ExtResource("1_m1htj")]
 collision_layer = 4
 
+[node name="CollisionShape2D" parent="." index="0" unique_id=1642381980]
+light_mask = 5
+
 [node name="EnemyCombatController" type="Node" parent="." index="4" unique_id=78062697]
 script = ExtResource("2_wovta")
 abilities = Array[ExtResource("3_xeo28")]([ExtResource("4_kpr8r")])
-
-[node name="HeightCheck1" type="RayCast2D" parent="." index="10" unique_id=958888922]
-position = Vector2(0, -38)
-target_position = Vector2(40, 0)
-
-[node name="HeightCheck2" type="RayCast2D" parent="." index="11" unique_id=299988039]
-position = Vector2(0, -102)
-target_position = Vector2(40, 0)
+aggro_range = 700.0
+leash_time = 7.0

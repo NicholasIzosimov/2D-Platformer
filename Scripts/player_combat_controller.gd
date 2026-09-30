@@ -115,11 +115,17 @@ func get_enemy_under_mouse() -> Node:
 	params.collide_with_areas = true
 	params.collide_with_bodies = false
 	params.collision_mask = 8
+	var candidates: Array = []
 	for result in player.get_world_2d().direct_space_state.intersect_point(params):
 		var unit = result.collider.owner
-		if unit.is_in_group("enemies") and not unit.get_node("UnitStats").is_dead:
-			return unit
-	return null
+		if unit.is_in_group("enemies") and not unit.get_node("UnitStats").is_dead and not candidates.has(unit):
+			candidates.append(unit)
+	if candidates.is_empty():
+		return null
+	candidates.sort_custom(func(a, b): return a.global_position.y > b.global_position.y)
+	if candidates.size() > 1 and candidates[0] == current_target:
+		return candidates[1]
+	return candidates[0]
 
 func update_hover() -> void:
 	var hovered = get_enemy_under_mouse()

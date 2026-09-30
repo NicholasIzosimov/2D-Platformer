@@ -2,11 +2,10 @@ extends Node
 
 @export var max_endurance: float = 100.0
 @export var endurance_regen: float = 5.0
-@export var wall_jump_cost: float = 15.0
 @export var sprint_cost: float = 10.0
 @export var sprint_regen_multiplier: float = 0.5
 @export var idle_regen_multiplier: float = 2.0
-@export var jump_cost: float = 0.0
+@export var dash_cost: float = 5.0
 var current_endurance: float = 0.0
 var is_sprinting: bool = false
 var is_idle: bool = false

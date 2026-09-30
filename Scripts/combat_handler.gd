@@ -1,5 +1,10 @@
 extends Node
 
+const PIXELS_PER_UNIT = 50.0
+const CRIT_MIN: float = 1.5
+const CRIT_MAX: float = 2.0
+const PRIMARY_STAT_SCALING: float = 0.01
+const LINE_OF_SIGHT_MASK: int = 1
 var active_effects: Dictionary = {}
 var ability_cooldowns: Dictionary = {}
 var own_stats: Node
@@ -8,10 +13,6 @@ var gcd_active: bool = false
 var is_casting: bool = false
 var cast_timer: Timer
 var gcd_timer: Timer
-const PIXELS_PER_UNIT = 50.0
-const CRIT_MIN: float = 1.5
-const CRIT_MAX: float = 2.0
-const PRIMARY_STAT_SCALING: float = 0.01
 signal effect_applied(effect)
 signal effect_expired(effect)
 signal gcd_started(duration)
@@ -38,6 +39,8 @@ func cast_ability(ability, target) -> String:
 	var caster_position = get_parent().global_position
 	if caster_position.distance_to(target.global_position) > ability.range * PIXELS_PER_UNIT:
 		return "Out of range"
+	if not has_line_of_sight(get_parent().global_position, target.global_position):
+		return "Target not in line of sight"
 	if ability.triggers_gcd and gcd_active:
 		return "Global cooldown active"
 	if ability_cooldowns.has(ability):
@@ -154,3 +157,8 @@ func roll_crit() -> float:
 
 func effect_damage(effect) -> float:
 	return effect.damage * (1.0 + own_stats.current_primary_stat * PRIMARY_STAT_SCALING)
+
+func has_line_of_sight(from: Vector2, to: Vector2) -> bool:
+	var query := PhysicsRayQueryParameters2D.create(from, to, LINE_OF_SIGHT_MASK)
+	var hit: Dictionary = get_parent().get_world_2d().direct_space_state.intersect_ray(query)
+	return hit.is_empty()
