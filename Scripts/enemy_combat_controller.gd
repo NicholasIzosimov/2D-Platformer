@@ -1,6 +1,5 @@
 extends Node
 
-@export var abilities: Array[AbilityData]
 @export var speed_variance: float = 0.05
 @export var hp_slow_factor: float = 0.3
 @export var separation_radius: float = 48.0
@@ -63,7 +62,7 @@ func _physics_process(delta: float) -> void:
 
 	if not aggro:
 		idle_wander(enemy, stats, delta)
-	elif in_range and sees_player:
+	elif combat_handler.is_casting or (in_range and sees_player):
 		enemy.velocity = Vector2.ZERO
 	else:
 		var direction: Vector2 = flow.get_direction(enemy.global_position + feet_offset)
@@ -82,9 +81,11 @@ func _physics_process(delta: float) -> void:
 	get_node("../AutoAttack").target = target if aggro else null
 	if aggro:
 		target.get_node("CombatState").refresh()
+	if aggro and sees_player and not combat_handler.is_casting:
+		use_abilities(stats, combat_handler)
 	enemy.velocity += get_separation(enemy)
 	enemy.move_and_slide()
-		
+
 func _on_died() -> void:
 	dead = true
 	var enemy = get_parent()
@@ -152,3 +153,8 @@ func alert_nearby() -> void:
 		if not combat_handler.units_have_line_of_sight(enemy, other):
 			continue
 		get_tree().create_timer(randf_range(0.1, 0.4), false).timeout.connect(controller.start_aggro)
+
+func use_abilities(stats: Node, combat_handler: Node) -> void:
+	for ability in stats.unit_data.abilities:
+		if combat_handler.cast_ability(ability, target) == "":
+			return

@@ -9,6 +9,8 @@ func _ready() -> void:
 	combat_handler.effect_expired.connect(_on_effect_expired)
 
 func _on_effect_applied(effect) -> void:
+	if effect.icon == null:
+		return
 	if current_icons.has(effect.name):
 		current_icons[effect.name].start_countdown(effect.spell_duration)
 		return

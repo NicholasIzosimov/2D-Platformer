@@ -2,7 +2,8 @@ extends Node
 
 @export var enemy_spawner: Node
 @export var world: Node
-@export var enemy_scenes: Array[PackedScene] = []
+@export var enemy_scene: PackedScene
+@export var spawn_table: SpawnTable
 @export var max_enemies: int = 8
 @export var spawn_interval: float = 1.5
 @export var edge_margin: float = 100.0
@@ -28,7 +29,7 @@ func try_spawn() -> void:
 		var to_edge: float = min(half.x / max(abs(dir.x), 0.001), half.y / max(abs(dir.y), 0.001))
 		var pos: Vector2 = center + dir * (to_edge + edge_margin)
 		if world.is_open(pos):
-			enemy_spawner.summon_enemy(enemy_scenes.pick_random(), pos)
+			enemy_spawner.summon_enemy(enemy_scene, pos, spawn_table.pick(PlayerState.level))
 			return
 
 func despawn_unloaded_enemies() -> void:

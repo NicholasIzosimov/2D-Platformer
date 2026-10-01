@@ -22,3 +22,4 @@ class_name UnitData
 @export var auto_attack: AbilityData = preload("res://Resources/Abilities/auto_attack.tres")
 @export var base_swing_time: float = 2.0
 @export var out_of_combat_regen: float = 1.0
+@export var abilities: Array[AbilityData] = []

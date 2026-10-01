@@ -12,6 +12,7 @@ func _ready() -> void:
 	combat_handler.cast_cancelled.connect(_on_cast_cancelled)
 	combat_handler.cooldown_started.connect(_on_cooldown_started)
 	combat_handler.cast_started.connect(_on_cast_started)
+	combat_handler.cast_failed.connect(func(reason): error_text.show_message(reason))
 	get_node("../player/Endurance").not_enough_endurance.connect(func(): error_text.show_message("Not enough endurance"))
 	
 func _on_cast_started(ability, duration: float) -> void:

@@ -3,12 +3,14 @@
 [ext_resource type="Script" uid="uid://5j6i1rvnlhe2" path="res://Scripts/ResourceScripts/ability_data.gd" id="1_lxhks"]
 [ext_resource type="Resource" uid="uid://bj4sp8p3c5ljh" path="res://Resources/Abilities/Samurai/strike.tres" id="2_epe26"]
 [ext_resource type="Resource" uid="uid://bgffdo0y4gbx5" path="res://Resources/Powers/energy.tres" id="3_5cocq"]
+[ext_resource type="Resource" uid="uid://24dsufhqgiq6" path="res://Resources/Abilities/Samurai/quick_strike.tres" id="3_epe26"]
+[ext_resource type="Resource" uid="uid://bvjumy1olrrk5" path="res://Resources/Abilities/Samurai/sweep.tres" id="4_5cocq"]
 [ext_resource type="Script" uid="uid://bblgktlu50lqb" path="res://Scripts/ResourceScripts/class_data.gd" id="4_kionh"]
 
 [resource]
 script = ExtResource("4_kionh")
 name = "Samurai"
-abilities = Array[ExtResource("1_lxhks")]([ExtResource("2_epe26")])
+abilities = Array[ExtResource("1_lxhks")]([ExtResource("3_epe26"), ExtResource("2_epe26"), ExtResource("4_5cocq")])
 power = ExtResource("3_5cocq")
 primary_stat_name = "Agility"
 metadata/_custom_type_script = "uid://bblgktlu50lqb"

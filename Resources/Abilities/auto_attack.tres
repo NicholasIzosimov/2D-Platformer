@@ -1,20 +1,13 @@
 [gd_resource type="Resource" script_class="AbilityData" format=3 uid="uid://bj6cc47r0o73x"]
 
-[ext_resource type="Script" uid="uid://do4vdp8v5ea1s" path="res://Scripts/ResourceScripts/ability_effect.gd" id="1_quqpd"]
+[ext_resource type="Script" uid="uid://do4vdp8v5ea1s" path="res://Scripts/ResourceScripts/status_effect.gd" id="1_quqpd"]
 [ext_resource type="Script" uid="uid://5j6i1rvnlhe2" path="res://Scripts/ResourceScripts/ability_data.gd" id="2_n652d"]
-
-[sub_resource type="Resource" id="Resource_44sda"]
-script = ExtResource("1_quqpd")
-name = "Auto Attack"
-damage = 3.0
-metadata/_custom_type_script = "uid://do4vdp8v5ea1s"
 
 [resource]
 script = ExtResource("2_n652d")
 name = "Auto Attack"
-cooldown = 3.0
-range = 2.0
+damage = 3.0
 uses_hitbox = true
+cooldown = 3.0
 windup = 2.0
-effects = Array[ExtResource("1_quqpd")]([SubResource("Resource_44sda")])
 metadata/_custom_type_script = "uid://5j6i1rvnlhe2"

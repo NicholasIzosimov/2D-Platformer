@@ -3,8 +3,6 @@
 [ext_resource type="PackedScene" uid="uid://cekfdndcc4y2w" path="res://Scenes/Unit.tscn" id="1_m1htj"]
 [ext_resource type="Resource" uid="uid://dl32y7qepykq1" path="res://Resources/Units/warrior.tres" id="2_6bs3c"]
 [ext_resource type="Script" uid="uid://c84jrct7xjue7" path="res://Scripts/enemy_combat_controller.gd" id="2_wovta"]
-[ext_resource type="Script" uid="uid://5j6i1rvnlhe2" path="res://Scripts/ResourceScripts/ability_data.gd" id="3_xeo28"]
-[ext_resource type="Resource" uid="uid://dsk04y4qu2q5q" path="res://Resources/Abilities/NPCs/basic_strike.tres" id="4_kpr8r"]
 [ext_resource type="Script" uid="uid://bpvmhj2ristro" path="res://Scripts/rewards.gd" id="5_mo1ky"]
 [ext_resource type="PackedScene" uid="uid://bt46q120wyags" path="res://Scenes/FloatingNumber.tscn" id="6_6bs3c"]
 
@@ -19,8 +17,7 @@ unit_data = ExtResource("2_6bs3c")
 
 [node name="EnemyCombatController" type="Node" parent="." index="4" unique_id=78062697]
 script = ExtResource("2_wovta")
-abilities = Array[ExtResource("3_xeo28")]([ExtResource("4_kpr8r")])
-aggro_range = 700.0
+aggro_range = 500.0
 leash_time = 7.0
 
 [node name="Rewards" type="Node2D" parent="." index="10" unique_id=755035872]

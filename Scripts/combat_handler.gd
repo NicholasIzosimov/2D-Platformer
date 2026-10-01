@@ -8,6 +8,8 @@ const LINE_OF_SIGHT_MASK: int = 1
 const HURTBOX_MASK: int = 16
 const MISS_LEVEL_SCALE: float = 3.0
 const MISS_LEVEL_GROWTH: float = 1.4
+const PROJECTILE_SCENE: PackedScene = preload("res://Scenes/projectile.tscn")
+const EFFECTS: SpriteFrames = preload("res://Resources/Animations/effect_animations.tres")
 var active_effects: Dictionary = {}
 var ability_cooldowns: Dictionary = {}
 var own_stats: Node
@@ -24,6 +26,7 @@ signal cast_cancelled()
 signal cooldown_started(ability, duration)
 signal cast_finished()
 signal ability_used(ability)
+signal cast_failed(reason)
 
 func _ready() -> void:
 	own_stats = get_node("../UnitStats")
@@ -40,10 +43,9 @@ func _ready() -> void:
 func cast_ability(ability, target) -> String:
 	if is_casting:
 		return "Already casting"
-	if not in_reach(ability, target):
-		return "Out of range"
-	if not units_have_line_of_sight(get_parent(), target):
-		return "Target not in line of sight"
+	var reach: String = reach_error(ability, target)
+	if reach != "":
+		return reach
 	if ability.triggers_gcd and gcd_active:
 		return "Global cooldown active"
 	if ability_cooldowns.has(ability):
@@ -71,6 +73,11 @@ func cast_ability(ability, target) -> String:
 			cast_timer.queue_free()
 			if not is_instance_valid(target) or target.get_node("UnitStats").is_dead:
 				return
+			var failed: String = reach_error(ability, target)
+			if failed != "":
+				cast_failed.emit(failed)
+				return
+			aim_at(target)
 			own_stats.modify_power(-ability.power_cost)
 			deliver(ability, target)
 		)
@@ -81,9 +88,7 @@ func cast_ability(ability, target) -> String:
 	return ""
 	
 func swing(ability, target) -> bool:
-	if not in_reach(ability, target):
-		return false
-	if not units_have_line_of_sight(get_parent(), target):
+	if reach_error(ability, target) != "":
 		return false
 	aim_at(target)
 	ability_used.emit(ability)
@@ -91,38 +96,108 @@ func swing(ability, target) -> bool:
 	return true
 	
 func resolve_effects(ability, target) -> void:
+	hit_target(ability, target)
+	if ability.aoe_radius <= 0.0:
+		return
+	var center: Vector2 = target.get_node("Hurtbox").global_position
+	play_effect(ability, "_aoe", center)
+	var others: Array = hostile_units_in_radius(center, ability.aoe_radius * PIXELS_PER_UNIT)
+	others.erase(target)
+	others.sort_custom(func(a, b): return a.global_position.distance_to(center) < b.global_position.distance_to(center))
+	if ability.aoe_max_targets > 0:
+		others.resize(min(others.size(), ability.aoe_max_targets - 1))
+	for unit in others:
+		hit_target(ability, unit, ability.aoe_damage_multiplier)
+
+func hit_target(ability, target, damage_multiplier: float = 1.0) -> void:
 	var target_stats = target.get_node("UnitStats")
 	if randf() * 100.0 < miss_chance_against(target_stats):
 		target_stats.register_miss()
-	else:
-		var crit_multiplier: float = roll_crit()
-		for effect in ability.effects:
-			if effect.tick_interval == 0:
-				target_stats.take_damage(effect_damage(effect), crit_multiplier)
-				own_stats.modify_power(effect.power_gain)
-			elif effect.tick_interval > 0:
-				target.get_node("CombatHandler").apply_effect(effect, self)
+		return
+	if ability.damage > 0.0:
+		target_stats.take_damage(scaled_damage(ability.damage) * damage_multiplier, roll_crit())
+	if ability.power_gain != 0.0:
+		own_stats.modify_power(ability.power_gain)
+	for effect in ability.effects:
+		target.get_node("CombatHandler").apply_effect(effect, self)
+	play_effect(ability, "_impact", target.get_node("Hurtbox").global_position)
+
+func hostile_units_in_radius(center: Vector2, radius: float) -> Array:
+	var shape := CircleShape2D.new()
+	shape.radius = radius
+	var query := PhysicsShapeQueryParameters2D.new()
+	query.shape = shape
+	query.transform = Transform2D(0.0, center)
+	query.collide_with_areas = true
+	query.collide_with_bodies = false
+	query.collision_mask = HURTBOX_MASK
+	var units: Array = []
+	for result in get_parent().get_world_2d().direct_space_state.intersect_shape(query, 64):
+		var unit: Node = result.collider.owner
+		if units.has(unit) or unit.get_node("UnitStats").is_dead or not is_hostile_to(unit):
+			continue
+		units.append(unit)
+	return units
+
+func is_hostile_to(unit: Node) -> bool:
+	return unit.is_in_group("player") != get_parent().is_in_group("player")
 
 func deliver(ability, target) -> void:
 	start_cooldown(ability)
-	if ability.windup <= 0.0:
-		resolve_effects(ability, target)
+	var windup: float = ability.windup
+	if ability.windup_from_animation:
+		windup = get_node("../UnitAnimator").time_to_impact()
+	if windup <= 0.0:
+		release(ability, target)
 		return
 	var windup_timer := Timer.new()
 	windup_timer.one_shot = true
-	windup_timer.wait_time = ability.windup
+	windup_timer.wait_time = windup
 	add_child(windup_timer)
 	windup_timer.timeout.connect(func():
 		windup_timer.queue_free()
 		if own_stats.is_dead or not is_instance_valid(target) or target.get_node("UnitStats").is_dead:
 			return
-		if ability.uses_hitbox and not hitbox_hits(target):
-			target.get_node("UnitStats").register_miss()
-			return
-		resolve_effects(ability, target)
+		if not ability.is_projectile:
+			var still_hits: bool = hitbox_hits(target) if ability.uses_hitbox else reach_error(ability, target) == ""
+			if not still_hits:
+				target.get_node("UnitStats").register_miss()
+				return
+		release(ability, target)
 	)
 	windup_timer.start()
 
+func release(ability, target) -> void:
+	if ability.is_projectile:
+		fire_projectile(ability, target)
+	else:
+		resolve_effects(ability, target)
+
+func fire_projectile(ability, target) -> void:
+	var start: Vector2 = get_node("../AttackPivot").global_position
+	var direction: Vector2 = start.direction_to(target.get_node("Hurtbox").global_position)
+	var projectile = PROJECTILE_SCENE.instantiate()
+	projectile.setup(self, ability, direction, ability.range * PIXELS_PER_UNIT)
+	get_parent().get_parent().add_child(projectile)
+	projectile.global_position = start
+
+func visual_key(ability) -> String:
+	var path: String = ability.resource_path
+	if path == "" or path.contains("::"):
+		return ""
+	return path.get_file().get_basename()
+
+func play_effect(ability, suffix: String, at: Vector2) -> void:
+	var anim: String = visual_key(ability) + suffix
+	if not EFFECTS.has_animation(anim):
+		return
+	var effect := AnimatedSprite2D.new()
+	effect.sprite_frames = EFFECTS
+	effect.z_index = 10
+	effect.animation_finished.connect(effect.queue_free)
+	get_parent().get_parent().add_child(effect)
+	effect.global_position = at
+	effect.play(anim)
 func start_cooldown(ability) -> void:
 	if ability.cooldown > 0:
 		ability_cooldowns[ability] = true
@@ -134,9 +209,16 @@ func in_reach(ability, target) -> bool:
 		var pivot: Node2D = get_node("../AttackPivot")
 		var direction: Vector2 = pivot.global_position.direction_to(target.get_node("Hurtbox").global_position)
 		return hitbox_overlaps(target, aimed_hitbox_transform(direction))
-	return get_parent().global_position.distance_to(target.global_position) <= ability.range * PIXELS_PER_UNIT
-
-
+	var distance: float = get_parent().global_position.distance_to(target.global_position)
+	return distance <= ability.range * PIXELS_PER_UNIT and distance >= ability.min_range * PIXELS_PER_UNIT
+	
+func reach_error(ability, target) -> String:
+	if not in_reach(ability, target):
+		return "Out of range"
+	if not units_have_line_of_sight(get_parent(), target):
+		return "Target not in line of sight"
+	return ""
+	
 func aim_at(target: Node2D) -> void:
 	var pivot: Node2D = get_node("../AttackPivot")
 	pivot.rotation = pivot.global_position.direction_to(target.get_node("Hurtbox").global_position).angle()
@@ -178,40 +260,39 @@ func apply_effect(effect, caster: Node) -> void:
 		active_effects[effect]["duration_timer"].start()
 		effect_applied.emit(effect)
 		return
-
-	var target_stats = own_stats
-
-	var tick_timer = Timer.new()
-	tick_timer.wait_time = effect.tick_interval
-	add_child(tick_timer)
-	tick_timer.timeout.connect(func():
-		var crit_multiplier: float = 1.0
-		if is_instance_valid(caster) and caster.own_stats.dots_can_crit:
-			crit_multiplier = caster.roll_crit()
-		var damage: float = effect.damage
-		if is_instance_valid(caster):
-			damage = caster.effect_damage(effect)
-		target_stats.take_damage(damage, crit_multiplier)
-		if is_instance_valid(caster):
-			caster.own_stats.modify_power(effect.power_gain)
-	)
-	tick_timer.start()
-	
-	var duration_timer = Timer.new()
+	var tick_timer: Timer = null
+	if effect.tick_interval > 0.0:
+		tick_timer = Timer.new()
+		tick_timer.wait_time = effect.tick_interval
+		add_child(tick_timer)
+		tick_timer.timeout.connect(func():
+			var damage: float = effect.damage
+			var crit_multiplier: float = 1.0
+			if is_instance_valid(caster):
+				damage = caster.scaled_damage(effect.damage)
+				if caster.own_stats.dots_can_crit:
+					crit_multiplier = caster.roll_crit()
+				if effect.power_gain != 0.0:
+					caster.own_stats.modify_power(effect.power_gain)
+			if damage > 0.0:
+				own_stats.take_damage(damage, crit_multiplier)
+		)
+		tick_timer.start()
+	var duration_timer := Timer.new()
 	duration_timer.wait_time = effect.spell_duration
 	duration_timer.one_shot = true
 	add_child(duration_timer)
 	duration_timer.timeout.connect(func():
-		tick_timer.queue_free()
+		if tick_timer:
+			tick_timer.stop()
+			tick_timer.queue_free()
 		duration_timer.queue_free()
 		active_effects.erase(effect)
 		effect_expired.emit(effect)
 	)
 	duration_timer.start()
-
 	active_effects[effect] = {"tick_timer": tick_timer, "duration_timer": duration_timer}
 	effect_applied.emit(effect)
-
 	
 func _end_gcd() -> void:
 	gcd_active = false
@@ -231,9 +312,9 @@ func miss_chance_against(target_stats: Node) -> float:
 	var level_diff: int = target_stats.level - own_stats.level
 	return own_stats.current_miss_chance + MISS_LEVEL_SCALE * (pow(MISS_LEVEL_GROWTH, level_diff) - 1.0)
 	
-func effect_damage(effect) -> float:
-	return effect.damage * (1.0 + own_stats.current_primary_stat * PRIMARY_STAT_SCALING)
-
+func scaled_damage(amount: float) -> float:
+	return amount * (1.0 + own_stats.current_primary_stat * PRIMARY_STAT_SCALING)
+	
 func has_line_of_sight(from: Vector2, to: Vector2) -> bool:
 	var query := PhysicsRayQueryParameters2D.create(from, to, LINE_OF_SIGHT_MASK)
 	var hit: Dictionary = get_parent().get_world_2d().direct_space_state.intersect_ray(query)

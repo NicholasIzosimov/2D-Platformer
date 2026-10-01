@@ -60,7 +60,7 @@ bg_color = Color(0.33871102, 0.68437856, 0.46821302, 1)
 size = Vector2(84, 90)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3h6ce"]
-size = Vector2(74, 50)
+size = Vector2(50, 50)
 
 [node name="Unit" type="CharacterBody2D" unique_id=1164345268]
 motion_mode = 1
@@ -202,6 +202,9 @@ script = ExtResource("15_7ftqo")
 
 [node name="UnitAnimator" type="Node" parent="." unique_id=1797381706]
 script = ExtResource("16_q4xie")
+impact_frames = {
+"archer_attack": 5
+}
 
 [node name="Hurtbox" type="Area2D" parent="." unique_id=1654225203]
 collision_layer = 16
@@ -220,7 +223,7 @@ collision_mask = 0
 monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackPivot/AttackHitbox" unique_id=832845284]
-position = Vector2(52, 0)
+position = Vector2(16, -6)
 shape = SubResource("RectangleShape2D_3h6ce")
 
 [node name="AutoAttack" type="Node" parent="." unique_id=823675240]

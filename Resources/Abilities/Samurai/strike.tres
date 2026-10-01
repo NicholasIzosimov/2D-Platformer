@@ -1,23 +1,17 @@
 [gd_resource type="Resource" script_class="AbilityData" format=3 uid="uid://bj4sp8p3c5ljh"]
 
-[ext_resource type="Script" uid="uid://do4vdp8v5ea1s" path="res://Scripts/ResourceScripts/ability_effect.gd" id="1_1yu44"]
+[ext_resource type="Script" uid="uid://do4vdp8v5ea1s" path="res://Scripts/ResourceScripts/status_effect.gd" id="1_n6c1n"]
 [ext_resource type="Script" uid="uid://5j6i1rvnlhe2" path="res://Scripts/ResourceScripts/ability_data.gd" id="2_n6c1n"]
 [ext_resource type="Texture2D" uid="uid://bc1l2vtj4wpj1" path="res://Assets/AbilityIcons/Strike_melee.png" id="2_s3hd0"]
-
-[sub_resource type="Resource" id="Resource_oq5yk"]
-script = ExtResource("1_1yu44")
-name = "Strike"
-damage = 10.0
-icon = ExtResource("2_s3hd0")
-metadata/_custom_type_script = "uid://do4vdp8v5ea1s"
 
 [resource]
 script = ExtResource("2_n6c1n")
 icon = ExtResource("2_s3hd0")
 name = "Strike"
-power_cost = 20.0
-triggers_gcd = true
-range = 2.0
+damage = 10.0
+power_cost = 35.0
+range = 1.0
 uses_hitbox = true
-effects = Array[ExtResource("1_1yu44")]([SubResource("Resource_oq5yk")])
+triggers_gcd = true
+cooldown = 5.0
 metadata/_custom_type_script = "uid://5j6i1rvnlhe2"

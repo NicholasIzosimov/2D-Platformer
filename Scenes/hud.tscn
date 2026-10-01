@@ -16,7 +16,7 @@ bg_color = Color(0.19769236, 0.18554819, 0.20661426, 0.67058825)
 bg_color = Color(0.91844857, 0.78026545, 0.4464535, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pkrlc"]
-bg_color = Color(0.30528224, 0.12824741, 0.17300168, 0.29411766)
+bg_color = Color(0.30588236, 0.12941177, 0.17254902, 0.70980394)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
@@ -139,6 +139,7 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_pm0ju")
 show_percentage = false
 script = ExtResource("5_ybyky")
 track_player = true
+show_numbers = true
 
 [node name="PowerBar" type="ProgressBar" parent="ResourceBars" unique_id=417057447]
 custom_minimum_size = Vector2(0, 16)
@@ -149,6 +150,7 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_erb8n")
 show_percentage = false
 script = ExtResource("6_erb8n")
 track_player = true
+show_numbers = true
 
 [node name="EnduranceBar" type="ProgressBar" parent="ResourceBars" unique_id=1806569704]
 custom_minimum_size = Vector2(0, 16)
@@ -159,6 +161,7 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_7lhys")
 show_percentage = false
 script = ExtResource("7_p0qmi")
 track_player = true
+show_numbers = true
 
 [node name="AbilitySlots" type="HBoxContainer" parent="." unique_id=537638967]
 layout_mode = 1

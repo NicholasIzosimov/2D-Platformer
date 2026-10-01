@@ -39,4 +39,3 @@ script = ExtResource("8_bhhdu")
 animation = &"samurai_run"
 
 [node name="Camera2D" type="Camera2D" parent="." index="11" unique_id=970156947]
-zoom = Vector2(0.6, 0.6)

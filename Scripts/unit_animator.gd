@@ -86,7 +86,12 @@ func impact_time(anim: String) -> float:
 	for i in impact:
 		time += frames.get_frame_duration(anim, i)
 	return time / frames.get_animation_speed(anim)
-
+	
+func time_to_impact() -> float:
+	if not locked or sprite.animation == &"":
+		return 0.0
+	return impact_time(String(sprite.animation)) / max(sprite.speed_scale, 0.01)
+	
 func find_animation(action: String) -> String:
 	var base_name: String = key + "_" + action
 	var options: Array[String] = []
@@ -116,11 +121,9 @@ func _on_animation_finished() -> void:
 	current_action = ""
 
 func _on_ability_used(ability) -> void:
-	if ability.cast_time > 0:
-		return
-	if ability == stats.unit_data.auto_attack:
+	if ability == stats.unit_data.auto_attack or ability.windup_from_animation:
 		play_once("attack")
-	else:
+	elif ability.cast_time == 0:
 		play_once("attack", ability.windup)
 
 func _on_cast_started(_ability, _duration: float) -> void:
@@ -135,7 +138,9 @@ func _on_cast_ended() -> void:
 func _on_died() -> void:
 	dead = true
 	var anim: String = find_animation("die")
-	if anim != "":
-		sprite.speed_scale = 1.0
-		sprite.stop()
-		sprite.play(anim)
+	if anim == "":
+		sprite.pause()
+		return
+	sprite.speed_scale = 1.0
+	sprite.stop()
+	sprite.play(anim)

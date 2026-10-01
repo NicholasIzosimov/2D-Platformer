@@ -1,0 +1,18 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://d2lh8uiirp25v"]
+
+[ext_resource type="Texture2D" uid="uid://dg7fl6q5qsrnh" path="res://Assets/Tiny Swords (Free Pack)/Units/Black Units/Archer/Arrow.png" id="1_xwqp4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1jb8w"]
+atlas = ExtResource("1_xwqp4")
+region = Rect2(0, 0, 64, 64)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1jb8w")
+}],
+"loop": 0,
+"name": &"shoot_projectile",
+"speed": 5.0
+}]
