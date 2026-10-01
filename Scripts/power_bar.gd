@@ -1,4 +1,4 @@
-extends ProgressBar
+extends SmoothBar
 
 @export var track_player: bool = false
 var unit: Node
@@ -15,5 +15,4 @@ func _ready() -> void:
 
 func _on_power_changed(_amount: float, _show_text: bool) -> void:
 	var power = unit.get_node("UnitStats")
-	max_value = power.max_power
-	value = power.current_power
+	set_bar(power.current_power, power.max_power)

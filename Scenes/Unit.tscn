@@ -16,6 +16,8 @@
 [ext_resource type="SpriteFrames" uid="uid://b5jpb1jxxexgu" path="res://Resources/Animations/unit_animation.tres" id="14_7ftqo"]
 [ext_resource type="Script" uid="uid://c5rjrc8wcs8g8" path="res://Scripts/unit_cast_bar.gd" id="15_7ftqo"]
 [ext_resource type="Script" uid="uid://boac4c7dewpyy" path="res://Scripts/unit_animator.gd" id="16_q4xie"]
+[ext_resource type="Script" uid="uid://cjco03it7q8av" path="res://Scripts/auto_attack.gd" id="17_pim51"]
+[ext_resource type="Script" uid="uid://c72bbgdje377a" path="res://Scripts/combat_state.gd" id="18_raq51"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_m5ek2"]
 radius = 14.0
@@ -53,6 +55,12 @@ bg_color = Color(0.6, 0.6, 0.6, 0.47058824)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q4xie"]
 bg_color = Color(0.33871102, 0.68437856, 0.46821302, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pkrlc"]
+size = Vector2(84, 90)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3h6ce"]
+size = Vector2(74, 50)
 
 [node name="Unit" type="CharacterBody2D" unique_id=1164345268]
 motion_mode = 1
@@ -177,7 +185,7 @@ color = Color(0.5360236, 0.529154, 0.56858295, 1)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1107684265]
 sprite_frames = ExtResource("14_7ftqo")
-animation = &"samurai_run"
+animation = &"samurai_attack"
 
 [node name="UnitCastBar" type="ProgressBar" parent="." unique_id=546332860]
 modulate = Color(1, 1, 1, 0)
@@ -194,3 +202,29 @@ script = ExtResource("15_7ftqo")
 
 [node name="UnitAnimator" type="Node" parent="." unique_id=1797381706]
 script = ExtResource("16_q4xie")
+
+[node name="Hurtbox" type="Area2D" parent="." unique_id=1654225203]
+collision_layer = 16
+collision_mask = 0
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=720818542]
+position = Vector2(0, -6)
+shape = SubResource("RectangleShape2D_pkrlc")
+
+[node name="AttackPivot" type="Node2D" parent="." unique_id=573844547]
+
+[node name="AttackHitbox" type="Area2D" parent="AttackPivot" unique_id=861350790]
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackPivot/AttackHitbox" unique_id=832845284]
+position = Vector2(52, 0)
+shape = SubResource("RectangleShape2D_3h6ce")
+
+[node name="AutoAttack" type="Node" parent="." unique_id=823675240]
+script = ExtResource("17_pim51")
+
+[node name="CombatState" type="Node" parent="." unique_id=1589695511]
+script = ExtResource("18_raq51")

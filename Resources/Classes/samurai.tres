@@ -1,14 +1,14 @@
 [gd_resource type="Resource" script_class="ClassData" format=3 uid="uid://daoqi1pm51g57"]
 
-[ext_resource type="Script" uid="uid://5j6i1rvnlhe2" path="res://Scripts/ResourceScripts/ability_data.gd" id="1_ji7fu"]
-[ext_resource type="Resource" uid="uid://bgffdo0y4gbx5" path="res://Resources/Powers/energy.tres" id="2_4lvr8"]
-[ext_resource type="Resource" uid="uid://bj4sp8p3c5ljh" path="res://Resources/Abilities/Samurai/strike.tres" id="2_do7gw"]
-[ext_resource type="Script" uid="uid://bblgktlu50lqb" path="res://Scripts/ResourceScripts/class_data.gd" id="2_r5inf"]
+[ext_resource type="Script" uid="uid://5j6i1rvnlhe2" path="res://Scripts/ResourceScripts/ability_data.gd" id="1_lxhks"]
+[ext_resource type="Resource" uid="uid://bj4sp8p3c5ljh" path="res://Resources/Abilities/Samurai/strike.tres" id="2_epe26"]
+[ext_resource type="Resource" uid="uid://bgffdo0y4gbx5" path="res://Resources/Powers/energy.tres" id="3_5cocq"]
+[ext_resource type="Script" uid="uid://bblgktlu50lqb" path="res://Scripts/ResourceScripts/class_data.gd" id="4_kionh"]
 
 [resource]
-script = ExtResource("2_r5inf")
+script = ExtResource("4_kionh")
 name = "Samurai"
-abilities = Array[ExtResource("1_ji7fu")]([ExtResource("2_do7gw")])
-power = ExtResource("2_4lvr8")
+abilities = Array[ExtResource("1_lxhks")]([ExtResource("2_epe26")])
+power = ExtResource("3_5cocq")
 primary_stat_name = "Agility"
 metadata/_custom_type_script = "uid://bblgktlu50lqb"

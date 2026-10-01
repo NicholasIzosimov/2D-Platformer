@@ -18,5 +18,6 @@ name = "Strike"
 power_cost = 20.0
 triggers_gcd = true
 range = 2.0
+uses_hitbox = true
 effects = Array[ExtResource("1_1yu44")]([SubResource("Resource_oq5yk")])
 metadata/_custom_type_script = "uid://5j6i1rvnlhe2"

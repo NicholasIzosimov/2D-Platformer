@@ -1,4 +1,4 @@
-extends ProgressBar
+extends SmoothBar
 
 @export var track_player: bool = false
 var unit: Node
@@ -15,5 +15,4 @@ func _ready() -> void:
 
 func _on_endurance_changed() -> void:
 	var endurance = unit.get_node("Endurance")
-	max_value = endurance.max_endurance
-	value = endurance.current_endurance
+	set_bar(endurance.current_endurance, endurance.max_endurance)

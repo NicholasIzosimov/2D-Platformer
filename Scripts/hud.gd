@@ -9,5 +9,5 @@ func _ready() -> void:
 			continue
 		var slot = slot_scene.instantiate()
 		slot.ability = ability
-		$HUD/AbilitySlots.add_child(slot)
+		$AbilitySlots.add_child(slot)
 		current_slots.append(slot)

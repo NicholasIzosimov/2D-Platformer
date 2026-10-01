@@ -29,7 +29,6 @@ func _physics_process(delta: float) -> void:
 			dash_direction = dash_dir
 			dash_timer = dash_duration
 			dash_cooldown_timer = dash_cooldown
-			tap_sprint = true
 			$CombatHandler.cast_cancel()
 	if dash_timer > 0:
 		velocity = dash_direction * dash_speed
@@ -63,3 +62,13 @@ func _physics_process(delta: float) -> void:
 		$CombatHandler.cast_cancel()
 		
 	move_and_slide()
+	if is_sprinting and ran_into_obstacle(direction):
+		tap_sprint = false
+		sprint_exhausted = true
+		
+func ran_into_obstacle(direction: Vector2) -> bool:
+	for i in get_slide_collision_count():
+		var collision := get_slide_collision(i)
+		if collision.get_collider() is TileMapLayer and direction.dot(collision.get_normal()) < -0.7:
+			return true
+	return false

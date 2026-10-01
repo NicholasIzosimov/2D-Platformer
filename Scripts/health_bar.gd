@@ -1,4 +1,4 @@
-extends ProgressBar
+extends SmoothBar
 
 @export var track_player: bool = false
 var unit: Node
@@ -15,5 +15,4 @@ func _ready() -> void:
 
 func _on_health_changed(_damage: float) -> void:
 	var health = unit.get_node("UnitStats")
-	max_value = health.max_health
-	value = health.current_health
+	set_bar(health.current_health, health.max_health)

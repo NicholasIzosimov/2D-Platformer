@@ -16,7 +16,6 @@ extends Node
 @export var corpse_time: float = 3.0
 
 var target: Node
-var cast_timer: float = 3.0
 var flow: Node
 var feet_offset: Vector2
 var bias: float
@@ -50,7 +49,7 @@ func _physics_process(delta: float) -> void:
 	var stats = get_node("../UnitStats")
 	var combat_handler = get_node("../CombatHandler")
 	var distance = enemy.global_position.distance_to(target.global_position)
-	var in_range = distance <= abilities[0].range * combat_handler.PIXELS_PER_UNIT
+	var in_range: bool = combat_handler.in_reach(stats.unit_data.auto_attack, target)
 
 	var sees_player: bool = distance <= aggro_range and combat_handler.units_have_line_of_sight(enemy, target)
 	if sees_player:
@@ -80,14 +79,11 @@ func _physics_process(delta: float) -> void:
 		enemy.velocity = direction * speed
 
 	get_node("../UnitAnimator").face_target = target if aggro else null
-		
+	get_node("../AutoAttack").target = target if aggro else null
+	if aggro:
+		target.get_node("CombatState").refresh()
 	enemy.velocity += get_separation(enemy)
 	enemy.move_and_slide()
-	cast_timer -= delta
-
-	if cast_timer <= 0 and in_range and sees_player:
-		cast_timer = 3.0
-		combat_handler.cast_ability(abilities[0], target)
 		
 func _on_died() -> void:
 	dead = true

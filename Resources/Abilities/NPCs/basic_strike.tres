@@ -13,5 +13,7 @@ metadata/_custom_type_script = "uid://do4vdp8v5ea1s"
 script = ExtResource("2_rgr8v")
 name = "Basic Strike"
 range = 2.0
+uses_hitbox = true
+windup = 3.0
 effects = Array[ExtResource("1_8efx2")]([SubResource("Resource_44sda")])
 metadata/_custom_type_script = "uid://5j6i1rvnlhe2"

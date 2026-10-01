@@ -5,6 +5,7 @@ const CRIT_MIN: float = 1.5
 const CRIT_MAX: float = 2.0
 const PRIMARY_STAT_SCALING: float = 0.01
 const LINE_OF_SIGHT_MASK: int = 1
+const HURTBOX_MASK: int = 16
 const MISS_LEVEL_SCALE: float = 3.0
 const MISS_LEVEL_GROWTH: float = 1.4
 var active_effects: Dictionary = {}
@@ -39,8 +40,7 @@ func _ready() -> void:
 func cast_ability(ability, target) -> String:
 	if is_casting:
 		return "Already casting"
-	var caster_position = get_parent().global_position
-	if caster_position.distance_to(target.global_position) > ability.range * PIXELS_PER_UNIT:
+	if not in_reach(ability, target):
 		return "Out of range"
 	if not units_have_line_of_sight(get_parent(), target):
 		return "Target not in line of sight"
@@ -50,7 +50,7 @@ func cast_ability(ability, target) -> String:
 		return "Ability on cooldown"
 	if ability.power_cost > own_stats.current_power:
 		return "Not enough power: " + own_stats.power_data.name
-		
+	aim_at(target)
 	ability_used.emit(ability)
 	
 	if ability.triggers_gcd:
@@ -72,14 +72,24 @@ func cast_ability(ability, target) -> String:
 			if not is_instance_valid(target) or target.get_node("UnitStats").is_dead:
 				return
 			own_stats.modify_power(-ability.power_cost)
-			resolve_effects(ability, target)
+			deliver(ability, target)
 		)
 		cast_timer.start()
 	else:
 		own_stats.modify_power(-ability.power_cost)
-		resolve_effects(ability, target)
+		deliver(ability, target)
 	return ""
-
+	
+func swing(ability, target) -> bool:
+	if not in_reach(ability, target):
+		return false
+	if not units_have_line_of_sight(get_parent(), target):
+		return false
+	aim_at(target)
+	ability_used.emit(ability)
+	deliver(ability, target)
+	return true
+	
 func resolve_effects(ability, target) -> void:
 	var target_stats = target.get_node("UnitStats")
 	if randf() * 100.0 < miss_chance_against(target_stats):
@@ -93,11 +103,67 @@ func resolve_effects(ability, target) -> void:
 			elif effect.tick_interval > 0:
 				target.get_node("CombatHandler").apply_effect(effect, self)
 
+func deliver(ability, target) -> void:
+	start_cooldown(ability)
+	if ability.windup <= 0.0:
+		resolve_effects(ability, target)
+		return
+	var windup_timer := Timer.new()
+	windup_timer.one_shot = true
+	windup_timer.wait_time = ability.windup
+	add_child(windup_timer)
+	windup_timer.timeout.connect(func():
+		windup_timer.queue_free()
+		if own_stats.is_dead or not is_instance_valid(target) or target.get_node("UnitStats").is_dead:
+			return
+		if ability.uses_hitbox and not hitbox_hits(target):
+			target.get_node("UnitStats").register_miss()
+			return
+		resolve_effects(ability, target)
+	)
+	windup_timer.start()
+
+func start_cooldown(ability) -> void:
 	if ability.cooldown > 0:
 		ability_cooldowns[ability] = true
 		cooldown_started.emit(ability, ability.cooldown)
 		get_tree().create_timer(ability.cooldown, false).timeout.connect(_end_cooldown.bind(ability))
 
+func in_reach(ability, target) -> bool:
+	if ability.uses_hitbox:
+		var pivot: Node2D = get_node("../AttackPivot")
+		var direction: Vector2 = pivot.global_position.direction_to(target.get_node("Hurtbox").global_position)
+		return hitbox_overlaps(target, aimed_hitbox_transform(direction))
+	return get_parent().global_position.distance_to(target.global_position) <= ability.range * PIXELS_PER_UNIT
+
+
+func aim_at(target: Node2D) -> void:
+	var pivot: Node2D = get_node("../AttackPivot")
+	pivot.rotation = pivot.global_position.direction_to(target.get_node("Hurtbox").global_position).angle()
+
+func hitbox_hits(target: Node2D) -> bool:
+	var shape_node: CollisionShape2D = get_node("../AttackPivot/AttackHitbox/CollisionShape2D")
+	return hitbox_overlaps(target, shape_node.global_transform)
+
+func aimed_hitbox_transform(direction: Vector2) -> Transform2D:
+	var pivot: Node2D = get_node("../AttackPivot")
+	var shape_node: CollisionShape2D = get_node("../AttackPivot/AttackHitbox/CollisionShape2D")
+	var relative: Transform2D = pivot.global_transform.affine_inverse() * shape_node.global_transform
+	return Transform2D(direction.angle(), pivot.global_position) * relative
+	
+func hitbox_overlaps(target: Node2D, shape_transform: Transform2D) -> bool:
+	var shape_node: CollisionShape2D = get_node("../AttackPivot/AttackHitbox/CollisionShape2D")
+	var query := PhysicsShapeQueryParameters2D.new()
+	query.shape = shape_node.shape
+	query.transform = shape_transform
+	query.collide_with_areas = true
+	query.collide_with_bodies = false
+	query.collision_mask = HURTBOX_MASK
+	for result in get_parent().get_world_2d().direct_space_state.intersect_shape(query):
+		if result.collider == target.get_node("Hurtbox"):
+			return true
+	return false
+	
 func cast_cancel() -> void:
 	if is_casting and cast_timer:
 		cast_timer.stop()

@@ -138,7 +138,13 @@ func heal_to_full() -> void:
 		return
 	current_health = max_health
 	health_changed.emit(0.0)
-
+	
+func heal(amount: float) -> void:
+	if is_dead or current_health >= max_health:
+		return
+	current_health = min(current_health + amount, max_health)
+	health_changed.emit(0.0)
+	
 func get_armor_reduction() -> float:
 	var armor: float = max(current_armor, 0.0)
 	return ARMOR_MAX * armor / (armor + ARMOR_K)

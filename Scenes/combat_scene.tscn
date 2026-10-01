@@ -1,7 +1,7 @@
 [gd_scene format=4 uid="uid://bjq60whfylylw"]
 
 [ext_resource type="PackedScene" uid="uid://bvq24t0udl8op" path="res://Scenes/Player.tscn" id="1_qumoa"]
-[ext_resource type="PackedScene" uid="uid://ur1htw0fkivh" path="res://Scenes/action_bar.tscn" id="1_rdqa8"]
+[ext_resource type="PackedScene" uid="uid://ur1htw0fkivh" path="res://Scenes/hud.tscn" id="1_rdqa8"]
 [ext_resource type="Texture2D" uid="uid://boofidmbpnbr3" path="res://Assets/SkyNight.png" id="1_sso1v"]
 [ext_resource type="PackedScene" uid="uid://b0eqcr5beyybg" path="res://Scenes/Enemy.tscn" id="2_2ip8y"]
 [ext_resource type="Script" uid="uid://c1f27rlg282ua" path="res://Scripts/error_text.gd" id="2_vtehv"]
@@ -145,9 +145,11 @@ tile_set = SubResource("TileSet_pm0ju")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=653473165]
 
-[node name="ActionBar" parent="CanvasLayer" unique_id=171746954 instance=ExtResource("1_rdqa8")]
-anchors_preset = -1
-offset_bottom = -275.0
+[node name="HUD" parent="CanvasLayer" unique_id=171746954 instance=ExtResource("1_rdqa8")]
+
+[node name="XPBar" parent="CanvasLayer/HUD" index="4" unique_id=801518690]
+offset_top = -40.0
+offset_bottom = -20.0
 
 [node name="CharacterPane" parent="CanvasLayer" unique_id=1357765377 instance=ExtResource("4_efsqc")]
 
@@ -173,11 +175,11 @@ motion_mode = 0
 [node name="SpawnPoint" type="Marker2D" parent="player" unique_id=1426186859]
 position = Vector2(300, -40)
 
-[node name="PlayerCombatController" type="Node" parent="." unique_id=829671021 node_paths=PackedStringArray("action_bar", "error_text", "cast_bar")]
+[node name="PlayerCombatController" type="Node" parent="." unique_id=829671021 node_paths=PackedStringArray("hud", "error_text", "cast_bar")]
 script = ExtResource("4_7uj85")
-action_bar = NodePath("../CanvasLayer/ActionBar")
+hud = NodePath("../CanvasLayer/HUD")
 error_text = NodePath("../CanvasLayer/ErrorText")
-cast_bar = NodePath("../CanvasLayer/ActionBar/HUD/CastBar")
+cast_bar = NodePath("../CanvasLayer/HUD/CastBar")
 
 [node name="EnemySpawner" type="Node" parent="." unique_id=159914997]
 script = ExtResource("6_vtehv")
@@ -210,5 +212,7 @@ script = ExtResource("16_y63gj")
 enemy_spawner = NodePath("../EnemySpawner")
 world = NodePath("../WorldGenerator")
 enemy_scenes = Array[PackedScene]([ExtResource("2_2ip8y")])
+max_enemies = 20
+spawn_interval = 0.5
 
-[editable path="CanvasLayer/ActionBar"]
+[editable path="CanvasLayer/HUD"]

@@ -1,10 +1,9 @@
-extends ProgressBar
+extends SmoothBar
 
 func _ready() -> void:
 	PlayerState.xp_changed.connect(refresh)
 	refresh()
 
 func refresh() -> void:
-	max_value = PlayerState.xp_to_next_level()
-	value = PlayerState.xp
+	set_bar(PlayerState.xp, PlayerState.xp_to_next_level())
 	$Label.text = "Level %d   %d / %d" % [PlayerState.level, PlayerState.xp, max_value]

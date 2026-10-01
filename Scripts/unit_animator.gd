@@ -1,6 +1,7 @@
 extends Node
 
 const FALLBACKS: Dictionary = {"run": "idle", "cast": "attack"}
+@export var impact_frames: Dictionary = {}
 
 var key: String = ""
 var face_target: Node2D = null
@@ -12,11 +13,13 @@ var warned: Dictionary = {}
 var body: CharacterBody2D
 var sprite: AnimatedSprite2D
 var stats: Node
+var pivot: Node2D
 
 func _ready() -> void:
 	body = get_parent()
 	sprite = get_node("../AnimatedSprite2D")
 	stats = get_node("../UnitStats")
+	pivot = get_node("../AttackPivot")
 	if key == "":
 		key = stats.unit_data.resource_path.get_file().get_basename()
 	sprite.animation_finished.connect(_on_animation_finished)
@@ -42,6 +45,11 @@ func _physics_process(_delta: float) -> void:
 		sprite.speed_scale = 1.0
 
 func update_facing() -> void:
+	if locked or casting:
+		var aim_x: float = Vector2.from_angle(pivot.rotation).x
+		if abs(aim_x) > 0.01:
+			sprite.flip_h = aim_x < 0
+		return
 	var x: float = body.velocity.x
 	if is_instance_valid(face_target):
 		x = face_target.global_position.x - body.global_position.x
@@ -56,7 +64,7 @@ func play_loop(action: String) -> void:
 	if anim != "":
 		sprite.play(anim)
 
-func play_once(action: String) -> void:
+func play_once(action: String, windup: float = 0.0) -> void:
 	current_action = action
 	var anim: String = find_animation(action)
 	if anim == "":
@@ -66,6 +74,18 @@ func play_once(action: String) -> void:
 	sprite.speed_scale = 1.0
 	sprite.stop()
 	sprite.play(anim)
+	if windup > 0.0:
+		var to_impact: float = impact_time(anim)
+		if to_impact > 0.0:
+			sprite.speed_scale = to_impact / windup
+
+func impact_time(anim: String) -> float:
+	var frames: SpriteFrames = sprite.sprite_frames
+	var impact: int = impact_frames.get(anim, frames.get_frame_count(anim) / 2)
+	var time: float = 0.0
+	for i in impact:
+		time += frames.get_frame_duration(anim, i)
+	return time / frames.get_animation_speed(anim)
 
 func find_animation(action: String) -> String:
 	var base_name: String = key + "_" + action
@@ -96,8 +116,12 @@ func _on_animation_finished() -> void:
 	current_action = ""
 
 func _on_ability_used(ability) -> void:
-	if ability.cast_time == 0:
+	if ability.cast_time > 0:
+		return
+	if ability == stats.unit_data.auto_attack:
 		play_once("attack")
+	else:
+		play_once("attack", ability.windup)
 
 func _on_cast_started(_ability, _duration: float) -> void:
 	casting = true

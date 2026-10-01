@@ -2,7 +2,7 @@ extends Node
 
 var current_target: Node
 var hovered_target: Node
-@export var action_bar: Node
+@export var hud: Node
 @export var error_text: Node
 @export var cast_bar: Node
 
@@ -18,16 +18,16 @@ func _on_cast_started(ability, duration: float) -> void:
 	cast_bar.start_cast(duration)
 
 func _on_cooldown_started(ability, duration: float) -> void:
-	for slot in action_bar.current_slots:
+	for slot in hud.current_slots:
 		if slot.ability == ability:
 			slot.start_countdown(duration)
 
 func _on_gcd_started(duration: float) -> void:
-	for slot in action_bar.current_slots:
+	for slot in hud.current_slots:
 		slot.start_countdown(duration)
 
 func _on_cast_cancelled() -> void:
-	for slot in action_bar.current_slots:
+	for slot in hud.current_slots:
 		slot.stop_countdown()
 	cast_bar.cancel_cast()
 	error_text.show_message("Can't cast while moving")
@@ -47,7 +47,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 
 	var i = 1
-	for slot in action_bar.current_slots:
+	for slot in hud.current_slots:
 		if Input.is_action_just_pressed("cast_" + str(i)):
 			var target = get_cast_target()
 			if target == null:
@@ -67,24 +67,23 @@ func _unhandled_input(event: InputEvent) -> void:
 func _process(delta: float) -> void:
 	update_hover()
 	var target = get_cast_target()
+	get_node("../player/AutoAttack").target = target
 	var combat_handler = get_node("../player/CombatHandler")
 	var own_stats = get_node("../player/UnitStats")
-	var caster_position = get_node("../player").global_position
-	for slot in action_bar.current_slots:
+	for slot in hud.current_slots:
 		var ability = slot.ability
-		var in_range = target == null or caster_position.distance_to(target.global_position) <= ability.range * combat_handler.PIXELS_PER_UNIT
+		var in_range = target == null or combat_handler.in_reach(ability, target)
 		var has_power = own_stats.current_power >= ability.power_cost
 		slot.set_validity(in_range, has_power)
 		
 func find_auto_target(ability) -> Node:
 	var player = get_node("../player")
 	var combat_handler = player.get_node("CombatHandler")
-	var max_range: float = ability.range * combat_handler.PIXELS_PER_UNIT
 	var best: Node = null
 	var best_distance: float = INF
 	for enemy in get_living_enemies():
 		var distance: float = player.global_position.distance_to(enemy.global_position)
-		if distance > max_range or distance >= best_distance:
+		if distance >= best_distance or not combat_handler.in_reach(ability, enemy):
 			continue
 		if not combat_handler.units_have_line_of_sight(player, enemy):
 			continue
