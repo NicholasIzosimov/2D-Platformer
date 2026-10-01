@@ -10,35 +10,11 @@ var sprint_exhausted: bool = false
 var tap_timer: float = 0.0
 var last_tap_action: String = ""
 var tap_sprint: bool = false
-var animation_locked: bool = false
-var is_channeling: bool = false
 var dash_timer: float = 0.0
 var dash_cooldown_timer: float = 0.0
 var dash_direction: Vector2 = Vector2.ZERO
 
 const MOVE_ACTIONS: Array[String] = ["move_left", "move_right", "move_up", "move_down"]
-
-func _ready() -> void:
-	$AnimatedSprite2D.animation_finished.connect(_on_animation_finished)
-
-func play_attack_animation() -> void:
-	animation_locked = true
-	$AnimatedSprite2D.play("monkspell")
-
-func _on_animation_finished() -> void:
-	if is_channeling:
-		$AnimatedSprite2D.play("monkspell")
-	else:
-		animation_locked = false
-
-func start_channel_animation() -> void:
-	is_channeling = true
-	animation_locked = true
-	$AnimatedSprite2D.play("monkspell")
-
-func stop_channel_animation() -> void:
-	is_channeling = false
-	animation_locked = false
 
 func _physics_process(delta: float) -> void:
 	tap_timer -= delta
@@ -84,12 +60,6 @@ func _physics_process(delta: float) -> void:
 
 	velocity = direction * speed
 	if direction != Vector2.ZERO:
-		if direction.x != 0:
-			$AnimatedSprite2D.flip_h = direction.x < 0
-		if not animation_locked:
-			$AnimatedSprite2D.play("monkmove")
 		$CombatHandler.cast_cancel()
-	elif not animation_locked:
-		$AnimatedSprite2D.play("monkidle")
-
+		
 	move_and_slide()

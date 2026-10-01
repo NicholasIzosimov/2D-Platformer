@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="UnitData" format=3 uid="uid://dl32y7qepykq1"]
+
+[ext_resource type="Resource" uid="uid://buwonyjvswl7g" path="res://Resources/Progression/level_scaling.tres" id="1_plmpc"]
+[ext_resource type="Resource" uid="uid://d3p0cq81lslwu" path="res://Resources/Powers/bot_power.tres" id="2_tyg8u"]
+[ext_resource type="Script" uid="uid://djkq3ofrj4kyw" path="res://Scripts/ResourceScripts/unit_data.gd" id="3_tpv7j"]
+
+[resource]
+script = ExtResource("3_tpv7j")
+name = "Warrior"
+metadata/_custom_type_script = "uid://djkq3ofrj4kyw"

@@ -17,7 +17,6 @@ extends Node
 
 var target: Node
 var cast_timer: float = 3.0
-var attacking: bool = false
 var flow: Node
 var feet_offset: Vector2
 var bias: float
@@ -32,7 +31,6 @@ var dead: bool = false
 func _ready() -> void:
 	target = get_tree().get_first_node_in_group("player")
 	get_node("../UnitStats").died.connect(_on_died)
-	get_node("../AnimatedSprite2D").animation_finished.connect(func(): attacking = false)
 	var stats = get_node("../UnitStats")
 	stats.modify_move_speed(stats.current_move_speed * randf_range(-speed_variance, speed_variance))
 	flow = get_tree().get_first_node_in_group("flow_field")
@@ -81,28 +79,16 @@ func _physics_process(delta: float) -> void:
 		var speed: float = stats.current_move_speed * (1.0 - hp_lost * hp_slow_factor)
 		enemy.velocity = direction * speed
 
-	var sprite = get_node("../AnimatedSprite2D")
-	if aggro:
-		sprite.flip_h = target.global_position.x < enemy.global_position.x
-	elif enemy.velocity.x != 0:
-		sprite.flip_h = enemy.velocity.x < 0
-	if not attacking:
-		if enemy.velocity != Vector2.ZERO:
-			sprite.play("warrior_run")
-			sprite.speed_scale = enemy.velocity.length() / stats.unit_data.base_move_speed
-		else:
-			sprite.play("warrior_idle")
-			sprite.speed_scale = 1.0
+	get_node("../UnitAnimator").face_target = target if aggro else null
+		
 	enemy.velocity += get_separation(enemy)
 	enemy.move_and_slide()
 	cast_timer -= delta
 
 	if cast_timer <= 0 and in_range and sees_player:
 		cast_timer = 3.0
-		if combat_handler.cast_ability(abilities[0], target) == "":
-			attacking = true
-			get_node("../AnimatedSprite2D").play("warrior_attack1")
-
+		combat_handler.cast_ability(abilities[0], target)
+		
 func _on_died() -> void:
 	dead = true
 	var enemy = get_parent()
@@ -112,8 +98,6 @@ func _on_died() -> void:
 	get_node("../CollisionShape2D").set_deferred("disabled", true)
 	get_node("../Bars").visible = false
 	var sprite = get_node("../AnimatedSprite2D")
-	sprite.speed_scale = 1.0
-	sprite.play("warrior_die_2")
 	var tween = create_tween()
 	tween.tween_property(sprite, "modulate:a", 0.0, corpse_time)
 	tween.tween_callback(enemy.queue_free)
@@ -169,6 +153,6 @@ func alert_nearby() -> void:
 			continue
 		if enemy.global_position.distance_to(other.global_position) > social_radius:
 			continue
-		if not combat_handler.has_line_of_sight(enemy.global_position, other.global_position):
+		if not combat_handler.units_have_line_of_sight(enemy, other):
 			continue
 		get_tree().create_timer(randf_range(0.1, 0.4), false).timeout.connect(controller.start_aggro)

@@ -32,11 +32,11 @@ signal leveled_up(new_level)
 func _init() -> void:
 	xp_curve = load("res://Resources/Progression/xp_curve.tres")
 	equipped_abilities.resize(max_abilities)
-	class_data = load("res://Resources/Classes/malefactor.tres")
+	class_data = load("res://Resources/Classes/samurai.tres")
 	for ability in class_data.abilities:
 		learn_ability(ability)
-	equip_ability(class_data.abilities[0], 0)
-	equip_ability(class_data.abilities[1], 1)
+	for i in class_data.abilities.size():
+		equip_ability(class_data.abilities[i], i)
 	
 func learn_ability(ability: AbilityData) -> bool:
 	if not class_data.abilities.has(ability):

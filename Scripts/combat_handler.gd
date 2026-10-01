@@ -22,6 +22,7 @@ signal cast_started(ability, duration)
 signal cast_cancelled()
 signal cooldown_started(ability, duration)
 signal cast_finished()
+signal ability_used(ability)
 
 func _ready() -> void:
 	own_stats = get_node("../UnitStats")
@@ -49,7 +50,9 @@ func cast_ability(ability, target) -> String:
 		return "Ability on cooldown"
 	if ability.power_cost > own_stats.current_power:
 		return "Not enough power: " + own_stats.power_data.name
-
+		
+	ability_used.emit(ability)
+	
 	if ability.triggers_gcd:
 		gcd_active = true
 		gcd_started.emit(gcd_duration)

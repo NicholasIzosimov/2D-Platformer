@@ -12,7 +12,6 @@ func _ready() -> void:
 	combat_handler.cast_cancelled.connect(_on_cast_cancelled)
 	combat_handler.cooldown_started.connect(_on_cooldown_started)
 	combat_handler.cast_started.connect(_on_cast_started)
-	combat_handler.cast_finished.connect(func(): get_node("../player").stop_channel_animation())
 	get_node("../player/Endurance").not_enough_endurance.connect(func(): error_text.show_message("Not enough endurance"))
 	
 func _on_cast_started(ability, duration: float) -> void:
@@ -32,7 +31,6 @@ func _on_cast_cancelled() -> void:
 		slot.stop_countdown()
 	cast_bar.cancel_cast()
 	error_text.show_message("Can't cast while moving")
-	get_node("../player").stop_channel_animation()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
@@ -53,17 +51,15 @@ func _unhandled_input(event: InputEvent) -> void:
 		if Input.is_action_just_pressed("cast_" + str(i)):
 			var target = get_cast_target()
 			if target == null:
-				error_text.show_message("No target")
-				return
+				target = find_auto_target(slot.ability)
+				if target == null:
+					error_text.show_message("No target")
+					return
+				set_target(target)
 			var ability = slot.ability
 			var result = get_node("../player/CombatHandler").cast_ability(ability, target)
 			if result == "":
 				slot.bop()
-				var player_node = get_node("../player")
-				if ability.cast_time > 0:
-					player_node.start_channel_animation()
-				else:
-					player_node.play_attack_animation()
 			else:
 				error_text.show_message(result)
 		i += 1
@@ -79,7 +75,23 @@ func _process(delta: float) -> void:
 		var in_range = target == null or caster_position.distance_to(target.global_position) <= ability.range * combat_handler.PIXELS_PER_UNIT
 		var has_power = own_stats.current_power >= ability.power_cost
 		slot.set_validity(in_range, has_power)
-
+		
+func find_auto_target(ability) -> Node:
+	var player = get_node("../player")
+	var combat_handler = player.get_node("CombatHandler")
+	var max_range: float = ability.range * combat_handler.PIXELS_PER_UNIT
+	var best: Node = null
+	var best_distance: float = INF
+	for enemy in get_living_enemies():
+		var distance: float = player.global_position.distance_to(enemy.global_position)
+		if distance > max_range or distance >= best_distance:
+			continue
+		if not combat_handler.units_have_line_of_sight(player, enemy):
+			continue
+		best = enemy
+		best_distance = distance
+	return best
+	
 func get_living_enemies() -> Array:
 	var result = []
 	for enemy in get_tree().get_nodes_in_group("enemies"):
