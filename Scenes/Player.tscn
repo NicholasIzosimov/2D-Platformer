@@ -26,6 +26,7 @@ script = ExtResource("3_nn08x")
 z_index = 10
 
 [node name="EnduranceBar" type="ProgressBar" parent="Bars" index="2" unique_id=1233817795]
+visible = false
 offset_left = -35.0
 offset_top = -89.0
 offset_right = 35.0
@@ -37,5 +38,7 @@ script = ExtResource("8_bhhdu")
 
 [node name="AnimatedSprite2D" parent="." index="9" unique_id=1107684265]
 animation = &"samurai_run"
+frame = 0
+frame_progress = 0.0
 
 [node name="Camera2D" type="Camera2D" parent="." index="11" unique_id=970156947]

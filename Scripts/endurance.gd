@@ -14,6 +14,7 @@ signal not_enough_endurance
 
 func _ready() -> void:
 	current_endurance = max_endurance
+	endurance_changed.emit()
 
 func _process(delta: float) -> void:
 	if current_endurance < max_endurance:

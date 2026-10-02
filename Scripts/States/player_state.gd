@@ -1,27 +1,14 @@
 extends Node
 
-var bonus_primary_stat: float = 0.0
-var bonus_armor: float = 0.0
-var bonus_damage_reduction: float = 0.0
-var bonus_crit_chance: float = 0.0
-var bonus_crit_damage: float = 0.0
-var bonus_dodge_chance: float = 0.0
-var bonus_miss_chance: float = 0.0
-var bonus_parry_chance: float = 0.0
-var bonus_block_chance: float = 0.0
-var bonus_move_speed: float = 0.0
-var bonus_haste: float = 0.0
-var bonus_max_power: float = 0.0
+var bonus_stats: Dictionary[Stat.Type, float] = {}
 var gold: int = 0
 var class_data: ClassData
 var learned_abilities: Array[AbilityData] = []
 var max_abilities: int = 5
 var equipped_abilities: Array[AbilityData] = []
-var bonus_power_generation: float = 0.0
 var level: int = 1
 var xp: float = 0.0
 var talent_points: int = 0
-var bonus_vigor: float = 0.0
 var xp_curve: XpCurve
 
 signal loadout_changed

@@ -3,6 +3,7 @@ extends Node
 signal combat_changed(in_combat)
 
 @export var combat_timeout: float = 5.0
+@export var after_kill_timeout: float = 1.0
 var in_combat: bool = false
 var timer: float = 0.0
 var stats: Node
@@ -11,7 +12,7 @@ func _ready() -> void:
 	stats = get_node("../UnitStats")
 	stats.damage_taken.connect(func(_amount, _crit): refresh())
 	stats.attack_missed.connect(refresh)
-	get_node("../CombatHandler").ability_used.connect(func(_ability): refresh())
+	get_node("../CombatHandler").ability_used.connect(func(ability): if ability.category != AbilityData.Category.UTILITY: refresh())
 
 func refresh() -> void:
 	timer = combat_timeout
@@ -27,3 +28,7 @@ func _process(delta: float) -> void:
 			combat_changed.emit(false)
 	elif not stats.is_dead:
 		stats.heal(stats.max_health * stats.unit_data.out_of_combat_regen / 100.0 * delta)
+		
+func end_soon() -> void:
+	if in_combat:
+		timer = min(timer, after_kill_timeout)

@@ -1,7 +1,6 @@
 extends CharacterBody2D
 
-@export var walk_speed: float = 150.0
-@export var sprint_speed: float = 300.0
+@export var sprint_multiplier: float = 2.0
 @export var double_tap_window: float = 0.25
 @export var dash_speed: float = 500.0
 @export var dash_duration: float = 0.3
@@ -46,12 +45,12 @@ func _physics_process(delta: float) -> void:
 
 	if not Input.is_action_pressed("sprint") and not tap_sprint:
 		sprint_exhausted = false
-	var speed: float = walk_speed
+	var speed: float = $UnitStats.get_stat(Stat.Type.MOVE_SPEED)
 	var is_sprinting: bool = false
 	if (Input.is_action_pressed("sprint") or tap_sprint) and direction != Vector2.ZERO and not sprint_exhausted:
 		if $Endurance.spend($Endurance.sprint_cost * delta):
 			is_sprinting = true
-			speed = sprint_speed
+			speed *= sprint_multiplier
 		else:
 			sprint_exhausted = true
 	$Endurance.is_sprinting = is_sprinting

@@ -30,7 +30,7 @@ func _ready() -> void:
 	target = get_tree().get_first_node_in_group("player")
 	get_node("../UnitStats").died.connect(_on_died)
 	var stats = get_node("../UnitStats")
-	stats.modify_move_speed(stats.current_move_speed * randf_range(-speed_variance, speed_variance))
+	stats.modify_stat(Stat.Type.MOVE_SPEED, stats.get_stat(Stat.Type.MOVE_SPEED) * randf_range(-speed_variance, speed_variance))
 	flow = get_tree().get_first_node_in_group("flow_field")
 	var enemy = get_parent()
 	feet_offset = get_node("../CollisionShape2D").position
@@ -74,7 +74,7 @@ func _physics_process(delta: float) -> void:
 		var angle: float = bias + sin(time * weave_speed + weave_phase) * deg_to_rad(weave_angle)
 		direction = direction.rotated(angle * wander_amount)
 		var hp_lost: float = 1.0 - stats.current_health / stats.max_health
-		var speed: float = stats.current_move_speed * (1.0 - hp_lost * hp_slow_factor)
+		var speed: float = stats.get_stat(Stat.Type.MOVE_SPEED) * (1.0 - hp_lost * hp_slow_factor)
 		enemy.velocity = direction * speed
 
 	get_node("../UnitAnimator").face_target = target if aggro else null
@@ -98,6 +98,7 @@ func _on_died() -> void:
 	var tween = create_tween()
 	tween.tween_property(sprite, "modulate:a", 0.0, corpse_time)
 	tween.tween_callback(enemy.queue_free)
+	target.get_node("CombatState").end_soon()
 	
 func get_separation(enemy: Node2D) -> Vector2:
 	var push := Vector2.ZERO
@@ -127,7 +128,7 @@ func idle_wander(enemy: Node2D, stats: Node, delta: float) -> void:
 	if to_target.length() < 8.0:
 		enemy.velocity = Vector2.ZERO
 	else:
-		enemy.velocity = to_target.normalized() * stats.current_move_speed * wander_speed_factor
+		enemy.velocity = to_target.normalized() * stats.get_stat(Stat.Type.MOVE_SPEED) * wander_speed_factor
 
 func _on_damage_taken(_amount: float, _crit_multiplier: float) -> void:
 	start_aggro()

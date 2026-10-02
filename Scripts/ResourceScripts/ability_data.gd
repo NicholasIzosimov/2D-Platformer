@@ -1,9 +1,10 @@
 extends Resource
 
 class_name AbilityData
-
+enum Category {COMBAT, UTILITY}
 @export var icon: Texture2D
 @export var name: String
+@export var category: Category = Category.COMBAT
 @export_group("Core")
 @export var triggers_gcd: bool
 @export var uses_hitbox: bool = false
@@ -27,3 +28,8 @@ class_name AbilityData
 @export var windup_from_animation: bool = false
 @export var projectile_speed: float = 600.0
 @export var windup: float = 0.0
+
+@export_group("Utility")
+@export var requires_target: bool = true
+@export var spawn_scene: PackedScene
+@export var out_of_combat_only: bool = false

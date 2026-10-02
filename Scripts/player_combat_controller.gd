@@ -21,7 +21,7 @@ func _on_cast_started(ability, duration: float) -> void:
 func _on_cooldown_started(ability, duration: float) -> void:
 	for slot in hud.current_slots:
 		if slot.ability == ability:
-			slot.start_countdown(duration)
+			slot.start_cooldown(duration)
 
 func _on_gcd_started(duration: float) -> void:
 	for slot in hud.current_slots:
@@ -50,14 +50,16 @@ func _unhandled_input(event: InputEvent) -> void:
 	var i = 1
 	for slot in hud.current_slots:
 		if Input.is_action_just_pressed("cast_" + str(i)):
-			var target = get_cast_target()
-			if target == null:
-				target = find_auto_target(slot.ability)
-				if target == null:
-					error_text.show_message("No target")
-					return
-				set_target(target)
 			var ability = slot.ability
+			var target = null
+			if ability.requires_target:
+				target = get_cast_target()
+				if target == null:
+					target = find_auto_target(ability)
+					if target == null:
+						error_text.show_message("No target")
+						return
+					set_target(target)
 			var result = get_node("../player/CombatHandler").cast_ability(ability, target)
 			if result == "":
 				slot.bop()
@@ -73,7 +75,7 @@ func _process(delta: float) -> void:
 	var own_stats = get_node("../player/UnitStats")
 	for slot in hud.current_slots:
 		var ability = slot.ability
-		var in_range = target == null or combat_handler.in_reach(ability, target)
+		var in_range = not ability.requires_target or target == null or combat_handler.in_reach(ability, target)
 		var has_power = own_stats.current_power >= ability.power_cost
 		slot.set_validity(in_range, has_power)
 		

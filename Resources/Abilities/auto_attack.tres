@@ -6,8 +6,8 @@
 [resource]
 script = ExtResource("2_n652d")
 name = "Auto Attack"
-damage = 3.0
 uses_hitbox = true
+damage = 3.0
 cooldown = 3.0
-windup = 2.0
+windup = 0.1
 metadata/_custom_type_script = "uid://5j6i1rvnlhe2"

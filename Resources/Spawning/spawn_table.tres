@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://cu1d2uf3acmwt" path="res://Scripts/ResourceScripts/spawn_table.gd" id="2_4s434"]
 [ext_resource type="Resource" uid="uid://dl32y7qepykq1" path="res://Resources/Units/warrior.tres" id="2_okuij"]
 [ext_resource type="Resource" uid="uid://bckkr5wuwr6hw" path="res://Resources/Units/archer.tres" id="3_n0tu1"]
+[ext_resource type="Resource" uid="uid://bkev5w2llh52k" path="res://Resources/Units/lancer.tres" id="4_n0tu1"]
 
 [sub_resource type="Resource" id="Resource_okuij"]
 script = ExtResource("1_kkr2n")
@@ -13,9 +14,16 @@ metadata/_custom_type_script = "uid://bmf03dvh08pkw"
 [sub_resource type="Resource" id="Resource_q4w8j"]
 script = ExtResource("1_kkr2n")
 unit_data = ExtResource("3_n0tu1")
+min_player_level = 4
+metadata/_custom_type_script = "uid://bmf03dvh08pkw"
+
+[sub_resource type="Resource" id="Resource_raq51"]
+script = ExtResource("1_kkr2n")
+unit_data = ExtResource("4_n0tu1")
+min_player_level = 8
 metadata/_custom_type_script = "uid://bmf03dvh08pkw"
 
 [resource]
 script = ExtResource("2_4s434")
-entries = Array[ExtResource("1_kkr2n")]([SubResource("Resource_okuij"), SubResource("Resource_q4w8j")])
+entries = Array[ExtResource("1_kkr2n")]([SubResource("Resource_okuij"), SubResource("Resource_q4w8j"), SubResource("Resource_raq51")])
 metadata/_custom_type_script = "uid://cu1d2uf3acmwt"

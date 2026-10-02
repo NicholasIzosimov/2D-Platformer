@@ -4,4 +4,7 @@
 
 [resource]
 script = ExtResource("1_8lpiw")
+vigor_per_level = 1.0
+primary_stat_per_level = 2.0
+armor_per_level = 5.0
 metadata/_custom_type_script = "uid://b0uf6wptdrp1l"

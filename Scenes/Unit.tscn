@@ -17,6 +17,7 @@
 [ext_resource type="Script" uid="uid://c5rjrc8wcs8g8" path="res://Scripts/unit_cast_bar.gd" id="15_7ftqo"]
 [ext_resource type="Script" uid="uid://boac4c7dewpyy" path="res://Scripts/unit_animator.gd" id="16_q4xie"]
 [ext_resource type="Script" uid="uid://cjco03it7q8av" path="res://Scripts/auto_attack.gd" id="17_pim51"]
+[ext_resource type="Script" uid="uid://bisjirjysnn7u" path="res://Scripts/effect_visuals.gd" id="17_tuv1f"]
 [ext_resource type="Script" uid="uid://c72bbgdje377a" path="res://Scripts/combat_state.gd" id="18_raq51"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_m5ek2"]
@@ -60,7 +61,7 @@ bg_color = Color(0.33871102, 0.68437856, 0.46821302, 1)
 size = Vector2(84, 90)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3h6ce"]
-size = Vector2(50, 50)
+size = Vector2(50, 91)
 
 [node name="Unit" type="CharacterBody2D" unique_id=1164345268]
 motion_mode = 1
@@ -185,7 +186,9 @@ color = Color(0.5360236, 0.529154, 0.56858295, 1)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1107684265]
 sprite_frames = ExtResource("14_7ftqo")
-animation = &"samurai_attack"
+animation = &"warrior_attack"
+frame = 2
+frame_progress = 0.3230764
 
 [node name="UnitCastBar" type="ProgressBar" parent="." unique_id=546332860]
 modulate = Color(1, 1, 1, 0)
@@ -206,6 +209,9 @@ impact_frames = {
 "archer_attack": 5
 }
 
+[node name="EffectVisuals" type="Node2D" parent="." unique_id=1185648165]
+script = ExtResource("17_tuv1f")
+
 [node name="Hurtbox" type="Area2D" parent="." unique_id=1654225203]
 collision_layer = 16
 collision_mask = 0
@@ -223,7 +229,7 @@ collision_mask = 0
 monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackPivot/AttackHitbox" unique_id=832845284]
-position = Vector2(16, -6)
+position = Vector2(41, -6)
 shape = SubResource("RectangleShape2D_3h6ce")
 
 [node name="AutoAttack" type="Node" parent="." unique_id=823675240]

@@ -87,10 +87,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -125.0
-offset_top = 80.0
-offset_right = 125.0
-offset_bottom = 103.0
+offset_left = -122.0
+offset_top = -126.0
+offset_right = 128.0
+offset_bottom = -103.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "In Combat!"
@@ -99,12 +99,19 @@ vertical_alignment = 1
 script = ExtResource("4_p0qmi")
 
 [node name="CastBar" type="ProgressBar" parent="." unique_id=66399127]
-custom_minimum_size = Vector2(250, 14)
-layout_mode = 0
-offset_left = 1155.0
-offset_top = 1100.0
-offset_right = 1405.0
-offset_bottom = 1114.0
+custom_minimum_size = Vector2(400, 30)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = 430.0
+offset_right = 200.0
+offset_bottom = 460.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 4
 theme_override_styles/background = SubResource("StyleBoxFlat_lw07u")
 theme_override_styles/fill = SubResource("StyleBoxFlat_q6bf1")
@@ -120,19 +127,21 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -125.0
+offset_left = -200.0
 offset_top = 280.0
-offset_right = 125.0
-offset_bottom = 332.0
+offset_right = 200.0
+offset_bottom = 380.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 mouse_filter = 2
 theme_override_constants/separation = 2
+alignment = 1
 
 [node name="HealthBar" type="ProgressBar" parent="ResourceBars" unique_id=1675700065]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
+size_flags_vertical = 3
 mouse_filter = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_pkrlc")
 theme_override_styles/fill = SubResource("StyleBoxFlat_pm0ju")
@@ -144,6 +153,7 @@ show_numbers = true
 [node name="PowerBar" type="ProgressBar" parent="ResourceBars" unique_id=417057447]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
+size_flags_vertical = 3
 mouse_filter = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_p0qmi")
 theme_override_styles/fill = SubResource("StyleBoxFlat_erb8n")
@@ -155,6 +165,7 @@ show_numbers = true
 [node name="EnduranceBar" type="ProgressBar" parent="ResourceBars" unique_id=1806569704]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
+size_flags_vertical = 3
 mouse_filter = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_xjbu4")
 theme_override_styles/fill = SubResource("StyleBoxFlat_7lhys")
@@ -165,16 +176,16 @@ show_numbers = true
 
 [node name="AbilitySlots" type="HBoxContainer" parent="." unique_id=537638967]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
+anchors_preset = 14
 anchor_top = 0.5
-anchor_right = 0.5
+anchor_right = 1.0
 anchor_bottom = 0.5
-offset_top = 380.0
-offset_bottom = 380.0
+offset_top = 190.0
+offset_bottom = 190.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
+alignment = 1
 
 [node name="XPBar" type="ProgressBar" parent="." unique_id=801518690]
 custom_minimum_size = Vector2(0, 16)

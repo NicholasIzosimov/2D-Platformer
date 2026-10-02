@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="UnitData" format=3 uid="uid://bkev5w2llh52k"]
+
+[ext_resource type="Script" uid="uid://5j6i1rvnlhe2" path="res://Scripts/ResourceScripts/ability_data.gd" id="1_udhjn"]
+[ext_resource type="Resource" uid="uid://waijb41fxhuw" path="res://Resources/Abilities/NPCs/long_strike.tres" id="2_0xtw0"]
+[ext_resource type="Resource" uid="uid://bj6cc47r0o73x" path="res://Resources/Abilities/auto_attack.tres" id="2_pbfi0"]
+[ext_resource type="Resource" uid="uid://dsk04y4qu2q5q" path="res://Resources/Abilities/NPCs/basic_strike.tres" id="3_0e7p8"]
+[ext_resource type="Resource" uid="uid://buwonyjvswl7g" path="res://Resources/Progression/level_scaling.tres" id="3_0xtw0"]
+[ext_resource type="Resource" uid="uid://d3p0cq81lslwu" path="res://Resources/Powers/bot_power.tres" id="4_0e7p8"]
+[ext_resource type="Script" uid="uid://djkq3ofrj4kyw" path="res://Scripts/ResourceScripts/unit_data.gd" id="5_pxxmq"]
+
+[resource]
+script = ExtResource("5_pxxmq")
+name = "Lancer"
+abilities = Array[ExtResource("1_udhjn")]([ExtResource("2_0xtw0"), ExtResource("3_0e7p8")])
+metadata/_custom_type_script = "uid://djkq3ofrj4kyw"

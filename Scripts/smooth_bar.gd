@@ -5,7 +5,7 @@ class_name SmoothBar
 var target_value: float = 0.0
 var initialized: bool = false
 @export var show_numbers: bool = false
-@export var number_font_size: int = 12
+@export var number_font_size: int = 16
 var label: Label
 
 func set_bar(new_value: float, new_max: float) -> void:

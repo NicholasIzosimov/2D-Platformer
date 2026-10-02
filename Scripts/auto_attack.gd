@@ -23,4 +23,4 @@ func _physics_process(delta: float) -> void:
 		timer = swing_time()
 
 func swing_time() -> float:
-	return stats.unit_data.base_swing_time / (1.0 + stats.current_haste / 100.0)
+	return stats.unit_data.base_swing_time / (1.0 + stats.get_stat(Stat.Type.HASTE) / 100.0)

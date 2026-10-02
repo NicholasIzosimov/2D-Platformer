@@ -6,9 +6,9 @@
 [resource]
 script = ExtResource("2_rgr8v")
 name = "Basic Strike"
-damage = 3.0
 uses_hitbox = true
-range = 2.0
+damage = 3.0
 cooldown = 3.0
+range = 2.0
 windup = 3.0
 metadata/_custom_type_script = "uid://5j6i1rvnlhe2"

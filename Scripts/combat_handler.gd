@@ -43,18 +43,22 @@ func _ready() -> void:
 func cast_ability(ability, target) -> String:
 	if is_casting:
 		return "Already casting"
-	var reach: String = reach_error(ability, target)
-	if reach != "":
-		return reach
+	if ability.out_of_combat_only and get_node("../CombatState").in_combat:
+		return "Can't do that in combat"
+	if ability.requires_target:
+		var reach: String = reach_error(ability, target)
+		if reach != "":
+			return reach
 	if ability.triggers_gcd and gcd_active:
 		return "Global cooldown active"
 	if ability_cooldowns.has(ability):
 		return "Ability on cooldown"
 	if ability.power_cost > own_stats.current_power:
 		return "Not enough power: " + own_stats.power_data.name
-	aim_at(target)
+	if ability.requires_target:
+		aim_at(target)
 	ability_used.emit(ability)
-	
+
 	if ability.triggers_gcd:
 		gcd_active = true
 		gcd_started.emit(gcd_duration)
@@ -71,13 +75,14 @@ func cast_ability(ability, target) -> String:
 			is_casting = false
 			cast_finished.emit()
 			cast_timer.queue_free()
-			if not is_instance_valid(target) or target.get_node("UnitStats").is_dead:
-				return
-			var failed: String = reach_error(ability, target)
-			if failed != "":
-				cast_failed.emit(failed)
-				return
-			aim_at(target)
+			if ability.requires_target:
+				if not is_instance_valid(target) or target.get_node("UnitStats").is_dead:
+					return
+				var failed: String = reach_error(ability, target)
+				if failed != "":
+					cast_failed.emit(failed)
+					return
+				aim_at(target)
 			own_stats.modify_power(-ability.power_cost)
 			deliver(ability, target)
 		)
@@ -156,9 +161,11 @@ func deliver(ability, target) -> void:
 	add_child(windup_timer)
 	windup_timer.timeout.connect(func():
 		windup_timer.queue_free()
-		if own_stats.is_dead or not is_instance_valid(target) or target.get_node("UnitStats").is_dead:
+		if own_stats.is_dead:
 			return
-		if not ability.is_projectile:
+		if ability.requires_target and (not is_instance_valid(target) or target.get_node("UnitStats").is_dead):
+			return
+		if ability.requires_target and not ability.is_projectile:
 			var still_hits: bool = hitbox_hits(target) if ability.uses_hitbox else reach_error(ability, target) == ""
 			if not still_hits:
 				target.get_node("UnitStats").register_miss()
@@ -168,11 +175,22 @@ func deliver(ability, target) -> void:
 	windup_timer.start()
 
 func release(ability, target) -> void:
+	if ability.spawn_scene:
+		spawn_object(ability)
+	if not ability.requires_target:
+		return
 	if ability.is_projectile:
 		fire_projectile(ability, target)
 	else:
 		resolve_effects(ability, target)
 
+func spawn_object(ability) -> void:
+	var spawned = ability.spawn_scene.instantiate()
+	if spawned.has_method("setup"):
+		spawned.setup(get_parent())
+	get_parent().get_parent().add_child(spawned)
+	spawned.global_position = get_node("../CollisionShape2D").global_position
+	
 func fire_projectile(ability, target) -> void:
 	var start: Vector2 = get_node("../AttackPivot").global_position
 	var direction: Vector2 = start.direction_to(target.get_node("Hurtbox").global_position)
@@ -276,6 +294,8 @@ func apply_effect(effect, caster: Node) -> void:
 					caster.own_stats.modify_power(effect.power_gain)
 			if damage > 0.0:
 				own_stats.take_damage(damage, crit_multiplier)
+			if effect.heal_percent > 0.0:
+				own_stats.heal(own_stats.max_health * effect.heal_percent / 100.0)
 		)
 		tick_timer.start()
 	var duration_timer := Timer.new()
@@ -293,7 +313,7 @@ func apply_effect(effect, caster: Node) -> void:
 	duration_timer.start()
 	active_effects[effect] = {"tick_timer": tick_timer, "duration_timer": duration_timer}
 	effect_applied.emit(effect)
-	
+
 func _end_gcd() -> void:
 	gcd_active = false
 
@@ -301,19 +321,23 @@ func _end_cooldown(ability) -> void:
 	ability_cooldowns.erase(ability)
 	
 func _regen_tick() -> void:
-	own_stats.modify_power(own_stats.current_power_generation, false)
+	own_stats.modify_power(own_stats.power_generation(), false)
 	
 func roll_crit() -> float:
-	if randf() * 100.0 < own_stats.current_crit_chance:
-		return randf_range(CRIT_MIN, CRIT_MAX) + own_stats.current_crit_damage
+	if randf() * 100.0 < own_stats.get_stat(Stat.Type.CRIT_CHANCE):
+		return randf_range(CRIT_MIN, CRIT_MAX) + own_stats.get_stat(Stat.Type.CRIT_DAMAGE)
 	return 1.0
+
 	
 func miss_chance_against(target_stats: Node) -> float:
 	var level_diff: int = target_stats.level - own_stats.level
-	return own_stats.current_miss_chance + MISS_LEVEL_SCALE * (pow(MISS_LEVEL_GROWTH, level_diff) - 1.0)
+	var base_miss: float = own_stats.get_stat(Stat.Type.MISS_CHANCE) - own_stats.get_stat(Stat.Type.HIT)
+	return base_miss + MISS_LEVEL_SCALE * (pow(MISS_LEVEL_GROWTH, level_diff) - 1.0)
 	
 func scaled_damage(amount: float) -> float:
-	return amount * (1.0 + own_stats.current_primary_stat * PRIMARY_STAT_SCALING)
+	var primary_bonus: float = 1.0 + own_stats.get_stat(Stat.Type.PRIMARY) * PRIMARY_STAT_SCALING
+	var damage_bonus: float = 1.0 + own_stats.get_stat(Stat.Type.DAMAGE_PERCENT) / 100.0
+	return amount * primary_bonus * damage_bonus
 	
 func has_line_of_sight(from: Vector2, to: Vector2) -> bool:
 	var query := PhysicsRayQueryParameters2D.create(from, to, LINE_OF_SIGHT_MASK)

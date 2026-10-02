@@ -36,20 +36,15 @@ func refresh() -> void:
 	var endurance = player.get_node("Endurance")
 	var class_data: ClassData = PlayerState.class_data
 
-	#Character Pane Stat Display Text
-	add_row("Vigor", "%d" % stats.current_vigor)
-	#add_row("Max " + stats.power_data.name, "%d" % stats.max_power)
-	add_row(class_data.primary_stat_name, "%d" % stats.current_primary_stat)
-	add_row("Armor", "%d" % stats.current_armor)
-	#add_row("Damage Reduction", "%.1f%%" % stats.current_damage_reduction)
-	add_row("Crit Chance", "%.1f%%" % stats.current_crit_chance)
-	#add_row("Crit Damage", "x%.2f - x%.2f" % [combat.CRIT_MIN + stats.current_crit_damage, combat.CRIT_MAX + stats.current_crit_damage])
-	add_row("Miss Chance", "%.1f%%" % stats.current_miss_chance)
-	#add_row("Endurance", "%d  (+%s/s)" % [endurance.max_endurance, endurance.endurance_regen])
+	add_row("Vigor", "%d" % stats.get_stat(Stat.Type.VIGOR))
+	add_row(class_data.primary_stat_name, "%d" % stats.get_stat(Stat.Type.PRIMARY))
+	add_row("Armor", "%d" % stats.get_stat(Stat.Type.ARMOR))
+	add_row("Crit Chance", "%.1f%%" % stats.get_stat(Stat.Type.CRIT_CHANCE))
+	add_row("Hit", "%.1f%%" % stats.get_stat(Stat.Type.HIT))
+	add_row("Damage", "+%.0f%%" % stats.get_stat(Stat.Type.DAMAGE_PERCENT))
+	add_row("Miss Chance", "%.1f%%" % stats.get_stat(Stat.Type.MISS_CHANCE))
 	add_row("Endurance", "(+%s/s)" % endurance.endurance_regen)
-	add_row("Speed", "%d" % player.walk_speed)
-	#add_row("Talent Points", str(PlayerState.talent_points))
-	#add_row("Gold", str(PlayerState.gold))
+	add_row("Speed", "%d" % stats.get_stat(Stat.Type.MOVE_SPEED))
 
 func add_row(label_text: String, value_text: String) -> void:
 	var label := Label.new()
