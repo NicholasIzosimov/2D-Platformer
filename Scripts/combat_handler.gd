@@ -178,6 +178,8 @@ func release(ability, target) -> void:
 	if ability.spawn_scene:
 		spawn_object(ability)
 	if not ability.requires_target:
+		for effect in ability.effects:
+			apply_effect(effect, self)
 		return
 	if ability.is_projectile:
 		fire_projectile(ability, target)
@@ -199,8 +201,11 @@ func fire_projectile(ability, target) -> void:
 	get_parent().get_parent().add_child(projectile)
 	projectile.global_position = start
 
-func visual_key(ability) -> String:
-	var path: String = ability.resource_path
+func visual_key(resource) -> String:
+	var override = resource.get("animation_key")
+	if override:
+		return override
+	var path: String = resource.resource_path
 	if path == "" or path.contains("::"):
 		return ""
 	return path.get_file().get_basename()
@@ -278,6 +283,7 @@ func apply_effect(effect, caster: Node) -> void:
 		active_effects[effect]["duration_timer"].start()
 		effect_applied.emit(effect)
 		return
+	own_stats.modify_stat(effect.affect_stat, effect.stat_amount)
 	var tick_timer: Timer = null
 	if effect.tick_interval > 0.0:
 		tick_timer = Timer.new()
@@ -306,6 +312,7 @@ func apply_effect(effect, caster: Node) -> void:
 		if tick_timer:
 			tick_timer.stop()
 			tick_timer.queue_free()
+		own_stats.modify_stat(effect.affect_stat, -effect.stat_amount)
 		duration_timer.queue_free()
 		active_effects.erase(effect)
 		effect_expired.emit(effect)
@@ -347,3 +354,8 @@ func has_line_of_sight(from: Vector2, to: Vector2) -> bool:
 func units_have_line_of_sight(a: Node2D, b: Node2D) -> bool:
 	return has_line_of_sight(a.get_node("CollisionShape2D").global_position, 
 	b.get_node("CollisionShape2D").global_position)
+
+func effect_time_left(effect) -> float:
+	if not active_effects.has(effect):
+		return 0.0
+	return active_effects[effect]["duration_timer"].time_left

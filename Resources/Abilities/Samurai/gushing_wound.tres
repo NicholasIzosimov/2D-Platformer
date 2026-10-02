@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="AbilityData" format=3 uid="uid://dka4335dyhxnb"]
+
+[ext_resource type="Script" uid="uid://do4vdp8v5ea1s" path="res://Scripts/ResourceScripts/status_effect.gd" id="1_yt114"]
+[ext_resource type="Texture2D" uid="uid://bfcikulr0jk3b" path="res://Assets/AbilityIcons/GushingWound.png" id="2_5dc4u"]
+[ext_resource type="Script" uid="uid://5j6i1rvnlhe2" path="res://Scripts/ResourceScripts/ability_data.gd" id="2_r2lw2"]
+
+[sub_resource type="Resource" id="Resource_5dc4u"]
+script = ExtResource("1_yt114")
+name = "Gushing Wound"
+icon = ExtResource("2_5dc4u")
+is_debuff = true
+damage = 2.0
+spell_duration = 10.0
+tick_interval = 3.0
+metadata/_custom_type_script = "uid://do4vdp8v5ea1s"
+
+[resource]
+script = ExtResource("2_r2lw2")
+icon = ExtResource("2_5dc4u")
+name = "Gushing Wound"
+triggers_gcd = true
+power_cost = 10.0
+range = 2.0
+effects = Array[ExtResource("1_yt114")]([SubResource("Resource_5dc4u")])
+metadata/_custom_type_script = "uid://5j6i1rvnlhe2"

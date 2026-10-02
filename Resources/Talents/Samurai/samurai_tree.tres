@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="TalentTree" format=3 uid="uid://cse5ojt72qf2y"]
+
+[ext_resource type="Script" uid="uid://cp2y38n6oaxjm" path="res://Scripts/ResourceScripts/talent_tree.gd" id="1_xvk2v"]
+[ext_resource type="Script" uid="uid://ccvwsxd5vfeut" path="res://Scripts/ResourceScripts/talent_data.gd" id="2_3t2o5"]
+[ext_resource type="Resource" uid="uid://cqdu5oob1xkwr" path="res://Resources/Talents/Samurai/blood_frenzy_talent.tres" id="3_jvmyj"]
+[ext_resource type="Resource" uid="uid://cko6r6aqb2f5m" path="res://Resources/Talents/Samurai/crit.tres" id="4_652dd"]
+[ext_resource type="Resource" uid="uid://b5kafw8diy8g4" path="res://Resources/Talents/Samurai/crit_damage.tres" id="5_ojnim"]
+[ext_resource type="Resource" uid="uid://cfc8f1s6ev2r7" path="res://Resources/Talents/Samurai/damage.tres" id="6_m2nrw"]
+[ext_resource type="Resource" uid="uid://ei8uqvvs3l1f" path="res://Resources/Talents/Samurai/hit.tres" id="7_nre5g"]
+[ext_resource type="Resource" uid="uid://bvhk745gedemk" path="res://Resources/Talents/Samurai/strike_range.tres" id="8_bp143"]
+[ext_resource type="Resource" uid="uid://bm6dhacn5qylh" path="res://Resources/Talents/Samurai/strike_targets.tres" id="9_ap0bn"]
+
+[resource]
+script = ExtResource("1_xvk2v")
+name = "Samurai"
+talents = Array[ExtResource("2_3t2o5")]([ExtResource("3_jvmyj"), ExtResource("4_652dd"), ExtResource("5_ojnim"), ExtResource("6_m2nrw"), ExtResource("7_nre5g"), ExtResource("8_bp143"), ExtResource("9_ap0bn")])
+metadata/_custom_type_script = "uid://cp2y38n6oaxjm"

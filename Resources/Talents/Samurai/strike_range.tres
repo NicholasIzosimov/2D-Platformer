@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="TalentData" format=3 uid="uid://bvhk745gedemk"]
+
+[ext_resource type="Script" uid="uid://ddk5gmr8tu4q7" path="res://Scripts/ResourceScripts/ability_mod.gd" id="1_534rp"]
+[ext_resource type="Resource" uid="uid://bj4sp8p3c5ljh" path="res://Resources/Abilities/Samurai/strike.tres" id="2_ydi6y"]
+[ext_resource type="Texture2D" uid="uid://bqrbc364gnjy4" path="res://Assets/TalentIcons/Far Reach.png" id="3_534rp"]
+[ext_resource type="Script" uid="uid://ccvwsxd5vfeut" path="res://Scripts/ResourceScripts/talent_data.gd" id="4_4j6vs"]
+[ext_resource type="Resource" uid="uid://ei8uqvvs3l1f" path="res://Resources/Talents/Samurai/hit.tres" id="5_534rp"]
+[ext_resource type="Resource" uid="uid://cfc8f1s6ev2r7" path="res://Resources/Talents/Samurai/damage.tres" id="6_ydi6y"]
+
+[sub_resource type="Resource" id="Resource_dw2x5"]
+script = ExtResource("1_534rp")
+ability = ExtResource("2_ydi6y")
+amount_per_rank = 1.0
+metadata/_custom_type_script = "uid://ddk5gmr8tu4q7"
+
+[resource]
+script = ExtResource("4_4j6vs")
+name = "Far Reach"
+icon = ExtResource("3_534rp")
+max_ranks = 2
+row = 1
+column = 2.5
+parents = Array[ExtResource("4_4j6vs")]([ExtResource("5_534rp"), ExtResource("6_ydi6y")])
+ability_mods = Array[ExtResource("1_534rp")]([SubResource("Resource_dw2x5")])
+metadata/_custom_type_script = "uid://ccvwsxd5vfeut"

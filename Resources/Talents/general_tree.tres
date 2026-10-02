@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="TalentTree" format=3 uid="uid://b6to0or360koh"]
+
+[ext_resource type="Script" uid="uid://cp2y38n6oaxjm" path="res://Scripts/ResourceScripts/talent_tree.gd" id="1_jv6fr"]
+[ext_resource type="Script" uid="uid://ccvwsxd5vfeut" path="res://Scripts/ResourceScripts/talent_data.gd" id="2_bvtc8"]
+
+[resource]
+script = ExtResource("1_jv6fr")
+metadata/_custom_type_script = "uid://cp2y38n6oaxjm"

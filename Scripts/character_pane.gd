@@ -6,6 +6,7 @@ extends PanelContainer
 var slots: Dictionary = {}
 
 func _ready() -> void:
+	add_to_group("pause_panes")
 	visible = false
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	for slot_type in slot_order:
@@ -13,7 +14,7 @@ func _ready() -> void:
 		gear_slot.slot = slot_type
 		%GearSlots.add_child(gear_slot)
 		slots[slot_type] = gear_slot
-
+	
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("character_pane") or (visible and event.is_action_pressed("ui_cancel")):
 		toggle()
@@ -21,7 +22,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func toggle() -> void:
 	visible = not visible
-	get_tree().paused = visible
+	get_tree().paused = get_tree().get_nodes_in_group("pause_panes").any(func(pane): return pane.visible)
 	if visible:
 		refresh()
 
@@ -46,6 +47,7 @@ func refresh() -> void:
 	add_row("Endurance", "(+%s/s)" % endurance.endurance_regen)
 	add_row("Speed", "%d" % stats.get_stat(Stat.Type.MOVE_SPEED))
 
+	
 func add_row(label_text: String, value_text: String) -> void:
 	var label := Label.new()
 	label.text = label_text

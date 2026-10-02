@@ -20,3 +20,31 @@ enum Type {
 	PARRY,
 	BLOCK,
 }
+const LABELS: Dictionary = {
+	Type.VIGOR: "Vigor",
+	Type.ARMOR: "Armor",
+	Type.CRIT_CHANCE: "Crit Chance",
+	Type.CRIT_DAMAGE: "Crit Damage",
+	Type.MISS_CHANCE: "Miss Chance",
+	Type.HIT: "Hit",
+	Type.DAMAGE_PERCENT: "Damage",
+	Type.DAMAGE_REDUCTION: "Damage Reduction",
+	Type.MOVE_SPEED: "Move Speed",
+	Type.HASTE: "Haste",
+	Type.MAX_POWER: "Max Power",
+	Type.POWER_GENERATION: "Power Regen",
+	Type.DODGE: "Dodge",
+	Type.PARRY: "Parry",
+	Type.BLOCK: "Block",
+}
+const PERCENT_STATS: Array = [Type.CRIT_CHANCE, Type.CRIT_DAMAGE, Type.MISS_CHANCE, Type.HIT, Type.DAMAGE_PERCENT, Type.DAMAGE_REDUCTION, Type.HASTE, Type.DODGE, Type.PARRY, Type.BLOCK]
+const DISPLAY_SCALE: Dictionary = {Type.CRIT_DAMAGE: 100.0}
+
+static func label(type: Type) -> String:
+	if type == Type.PRIMARY:
+		return PlayerState.class_data.primary_stat_name
+	return LABELS.get(type, "?")
+
+static func format(type: Type, amount: float) -> String:
+	var text: String = Describe.number(amount * DISPLAY_SCALE.get(type, 1.0))
+	return text + ("%" if PERCENT_STATS.has(type) else "")

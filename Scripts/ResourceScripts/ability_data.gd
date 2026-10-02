@@ -4,7 +4,10 @@ class_name AbilityData
 enum Category {COMBAT, UTILITY}
 @export var icon: Texture2D
 @export var name: String
+@export_multiline var description: String
+@export var animation_key: String = ""
 @export var category: Category = Category.COMBAT
+
 @export_group("Core")
 @export var triggers_gcd: bool
 @export var uses_hitbox: bool = false

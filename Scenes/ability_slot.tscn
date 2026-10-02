@@ -46,6 +46,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 fill_mode = 5
 texture_progress = SubResource("GradientTexture2D_7uj85")
 tint_progress = Color(1, 1, 1, 0.27450982)

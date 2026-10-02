@@ -8,8 +8,8 @@
 script = ExtResource("2_rod4w")
 icon = ExtResource("2_rf3jp")
 name = "Quick Strike"
+triggers_gcd = true
 damage = 3.0
 power_gain = 2.0
-uses_hitbox = true
-triggers_gcd = true
+range = 2.0
 metadata/_custom_type_script = "uid://5j6i1rvnlhe2"

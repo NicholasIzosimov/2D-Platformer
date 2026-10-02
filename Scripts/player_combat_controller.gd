@@ -14,6 +14,7 @@ func _ready() -> void:
 	combat_handler.cast_started.connect(_on_cast_started)
 	combat_handler.cast_failed.connect(func(reason): error_text.show_message(reason))
 	get_node("../player/Endurance").not_enough_endurance.connect(func(): error_text.show_message("Not enough endurance"))
+	hud.slot_activated.connect(try_cast_slot)
 	
 func _on_cast_started(ability, duration: float) -> void:
 	cast_bar.start_cast(duration)
@@ -47,37 +48,49 @@ func _unhandled_input(event: InputEvent) -> void:
 			set_target(clicked)
 		return
 
-	var i = 1
 	for slot in hud.current_slots:
-		if Input.is_action_just_pressed("cast_" + str(i)):
-			var ability = slot.ability
-			var target = null
-			if ability.requires_target:
-				target = get_cast_target()
-				if target == null:
-					target = find_auto_target(ability)
-					if target == null:
-						error_text.show_message("No target")
-						return
-					set_target(target)
-			var result = get_node("../player/CombatHandler").cast_ability(ability, target)
-			if result == "":
-				slot.bop()
-			else:
-				error_text.show_message(result)
-		i += 1
-
+		if slot.keybind_action != "" and event.is_action_pressed(slot.keybind_action):
+			try_cast_slot(slot)
+			return
+func try_cast_slot(slot) -> void:
+	var ability = slot.ability
+	var target = null
+	if ability.requires_target:
+		target = get_cast_target()
+		if target == null:
+			target = find_auto_target(ability)
+			if target == null:
+				error_text.show_message("No target")
+				return
+			set_target(target)
+	var result = get_node("../player/CombatHandler").cast_ability(ability, target)
+	if result == "":
+		slot.bop()
+	else:
+		error_text.show_message(result)
+		
 func _process(delta: float) -> void:
 	update_hover()
-	var target = get_cast_target()
-	get_node("../player/AutoAttack").target = target
-	var combat_handler = get_node("../player/CombatHandler")
-	var own_stats = get_node("../player/UnitStats")
+	var player = get_node("../player")
+	player.get_node("AutoAttack").target = get_cast_target()
+	var target = get_valid_target()
+	var combat_handler = player.get_node("CombatHandler")
+	var own_stats = player.get_node("UnitStats")
 	for slot in hud.current_slots:
 		var ability = slot.ability
 		var in_range = not ability.requires_target or target == null or combat_handler.in_reach(ability, target)
 		var has_power = own_stats.current_power >= ability.power_cost
 		slot.set_validity(in_range, has_power)
+		var holder = target if ability.requires_target else player
+		var left: float = 0.0
+		var total: float = 1.0
+		if is_instance_valid(holder):
+			for effect in ability.effects:
+				var time_left: float = holder.get_node("CombatHandler").effect_time_left(effect)
+				if time_left > left:
+					left = time_left
+					total = effect.spell_duration
+		slot.set_effect_timer(left, total)
 		
 func find_auto_target(ability) -> Node:
 	var player = get_node("../player")

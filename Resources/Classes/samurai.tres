@@ -7,11 +7,14 @@
 [ext_resource type="Resource" uid="uid://bvjumy1olrrk5" path="res://Resources/Abilities/Samurai/sweep.tres" id="4_5cocq"]
 [ext_resource type="Script" uid="uid://bblgktlu50lqb" path="res://Scripts/ResourceScripts/class_data.gd" id="4_kionh"]
 [ext_resource type="Resource" uid="uid://qassep6py46l" path="res://Resources/Abilities/Utility/campfire.tres" id="5_kionh"]
+[ext_resource type="Resource" uid="uid://dka4335dyhxnb" path="res://Resources/Abilities/Samurai/gushing_wound.tres" id="5_w5r48"]
+[ext_resource type="Resource" uid="uid://cse5ojt72qf2y" path="res://Resources/Talents/Samurai/samurai_tree.tres" id="10_h1afe"]
 
 [resource]
 script = ExtResource("4_kionh")
 name = "Samurai"
-abilities = Array[ExtResource("1_lxhks")]([ExtResource("3_epe26"), ExtResource("2_epe26"), ExtResource("4_5cocq"), ExtResource("5_kionh")])
+abilities = Array[ExtResource("1_lxhks")]([ExtResource("3_epe26"), ExtResource("2_epe26"), ExtResource("4_5cocq"), ExtResource("5_w5r48"), ExtResource("5_kionh")])
 power = ExtResource("3_5cocq")
 primary_stat_name = "Agility"
+talent_tree = ExtResource("10_h1afe")
 metadata/_custom_type_script = "uid://bblgktlu50lqb"

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="TalentData" format=3 uid="uid://b5kafw8diy8g4"]
+
+[ext_resource type="Script" uid="uid://ddk5gmr8tu4q7" path="res://Scripts/ResourceScripts/ability_mod.gd" id="1_levlo"]
+[ext_resource type="Script" uid="uid://ccvwsxd5vfeut" path="res://Scripts/ResourceScripts/talent_data.gd" id="2_ex5ye"]
+[ext_resource type="Texture2D" uid="uid://bmjicpyi0xe2w" path="res://Assets/TalentIcons/CriticalAcuity.png" id="2_gjdq8"]
+
+[resource]
+script = ExtResource("2_ex5ye")
+name = "Critical Acuity"
+icon = ExtResource("2_gjdq8")
+max_ranks = 5
+column = 1.0
+stat_bonuses = Dictionary[int, float]({
+4: 0.1
+})
+metadata/_custom_type_script = "uid://ccvwsxd5vfeut"

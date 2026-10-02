@@ -2,9 +2,12 @@
 
 [ext_resource type="Resource" uid="uid://d3p0cq81lslwu" path="res://Resources/Powers/bot_power.tres" id="1_5d6fh"]
 [ext_resource type="Script" uid="uid://djkq3ofrj4kyw" path="res://Scripts/ResourceScripts/unit_data.gd" id="1_chb6n"]
+[ext_resource type="Script" uid="uid://5j6i1rvnlhe2" path="res://Scripts/ResourceScripts/ability_data.gd" id="1_ihbfo"]
 [ext_resource type="Resource" uid="uid://buwonyjvswl7g" path="res://Resources/Progression/level_scaling.tres" id="1_vc7uy"]
+[ext_resource type="Resource" uid="uid://bj6cc47r0o73x" path="res://Resources/Abilities/auto_attack.tres" id="2_qsmp5"]
 
 [resource]
 script = ExtResource("1_chb6n")
 name = "Base"
+base_health = 20.0
 metadata/_custom_type_script = "uid://djkq3ofrj4kyw"

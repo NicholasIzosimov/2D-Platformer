@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://c1f27rlg282ua" path="res://Scripts/error_text.gd" id="2_vtehv"]
 [ext_resource type="Script" uid="uid://cqlwpi23btuns" path="res://Scripts/player_combat_controller.gd" id="4_7uj85"]
 [ext_resource type="PackedScene" uid="uid://dy7tq4pgrtl6q" path="res://Scenes/character_pane.tscn" id="4_efsqc"]
+[ext_resource type="PackedScene" uid="uid://divn7g3016xhl" path="res://Scenes/talent_pane.tscn" id="5_yw3bn"]
 [ext_resource type="Script" uid="uid://yti72ecb3xss" path="res://Scripts/enemy_spawner.gd" id="6_vtehv"]
 [ext_resource type="Script" uid="uid://yon5ea1deaj3" path="res://Scripts/debug_tools.gd" id="7_loea4"]
 [ext_resource type="Texture2D" uid="uid://h0prnvh3rwo0" path="res://Assets/Tiny Swords (Free Pack)/Terrain/Tileset/Tilemap_color1.png" id="8_sv7pb"]
@@ -119,6 +120,7 @@ metadata/_custom_type_script = "uid://iljt3cqmf55k"
 y_sort_enabled = true
 
 [node name="Background" type="Parallax2D" parent="." unique_id=1346562611]
+visible = false
 z_index = -20
 scroll_scale = Vector2(0.3, 0.3)
 repeat_size = Vector2(2548, 1588)
@@ -151,6 +153,12 @@ offset_top = -40.0
 offset_bottom = -20.0
 
 [node name="CharacterPane" parent="CanvasLayer" unique_id=1357765377 instance=ExtResource("4_efsqc")]
+
+[node name="TalentPane" parent="CanvasLayer" unique_id=413069100 instance=ExtResource("5_yw3bn")]
+offset_left = -50.5
+offset_top = -27.5
+offset_right = -10.5
+offset_bottom = 23.5
 
 [node name="ErrorText" type="Label" parent="CanvasLayer" unique_id=1617025841]
 anchors_preset = -1
