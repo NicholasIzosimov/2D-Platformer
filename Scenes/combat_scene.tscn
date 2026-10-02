@@ -148,7 +148,7 @@ tile_set = SubResource("TileSet_pm0ju")
 
 [node name="HUD" parent="CanvasLayer" unique_id=171746954 instance=ExtResource("1_rdqa8")]
 
-[node name="XPBar" parent="CanvasLayer/HUD" index="4" unique_id=801518690]
+[node name="XPBar" parent="CanvasLayer/HUD" index="5" unique_id=801518690]
 offset_top = -40.0
 offset_bottom = -20.0
 

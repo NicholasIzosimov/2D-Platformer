@@ -27,10 +27,10 @@ static func ability(data: AbilityData, handler: Node = null) -> String:
 	var lines: Array[String] = []
 	if data.damage > 0.0:
 		var damage: float = handler.scaled_damage(data.damage) if handler else data.damage
-		lines.append("Deals %s damage." % number(damage))
+		lines.append("Deals %s damage instantly." % number(damage))
 	if data.aoe_radius > 0.0 and data.aoe_max_targets != 1:
 		var who: String = "all nearby enemies" if data.aoe_max_targets <= 0 else "up to %d nearby enemies" % (data.aoe_max_targets - 1)
-		lines.append("Also hits %s for %d%% damage." % [who, roundi(data.aoe_damage_multiplier * 100.0)])
+		lines.append("Also hits %s for %d%% of the damage." % [who, roundi(data.aoe_damage_multiplier * 100.0)])
 	if data.power_gain > 0.0:
 		lines.append("Generates %s power." % number(data.power_gain))
 	for effect in data.effects:

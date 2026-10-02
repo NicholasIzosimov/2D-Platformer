@@ -11,6 +11,8 @@
 [ext_resource type="Script" uid="uid://flt2a5sho8vk" path="res://Scripts/level_label.gd" id="8_raq51"]
 [ext_resource type="Resource" uid="uid://c2cw31vjqcfij" path="res://Resources/UI/level_colors.tres" id="9_tuv1f"]
 [ext_resource type="PackedScene" uid="uid://d0cpyodsk2niv" path="res://Scenes/debuff_icon.tscn" id="9_wmjhw"]
+[ext_resource type="Texture2D" uid="uid://hk2fgwo38y5n" path="res://Assets/UI/InCombat.png" id="12_v8cch"]
+[ext_resource type="Script" uid="uid://crh1ik4k8qyl3" path="res://Scripts/combat_icon.gd" id="13_bn6fq"]
 [ext_resource type="Script" uid="uid://cn744cbf4xl18" path="res://Scripts/target_indicator.gd" id="13_ikfb6"]
 [ext_resource type="Script" uid="uid://bq2rt3o2ir0ln" path="res://Scripts/ellipse_ring.gd" id="14_1duij"]
 [ext_resource type="SpriteFrames" uid="uid://b5jpb1jxxexgu" path="res://Resources/Animations/unit_animation.tres" id="14_7ftqo"]
@@ -137,6 +139,16 @@ offset_right = 23.0
 mouse_filter = 2
 script = ExtResource("8_b652i")
 debuff_icon_scene = ExtResource("9_wmjhw")
+
+[node name="CombatIcon" type="TextureRect" parent="Bars/HealthBar" unique_id=1218748390]
+layout_mode = 0
+offset_left = -18.0
+offset_bottom = 18.0
+mouse_filter = 2
+texture = ExtResource("12_v8cch")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("13_bn6fq")
 
 [node name="TargetArrows" type="Node2D" parent="Bars" unique_id=1589329949]
 visible = false

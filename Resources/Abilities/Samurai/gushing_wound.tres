@@ -19,6 +19,7 @@ script = ExtResource("2_r2lw2")
 icon = ExtResource("2_5dc4u")
 name = "Gushing Wound"
 triggers_gcd = true
+damage = 2.0
 power_cost = 10.0
 range = 2.0
 effects = Array[ExtResource("1_yt114")]([SubResource("Resource_5dc4u")])

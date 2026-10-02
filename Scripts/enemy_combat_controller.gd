@@ -13,7 +13,8 @@ extends Node
 @export var wander_speed_factor: float = 0.4
 @export var social_radius: float = 250.0
 @export var corpse_time: float = 3.0
-
+@export var retreat_buffer: float = 1.0
+@export var retreat_speed_factor: float = 0.9
 var target: Node
 var flow: Node
 var feet_offset: Vector2
@@ -25,6 +26,7 @@ var out_of_range_timer: float = 0.0
 var wander_target: Vector2
 var wander_timer: float = 0.0
 var dead: bool = false
+var retreating: bool = false
 
 func _ready() -> void:
 	target = get_tree().get_first_node_in_group("player")
@@ -49,7 +51,7 @@ func _physics_process(delta: float) -> void:
 	var combat_handler = get_node("../CombatHandler")
 	var distance = enemy.global_position.distance_to(target.global_position)
 	var in_range: bool = combat_handler.in_reach(stats.unit_data.auto_attack, target)
-
+	update_retreat(stats, combat_handler, distance)
 	var sees_player: bool = distance <= aggro_range and combat_handler.units_have_line_of_sight(enemy, target)
 	if sees_player:
 		start_aggro()
@@ -62,7 +64,12 @@ func _physics_process(delta: float) -> void:
 
 	if not aggro:
 		idle_wander(enemy, stats, delta)
-	elif combat_handler.is_casting or (in_range and sees_player):
+	elif combat_handler.is_casting:
+		enemy.velocity = Vector2.ZERO
+	elif retreating:
+		var away: Vector2 = target.global_position.direction_to(enemy.global_position)
+		enemy.velocity = away * stats.get_stat(Stat.Type.MOVE_SPEED) * retreat_speed_factor
+	elif in_range and sees_player:
 		enemy.velocity = Vector2.ZERO
 	else:
 		var direction: Vector2 = flow.get_direction(enemy.global_position + feet_offset)
@@ -138,6 +145,7 @@ func start_aggro() -> void:
 	if aggro:
 		return
 	aggro = true
+	get_node("../CombatState").refresh()
 	alert_nearby()
 
 func alert_nearby() -> void:
@@ -159,3 +167,19 @@ func use_abilities(stats: Node, combat_handler: Node) -> void:
 	for ability in stats.unit_data.abilities:
 		if combat_handler.cast_ability(ability, target) == "":
 			return
+			
+func update_retreat(stats: Node, combat_handler: Node, distance: float) -> void:
+	var min_range: float = stats.unit_data.auto_attack.min_range * combat_handler.PIXELS_PER_UNIT
+	if min_range <= 0.0 or has_close_attack(stats, combat_handler):
+		retreating = false
+		return
+	if distance < min_range:
+		retreating = true
+	elif distance >= min_range + retreat_buffer * combat_handler.PIXELS_PER_UNIT:
+		retreating = false
+
+func has_close_attack(stats: Node, combat_handler: Node) -> bool:
+	for ability in stats.unit_data.abilities:
+		if ability.requires_target and combat_handler.in_reach(ability, target):
+			return true
+	return false

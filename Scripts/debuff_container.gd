@@ -17,6 +17,7 @@ func _on_effect_applied(effect) -> void:
 	if current_icons.size() >= 3:
 		return
 	var icon = debuff_icon_scene.instantiate()
+	icon.effect = effect
 	icon.start_countdown(effect.spell_duration)
 	icon.set_icon(effect.icon)
 	add_child(icon)
