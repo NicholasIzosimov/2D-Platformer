@@ -1,0 +1,122 @@
+[gd_scene format=3 uid="uid://brmq6gm1yuqol"]
+
+[ext_resource type="Script" uid="uid://ds5ll8uhk5y07" path="res://Scripts/health_bar.gd" id="1_1r3t6"]
+[ext_resource type="Script" uid="uid://cvp3dq5h4k75n" path="res://Scripts/unit_frame.gd" id="1_5h1l7"]
+[ext_resource type="Script" uid="uid://8w715j655lte" path="res://Scripts/power_bar.gd" id="2_5h1l7"]
+[ext_resource type="Texture2D" uid="uid://hk2fgwo38y5n" path="res://Assets/UI/InCombat.png" id="2_rb85x"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pkrlc"]
+bg_color = Color(0.30588236, 0.12941177, 0.17254902, 0.70980394)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pm0ju"]
+bg_color = Color(0.66889155, 0.2800085, 0.34549567, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p0qmi"]
+bg_color = Color(0.043137256, 0.2, 0.27058825, 0.75686276)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_erb8n"]
+bg_color = Color(0.17896098, 0.47049248, 0.5456547, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+
+[node name="UnitFrame" type="HBoxContainer" unique_id=591488566]
+custom_minimum_size = Vector2(250, 0)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = 280.0
+offset_right = 200.0
+offset_bottom = 380.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme_override_constants/separation = 2
+alignment = 1
+script = ExtResource("1_5h1l7")
+track_player = true
+
+[node name="Portrait" type="TextureRect" parent="." unique_id=1996945279]
+unique_name_in_owner = true
+texture_filter = 1
+custom_minimum_size = Vector2(60, 100)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 6
+
+[node name="CombatIcon" type="TextureRect" parent="Portrait" unique_id=1039265863]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -15.0
+offset_top = -24.0
+offset_right = 17.0
+offset_bottom = 8.0
+grow_vertical = 0
+mouse_filter = 2
+texture = ExtResource("2_rb85x")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="EffectBadge" type="AnimatedSprite2D" parent="Portrait" unique_id=1977510075]
+unique_name_in_owner = true
+visible = false
+texture_filter = 1
+position = Vector2(0, 90)
+scale = Vector2(0.4, 0.4)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1982439900]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="HealthBar" type="ProgressBar" parent="VBoxContainer" unique_id=2140835460]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_pkrlc")
+theme_override_styles/fill = SubResource("StyleBoxFlat_pm0ju")
+show_percentage = false
+script = ExtResource("1_1r3t6")
+track_player = true
+show_numbers = true
+
+[node name="PowerBar" type="ProgressBar" parent="VBoxContainer" unique_id=534981990]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_p0qmi")
+theme_override_styles/fill = SubResource("StyleBoxFlat_erb8n")
+show_percentage = false
+script = ExtResource("2_5h1l7")
+track_player = true
+show_numbers = true

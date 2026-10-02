@@ -17,3 +17,6 @@ class_name StatusEffect
 @export var glow_energy: float = 0.0
 @export var glow_scale: float = 0.5
 @export var aura_glows: bool = false
+@export_group("Unit Frame Badge")
+@export var frame_badge: SpriteFrames
+@export var frame_badge_animation: StringName = &"default"

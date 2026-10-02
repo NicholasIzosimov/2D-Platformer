@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="AbilityData" format=3 uid="uid://cuj7dvko15as0"]
+
+[ext_resource type="Script" uid="uid://do4vdp8v5ea1s" path="res://Scripts/ResourceScripts/status_effect.gd" id="1_7oy7u"]
+[ext_resource type="Script" uid="uid://5j6i1rvnlhe2" path="res://Scripts/ResourceScripts/ability_data.gd" id="2_s18vo"]
+
+[resource]
+script = ExtResource("2_s18vo")
+name = "Weak Hit"
+damage = 1.0
+cooldown = 3.0
+power_cost = 20.0
+range = 2.0
+metadata/_custom_type_script = "uid://5j6i1rvnlhe2"

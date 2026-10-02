@@ -8,6 +8,7 @@ const LINE_OF_SIGHT_MASK: int = 1
 const HURTBOX_MASK: int = 16
 const MISS_LEVEL_SCALE: float = 3.0
 const MISS_LEVEL_GROWTH: float = 1.4
+const CRIT_PER_LEVEL_DIFFERENCE: float = 1.0
 const PROJECTILE_SCENE: PackedScene = preload("res://Scenes/projectile.tscn")
 const EFFECTS: SpriteFrames = preload("res://Resources/Animations/effect_animations.tres")
 var active_effects: Dictionary = {}
@@ -120,7 +121,7 @@ func hit_target(ability, target, damage_multiplier: float = 1.0) -> void:
 		target_stats.register_miss()
 		return
 	if ability.damage > 0.0:
-		target_stats.take_damage(scaled_damage(ability.damage) * damage_multiplier, roll_crit())
+		target_stats.take_damage(scaled_damage(ability.damage) * damage_multiplier, roll_crit(target_stats))
 	if ability.power_gain != 0.0:
 		own_stats.modify_power(ability.power_gain)
 	for effect in ability.effects:
@@ -295,7 +296,7 @@ func apply_effect(effect, caster: Node) -> void:
 			if is_instance_valid(caster):
 				damage = caster.scaled_damage(effect.damage)
 				if caster.own_stats.dots_can_crit:
-					crit_multiplier = caster.roll_crit()
+					crit_multiplier = caster.roll_crit(own_stats)
 				if effect.power_gain != 0.0:
 					caster.own_stats.modify_power(effect.power_gain)
 			if damage > 0.0:
@@ -330,16 +331,19 @@ func _end_cooldown(ability) -> void:
 func _regen_tick() -> void:
 	own_stats.modify_power(own_stats.power_generation(), false)
 	
-func roll_crit() -> float:
-	if randf() * 100.0 < own_stats.get_stat(Stat.Type.CRIT_CHANCE):
-		return randf_range(CRIT_MIN, CRIT_MAX) + own_stats.get_stat(Stat.Type.CRIT_DAMAGE)
-	return 1.0
-
-	
 func miss_chance_against(target_stats: Node) -> float:
 	var level_diff: int = target_stats.level - own_stats.level
-	var base_miss: float = own_stats.get_stat(Stat.Type.MISS_CHANCE) - own_stats.get_stat(Stat.Type.HIT)
+	var base_miss: float = own_stats.get_stat(Stat.Type.MISS_CHANCE) - own_stats.hit_percent()
 	return base_miss + MISS_LEVEL_SCALE * (pow(MISS_LEVEL_GROWTH, level_diff) - 1.0)
+
+func crit_chance_against(target_stats: Node) -> float:
+	var level_diff: int = target_stats.level - own_stats.level
+	return own_stats.crit_percent() - CRIT_PER_LEVEL_DIFFERENCE * level_diff
+
+func roll_crit(target_stats: Node) -> float:
+	if randf() * 100.0 < crit_chance_against(target_stats):
+		return randf_range(CRIT_MIN, CRIT_MAX) + own_stats.get_stat(Stat.Type.CRIT_DAMAGE)
+	return 1.0
 	
 func scaled_damage(amount: float) -> float:
 	var primary_bonus: float = 1.0 + own_stats.get_stat(Stat.Type.PRIMARY) * PRIMARY_STAT_SCALING

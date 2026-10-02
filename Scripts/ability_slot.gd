@@ -92,7 +92,7 @@ func build_tooltip() -> String:
 	if ability.cooldown > 0.0:
 		lines.append("Cooldown: %s" % TimeFormat.short(ability.cooldown))
 	if ability.requires_target:
-		lines.append("Range: %d" % ability.range)
+		lines.append("Melee Range" if ability.range <= 2.0 else "Range: %d" % ability.range)
 	var handler: Node = get_tree().get_first_node_in_group("player").get_node("CombatHandler")
 	var generated: String = Describe.ability(ability, handler)
 	if generated != "":

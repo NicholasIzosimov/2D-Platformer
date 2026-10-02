@@ -3,12 +3,14 @@
 [ext_resource type="Script" uid="uid://5j6i1rvnlhe2" path="res://Scripts/ResourceScripts/ability_data.gd" id="1_mg71j"]
 [ext_resource type="Resource" uid="uid://qf3784x55guy" path="res://Resources/Abilities/auto_shoot.tres" id="2_0dqqm"]
 [ext_resource type="Resource" uid="uid://buwonyjvswl7g" path="res://Resources/Progression/level_scaling.tres" id="2_ia3cy"]
+[ext_resource type="Resource" uid="uid://cuj7dvko15as0" path="res://Resources/Abilities/NPCs/weak_hit.tres" id="2_w2i4l"]
 [ext_resource type="Resource" uid="uid://d3p0cq81lslwu" path="res://Resources/Powers/bot_power.tres" id="3_w2i4l"]
 [ext_resource type="Script" uid="uid://djkq3ofrj4kyw" path="res://Scripts/ResourceScripts/unit_data.gd" id="4_mg71j"]
 
 [resource]
 script = ExtResource("4_mg71j")
 name = "Archer"
+abilities = Array[ExtResource("1_mg71j")]([ExtResource("2_w2i4l")])
 auto_attack = ExtResource("2_0dqqm")
 base_swing_time = 5.0
 metadata/_custom_type_script = "uid://djkq3ofrj4kyw"

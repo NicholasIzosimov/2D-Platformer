@@ -40,13 +40,12 @@ func refresh() -> void:
 	add_row("Vigor", "%d" % stats.get_stat(Stat.Type.VIGOR))
 	add_row(class_data.primary_stat_name, "%d" % stats.get_stat(Stat.Type.PRIMARY))
 	add_row("Armor", "%d" % stats.get_stat(Stat.Type.ARMOR))
-	add_row("Crit Chance", "%.1f%%" % stats.get_stat(Stat.Type.CRIT_CHANCE))
-	add_row("Hit", "%.1f%%" % stats.get_stat(Stat.Type.HIT))
-	add_row("Damage", "+%.0f%%" % stats.get_stat(Stat.Type.DAMAGE_PERCENT))
+	add_row("Crit Chance", "%.1f%%" % stats.crit_percent())
+	add_row("Hit Chance", "%.1f%%" % stats.hit_percent())
 	add_row("Miss Chance", "%.1f%%" % stats.get_stat(Stat.Type.MISS_CHANCE))
 	add_row("Endurance", "(+%s/s)" % endurance.endurance_regen)
-	add_row("Speed", "%d" % stats.get_stat(Stat.Type.MOVE_SPEED))
-
+	#add_row("Damage", "+%.0f%%" % stats.get_stat(Stat.Type.DAMAGE_PERCENT))
+	#add_row("Speed", "%d" % stats.get_stat(Stat.Type.MOVE_SPEED))
 	
 func add_row(label_text: String, value_text: String) -> void:
 	var label := Label.new()

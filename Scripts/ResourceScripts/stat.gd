@@ -9,7 +9,7 @@ enum Type {
 	CRIT_CHANCE,
 	CRIT_DAMAGE,
 	MISS_CHANCE,
-	HIT,
+	HIT_CHANCE,
 	DAMAGE_PERCENT,
 	DAMAGE_REDUCTION,
 	MOVE_SPEED,
@@ -19,6 +19,8 @@ enum Type {
 	DODGE,
 	PARRY,
 	BLOCK,
+	HIT_RATING,
+	CRIT_RATING,
 }
 const LABELS: Dictionary = {
 	Type.VIGOR: "Vigor",
@@ -26,7 +28,7 @@ const LABELS: Dictionary = {
 	Type.CRIT_CHANCE: "Crit Chance",
 	Type.CRIT_DAMAGE: "Crit Damage",
 	Type.MISS_CHANCE: "Miss Chance",
-	Type.HIT: "Hit",
+	Type.HIT_CHANCE: "Hit Chance",
 	Type.DAMAGE_PERCENT: "Damage",
 	Type.DAMAGE_REDUCTION: "Damage Reduction",
 	Type.MOVE_SPEED: "Move Speed",
@@ -36,8 +38,10 @@ const LABELS: Dictionary = {
 	Type.DODGE: "Dodge",
 	Type.PARRY: "Parry",
 	Type.BLOCK: "Block",
+	Type.HIT_RATING: "Hit Rating",
+	Type.CRIT_RATING: "Crit Rating",
 }
-const PERCENT_STATS: Array = [Type.CRIT_CHANCE, Type.CRIT_DAMAGE, Type.MISS_CHANCE, Type.HIT, Type.DAMAGE_PERCENT, Type.DAMAGE_REDUCTION, Type.HASTE, Type.DODGE, Type.PARRY, Type.BLOCK]
+const PERCENT_STATS: Array = [Type.CRIT_CHANCE, Type.CRIT_DAMAGE, Type.MISS_CHANCE, Type.HIT_CHANCE, Type.DAMAGE_PERCENT, Type.DAMAGE_REDUCTION, Type.HASTE, Type.DODGE, Type.PARRY, Type.BLOCK]
 const DISPLAY_SCALE: Dictionary = {Type.CRIT_DAMAGE: 100.0}
 
 static func label(type: Type) -> String:

@@ -5,6 +5,7 @@ var hovered_target: Node
 @export var hud: Node
 @export var error_text: Node
 @export var cast_bar: Node
+signal target_changed(target)
 
 func _ready() -> void:
 	var combat_handler = get_node("../player/CombatHandler")
@@ -15,6 +16,7 @@ func _ready() -> void:
 	combat_handler.cast_failed.connect(func(reason): error_text.show_message(reason))
 	get_node("../player/Endurance").not_enough_endurance.connect(func(): error_text.show_message("Not enough endurance"))
 	hud.slot_activated.connect(try_cast_slot)
+	target_changed.connect(hud.show_target)
 	
 func _on_cast_started(ability, duration: float) -> void:
 	cast_bar.start_cast(duration)
@@ -74,6 +76,8 @@ func _process(delta: float) -> void:
 	var player = get_node("../player")
 	player.get_node("AutoAttack").target = get_cast_target()
 	var target = get_valid_target()
+	if target == null:
+		target = get_cast_target()
 	var combat_handler = player.get_node("CombatHandler")
 	var own_stats = player.get_node("UnitStats")
 	for slot in hud.current_slots:
@@ -138,7 +142,8 @@ func set_target(new_target: Node) -> void:
 	current_target = new_target
 	if is_instance_valid(current_target):
 		current_target.get_node("TargetIndicator").set_selected(true)
-
+	target_changed.emit(current_target if is_instance_valid(current_target) else null)
+	
 func get_enemy_under_mouse() -> Node:
 	var player = get_node("../player")
 	var params = PhysicsPointQueryParameters2D.new()

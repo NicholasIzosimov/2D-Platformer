@@ -3,6 +3,8 @@ extends Node
 const ARMOR_K: float = 400.0
 const ARMOR_MAX: float = 0.75
 const HEALTH_PER_VIGOR: float = 10.0
+const RATING_PER_PERCENT_BASE: float = 10.0
+const RATING_PER_PERCENT_GROWTH: float = 0.1
 @export var unit_data: UnitData
 var values: Dictionary[Stat.Type, float] = {}
 var power_data: PowerData
@@ -115,3 +117,12 @@ func heal(amount: float) -> void:
 func get_armor_reduction() -> float:
 	var armor: float = max(get_stat(Stat.Type.ARMOR), 0.0)
 	return ARMOR_MAX * armor / (armor + ARMOR_K)
+
+func rating_to_percent(rating: float) -> float:
+	return rating / (RATING_PER_PERCENT_BASE * (1.0 + RATING_PER_PERCENT_GROWTH * (level - 1)))
+
+func hit_percent() -> float:
+	return get_stat(Stat.Type.HIT_CHANCE) + rating_to_percent(get_stat(Stat.Type.HIT_RATING))
+
+func crit_percent() -> float:
+	return get_stat(Stat.Type.CRIT_CHANCE) + rating_to_percent(get_stat(Stat.Type.CRIT_RATING))

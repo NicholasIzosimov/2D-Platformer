@@ -1,6 +1,7 @@
 [gd_resource type="Resource" script_class="StatusEffect" format=3 uid="uid://e2ggqdbcybuq"]
 
 [ext_resource type="Texture2D" uid="uid://s8yki6rbu1rc" path="res://Assets/AbilityIcons/warmth.png" id="1_4qvs8"]
+[ext_resource type="SpriteFrames" uid="uid://7fiu0hoqa7n3" path="res://Resources/Animations/campfire_frame.tres" id="1_346gv"]
 [ext_resource type="Script" uid="uid://do4vdp8v5ea1s" path="res://Scripts/ResourceScripts/status_effect.gd" id="1_kplf3"]
 
 [resource]
@@ -13,4 +14,6 @@ heal_percent = 5.0
 glow_energy = 0.5
 glow_scale = 0.3
 aura_glows = true
+frame_badge = ExtResource("1_346gv")
+frame_badge_animation = &"burn"
 metadata/_custom_type_script = "uid://do4vdp8v5ea1s"

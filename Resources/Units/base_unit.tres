@@ -10,4 +10,5 @@
 script = ExtResource("1_chb6n")
 name = "Base"
 base_health = 20.0
+portrait_crop = Rect2(0.3, 0.25, 0.4, 0.4)
 metadata/_custom_type_script = "uid://djkq3ofrj4kyw"

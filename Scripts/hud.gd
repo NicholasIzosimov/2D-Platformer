@@ -22,3 +22,6 @@ func rebuild() -> void:
 		slot.pressed.connect(func(): slot_activated.emit(slot))
 		$AbilitySlots.add_child(slot)
 		current_slots.append(slot)
+		
+func show_target(target: Node) -> void:
+	$TargetUnitFrame.set_unit(target)
