@@ -146,6 +146,7 @@ show_percentage = false
 script = ExtResource("5_7gr8i")
 
 [node name="EnduranceBar" type="ProgressBar" parent="." unique_id=1806569704]
+visible = false
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 0
 offset_left = 1080.0

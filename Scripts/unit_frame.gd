@@ -8,15 +8,17 @@ var combat_handler: Node
 var badge_effect: StatusEffect
 var unit: Node
 var crop_cache: Dictionary = {}
+@export var level_colors: LevelColors
 
 func _ready() -> void:
 	if portrait_on_right:
-		move_child(%Portrait, -1)
+		move_child(%PortraitColumn, -1)
 		%Portrait.flip_h = true
 		%CombatIcon.flip_h = true
 		%CombatIcon.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT, Control.PRESET_MODE_KEEP_SIZE)
 		%EffectBadge.flip_h = true
 		%EffectBadge.position.x = %Portrait.custom_minimum_size.x - %EffectBadge.position.x
+	PlayerState.leveled_up.connect(func(_new_level): update_labels())
 	if track_player:
 		var player = get_tree().get_first_node_in_group("player")
 		if not player.is_node_ready():
@@ -34,6 +36,8 @@ func set_unit(new_unit: Node) -> void:
 	%HealthBar.bind(unit)
 	%PowerBar.bind(unit)
 	%Portrait.texture = make_portrait(unit)
+	unit.get_node("UnitStats").level_changed.connect(update_labels)
+	update_labels()
 	combat_state = unit.get_node("CombatState")
 	combat_handler = unit.get_node("CombatHandler")
 	combat_state.combat_changed.connect(_on_combat_changed)
@@ -46,6 +50,10 @@ func set_unit(new_unit: Node) -> void:
 	update_badges()
 
 func disconnect_unit() -> void:
+	if is_instance_valid(unit):
+		var old_stats = unit.get_node("UnitStats")
+		if old_stats.level_changed.is_connected(update_labels):
+			old_stats.level_changed.disconnect(update_labels)
 	if is_instance_valid(combat_state) and combat_state.combat_changed.is_connected(_on_combat_changed):
 		combat_state.combat_changed.disconnect(_on_combat_changed)
 	if is_instance_valid(combat_handler) and combat_handler.effect_applied.is_connected(_on_effect_applied):
@@ -108,3 +116,12 @@ func auto_crop(frame: Texture2D, data: UnitData) -> Rect2:
 	center += data.portrait_offset * side
 	var top_left: Vector2 = (center - Vector2(side, side) / 2.0).clamp(Vector2.ZERO, frame_size - Vector2(side, side))
 	return Rect2(top_left, Vector2(side, side))
+
+func update_labels() -> void:
+	if not is_instance_valid(unit):
+		return
+	var stats = unit.get_node("UnitStats")
+	%NameLabel.text = stats.unit_data.name
+	%LevelLabel.text = "Lv.%d" % stats.level
+	var color: Color = level_colors.own if unit.is_in_group("player") else level_colors.color_for(stats.level - PlayerState.level)
+	%LevelLabel.add_theme_color_override("font_color", color)

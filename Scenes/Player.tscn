@@ -31,11 +31,10 @@ script = ExtResource("3_nn08x")
 z_index = 10
 
 [node name="EnduranceBar" type="ProgressBar" parent="Bars" index="2" unique_id=1233817795]
-visible = false
 offset_left = -35.0
-offset_top = -89.0
+offset_top = 45.0
 offset_right = 35.0
-offset_bottom = -80.0
+offset_bottom = 54.0
 theme_override_styles/background = SubResource("StyleBoxFlat_pm0ju")
 theme_override_styles/fill = SubResource("StyleBoxFlat_pkrlc")
 show_percentage = false
