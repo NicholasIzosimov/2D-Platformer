@@ -9,18 +9,18 @@ script = ExtResource("1_2s15s")
 name = "Putrefy"
 icon = ExtResource("2_r2pxu")
 is_debuff = true
-damage = 5.0
+damage = 3.0
 spell_duration = 10.0
 tick_interval = 3.0
-power_gain = 5.0
+power_gain = 2.0
 metadata/_custom_type_script = "uid://do4vdp8v5ea1s"
 
 [resource]
 script = ExtResource("2_2s15s")
 icon = ExtResource("2_r2pxu")
 name = "Putrefy"
-damage = 1.0
 triggers_gcd = true
+damage = 1.0
 range = 10.0
 effects = Array[ExtResource("1_2s15s")]([SubResource("Resource_raq51")])
 metadata/_custom_type_script = "uid://5j6i1rvnlhe2"

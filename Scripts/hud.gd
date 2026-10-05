@@ -5,23 +5,28 @@ var current_slots = []
 signal slot_activated(slot)
 
 func _ready() -> void:
-	PlayerState.loadout_changed.connect(rebuild)
-	rebuild()
+	build_slots()
+	PlayerState.loadout_changed.connect(refresh_slots)
+	refresh_slots()
 
-func rebuild() -> void:
-	for slot in current_slots:
-		slot.queue_free()
-	current_slots.clear()
-	for ability in PlayerState.equipped_abilities:
-		if ability == null:
-			continue
+func build_slots() -> void:
+	var index: int = 0
+	while InputMap.has_action("cast_%d" % (index + 1)):
 		var slot = slot_scene.instantiate()
-		slot.ability = ability
-		var action: String = "cast_%d" % (current_slots.size() + 1)
-		slot.keybind_action = action if InputMap.has_action(action) else ""
-		slot.pressed.connect(func(): slot_activated.emit(slot))
+		slot.slot_index = index
+		slot.keybind_action = "cast_%d" % (index + 1)
+		slot.pressed.connect(func():
+			if not Input.is_key_pressed(KEY_SHIFT):
+				slot_activated.emit(slot)
+		)
 		$AbilitySlots.add_child(slot)
 		current_slots.append(slot)
+		index += 1
+
+func refresh_slots() -> void:
+	var equipped: Array[AbilityData] = PlayerState.equipped_abilities
+	for slot in current_slots:
+		slot.set_ability(equipped[slot.slot_index] if slot.slot_index < equipped.size() else null)
 		
 func show_target(target: Node) -> void:
 	$TargetUnitFrame.set_unit(target)

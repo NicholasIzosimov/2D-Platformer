@@ -13,4 +13,6 @@ name = "Archer"
 abilities = Array[ExtResource("1_mg71j")]([ExtResource("2_w2i4l")])
 auto_attack = ExtResource("2_0dqqm")
 base_swing_time = 5.0
+portrait_offset = Vector2(0, 0.2)
+portrait_zoom = 0.8
 metadata/_custom_type_script = "uid://djkq3ofrj4kyw"

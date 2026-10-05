@@ -1,17 +1,15 @@
 extends Node
 
-var current_target: Node
-var hovered_target: Node
 @export var hud: Node
 @export var error_text: Node
 @export var cast_bar: Node
+var current_target: Node
+var hovered_target: Node
 signal target_changed(target)
 
 func _ready() -> void:
 	var combat_handler = get_node("../player/CombatHandler")
-	combat_handler.gcd_started.connect(_on_gcd_started)
 	combat_handler.cast_cancelled.connect(_on_cast_cancelled)
-	combat_handler.cooldown_started.connect(_on_cooldown_started)
 	combat_handler.cast_started.connect(_on_cast_started)
 	combat_handler.cast_failed.connect(func(reason): error_text.show_message(reason))
 	get_node("../player/Endurance").not_enough_endurance.connect(func(): error_text.show_message("Not enough endurance"))
@@ -21,21 +19,10 @@ func _ready() -> void:
 func _on_cast_started(ability, duration: float) -> void:
 	cast_bar.start_cast(duration)
 
-func _on_cooldown_started(ability, duration: float) -> void:
-	for slot in hud.current_slots:
-		if slot.ability == ability:
-			slot.start_cooldown(duration)
-
-func _on_gcd_started(duration: float) -> void:
-	for slot in hud.current_slots:
-		slot.start_countdown(duration)
-
 func _on_cast_cancelled() -> void:
-	for slot in hud.current_slots:
-		slot.stop_countdown()
 	cast_bar.cancel_cast()
 	error_text.show_message("Can't cast while moving")
-
+	
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
 		set_target(null)
@@ -54,16 +41,20 @@ func _unhandled_input(event: InputEvent) -> void:
 		if slot.keybind_action != "" and event.is_action_pressed(slot.keybind_action):
 			try_cast_slot(slot)
 			return
+			
 func try_cast_slot(slot) -> void:
 	var ability = slot.ability
+	if ability == null:
+		return
 	var target = null
 	if ability.requires_target:
 		target = get_cast_target()
 		if target == null:
 			target = find_auto_target(ability)
-			if target == null:
-				error_text.show_message("No target")
-				return
+		if target == null:
+			error_text.show_message("No target")
+			return
+		if get_valid_target() == null:
 			set_target(target)
 	var result = get_node("../player/CombatHandler").cast_ability(ability, target)
 	if result == "":
@@ -74,14 +65,14 @@ func try_cast_slot(slot) -> void:
 func _process(delta: float) -> void:
 	update_hover()
 	var player = get_node("../player")
-	player.get_node("AutoAttack").target = get_cast_target()
-	var target = get_valid_target()
-	if target == null:
-		target = get_cast_target()
+	player.get_node("AutoAttack").target = get_valid_target()
+	var target = get_cast_target()
 	var combat_handler = player.get_node("CombatHandler")
 	var own_stats = player.get_node("UnitStats")
 	for slot in hud.current_slots:
 		var ability = slot.ability
+		if ability == null:
+			continue
 		var in_range = not ability.requires_target or target == null or combat_handler.in_reach(ability, target)
 		var has_power = own_stats.current_power >= ability.power_cost
 		slot.set_validity(in_range, has_power)
@@ -124,17 +115,36 @@ func get_valid_target() -> Node:
 	return current_target
 	
 func get_cast_target() -> Node:
+	var selected: Node = get_valid_target()
+	if selected:
+		return selected
 	if is_instance_valid(hovered_target) and not hovered_target.get_node("UnitStats").is_dead:
 		return hovered_target
-	return get_valid_target()
+	return null
 
 func cycle_target() -> void:
-	var enemies = get_living_enemies()
-	if enemies.is_empty():
-		set_target(null)
+	var candidates: Array = get_tab_candidates()
+	if candidates.is_empty():
 		return
-	var index = enemies.find(current_target)
-	set_target(enemies[(index + 1) % enemies.size()])
+	var index: int = candidates.find(current_target)
+	set_target(candidates[(index + 1) % candidates.size()])
+
+func get_tab_candidates() -> Array:
+	var player = get_node("../player")
+	var combat_handler = player.get_node("CombatHandler")
+	var view: Rect2 = player.get_viewport().get_canvas_transform().affine_inverse() * player.get_viewport().get_visible_rect()
+	var result: Array = []
+	for enemy in get_living_enemies():
+		var aggro_range: float = enemy.get_node("EnemyCombatController").aggro_range
+		if player.global_position.distance_to(enemy.global_position) > aggro_range:
+			continue
+		if not view.has_point(enemy.global_position):
+			continue
+		if not combat_handler.units_have_line_of_sight(player, enemy):
+			continue
+		result.append(enemy)
+	result.sort_custom(func(a, b): return player.global_position.distance_squared_to(a.global_position) < player.global_position.distance_squared_to(b.global_position))
+	return result
 
 func set_target(new_target: Node) -> void:
 	if is_instance_valid(current_target):

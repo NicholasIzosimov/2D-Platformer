@@ -11,6 +11,6 @@ script = ExtResource("5_xb6jo")
 name = "Player"
 base_health = 20.0
 xp_reward = 0.0
-portrait_offset = Vector2(0.4, 0.3)
+portrait_offset = Vector2(0.3, 0.2)
 portrait_zoom = 0.8
 metadata/_custom_type_script = "uid://djkq3ofrj4kyw"

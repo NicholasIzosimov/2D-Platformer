@@ -2,6 +2,7 @@ extends Node
 
 const ARMOR_K: float = 400.0
 const ARMOR_MAX: float = 0.75
+const DAMAGE_VARIANCE: float = 0.1
 const HEALTH_PER_VIGOR: float = 10.0
 const RATING_PER_PERCENT_BASE: float = 10.0
 const RATING_PER_PERCENT_GROWTH: float = 0.1
@@ -16,10 +17,10 @@ var dots_can_crit: bool = false
 var is_dead: bool = false
 var level: int = 1
 
+signal damage_taken(amount, crit_multiplier, from_ability)
 signal health_changed
 signal died
 signal power_changed(amount, show_text)
-signal damage_taken(amount, crit_multiplier)
 signal attack_missed
 signal level_changed
 signal stat_changed(stat)
@@ -65,10 +66,12 @@ func apply_level_scaling(from_level: int, to_level: int) -> void:
 func set_power_data(new_power: PowerData) -> void:
 	power_data = new_power
 	max_power = power_data.max_power + get_stat(Stat.Type.MAX_POWER)
-	current_power = max_power
+	current_power = max_power * power_data.starting_power_percent / 100.0
 
-func power_generation() -> float:
-	return power_data.power_generation + get_stat(Stat.Type.POWER_GENERATION)
+func power_generation(in_combat: bool) -> float:
+	if in_combat:
+		return power_data.power_generation + get_stat(Stat.Type.POWER_GENERATION)
+	return power_data.out_of_combat_generation
 
 func modify_health(damage: float) -> void:
 	if is_dead:
@@ -85,14 +88,17 @@ func modify_power(amount: float, show_text: bool = true) -> void:
 	current_power = clamp(current_power + amount, 0.0, max_power)
 	power_changed.emit(amount, show_text)
 
-func take_damage(raw_damage: float, crit_multiplier: float = 1.0) -> void:
+func take_damage(raw_damage: float, crit_multiplier: float = 1.0, from_ability: bool = false, source: Node = null) -> void:
 	if is_dead:
 		return
 	var damage: float = raw_damage * crit_multiplier
 	damage *= 1.0 - get_armor_reduction()
 	damage *= 1.0 - clamp(get_stat(Stat.Type.DAMAGE_REDUCTION), 0.0, 100.0) / 100.0
-	damage_taken.emit(damage, crit_multiplier)
+	damage *= randf_range(1.0 - DAMAGE_VARIANCE, 1.0 + DAMAGE_VARIANCE)
+	damage_taken.emit(damage, crit_multiplier, from_ability)
 	modify_health(damage)
+	if is_dead and source != null:
+		source.register_kill(get_parent())
 
 func register_miss() -> void:
 	attack_missed.emit()

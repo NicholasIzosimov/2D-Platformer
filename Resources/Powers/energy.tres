@@ -6,4 +6,6 @@
 script = ExtResource("1_c10sw")
 power_generation = 5.0
 name = "Energy"
+color = Color(0.92056555, 0.82595474, 3.85046e-07, 1)
+out_of_combat_generation = 10.0
 metadata/_custom_type_script = "uid://s0hm6vu1m0mo"

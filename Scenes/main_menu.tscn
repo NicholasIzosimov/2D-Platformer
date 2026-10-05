@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://bkoyfujig88hg"]
+
+[ext_resource type="Script" uid="uid://bu5ytu75xq2qt" path="res://Scripts/main_menu.gd" id="1_28flt"]
+
+[node name="MainMenu" type="Control" unique_id=698563233]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_28flt")
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1706161019]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=1457051515]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer" unique_id=1752388614]
+layout_mode = 2
+text = "Choose your class"
+horizontal_alignment = 1
+
+[node name="ClassList" type="VBoxContainer" parent="CenterContainer/VBoxContainer" unique_id=443619642]
+unique_name_in_owner = true
+layout_mode = 2

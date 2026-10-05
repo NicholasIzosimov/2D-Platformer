@@ -38,13 +38,13 @@ border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
 border_color = Color(0, 0, 0, 1)
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+expand_margin_bottom = 1.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x1v5g"]
 bg_color = Color(0.817662, 0.49519563, 0.51182157, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
 border_color = Color(0, 0, 0, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pm0ju"]
@@ -60,10 +60,10 @@ bg_color = Color(0.6, 0.6, 0.6, 0.47058824)
 bg_color = Color(0.33871102, 0.68437856, 0.46821302, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pkrlc"]
-size = Vector2(84, 90)
+size = Vector2(39, 52)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3h6ce"]
-size = Vector2(50, 91)
+size = Vector2(55, 29)
 
 [node name="Unit" type="CharacterBody2D" unique_id=1164345268]
 motion_mode = 1
@@ -198,9 +198,7 @@ color = Color(0.5360236, 0.529154, 0.56858295, 1)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1107684265]
 sprite_frames = ExtResource("14_7ftqo")
-animation = &"warrior_attack"
-frame = 2
-frame_progress = 0.3230764
+animation = &"malefactor_run"
 
 [node name="UnitCastBar" type="ProgressBar" parent="." unique_id=546332860]
 modulate = Color(1, 1, 1, 0)
@@ -230,7 +228,7 @@ collision_mask = 0
 monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=720818542]
-position = Vector2(0, -6)
+position = Vector2(-3.5, 2)
 shape = SubResource("RectangleShape2D_pkrlc")
 
 [node name="AttackPivot" type="Node2D" parent="." unique_id=573844547]
@@ -241,7 +239,7 @@ collision_mask = 0
 monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackPivot/AttackHitbox" unique_id=832845284]
-position = Vector2(41, -6)
+position = Vector2(43.5, 0.5)
 shape = SubResource("RectangleShape2D_3h6ce")
 
 [node name="AutoAttack" type="Node" parent="." unique_id=823675240]

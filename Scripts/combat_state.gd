@@ -10,7 +10,7 @@ var stats: Node
 
 func _ready() -> void:
 	stats = get_node("../UnitStats")
-	stats.damage_taken.connect(func(_amount, _crit): refresh())
+	stats.damage_taken.connect(func(_amount, _crit, _from_ability): refresh())
 	stats.attack_missed.connect(refresh)
 	get_node("../CombatHandler").ability_used.connect(func(ability): if ability.category != AbilityData.Category.UTILITY: refresh())
 

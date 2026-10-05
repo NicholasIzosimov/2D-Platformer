@@ -69,7 +69,7 @@ func _physics_process(delta: float) -> void:
 	elif retreating:
 		var away: Vector2 = target.global_position.direction_to(enemy.global_position)
 		enemy.velocity = away * stats.get_stat(Stat.Type.MOVE_SPEED) * retreat_speed_factor
-	elif in_range and sees_player:
+	elif (in_range or has_close_attack(stats, combat_handler)) and sees_player:
 		enemy.velocity = Vector2.ZERO
 	else:
 		var direction: Vector2 = flow.get_direction(enemy.global_position + feet_offset)
@@ -137,7 +137,7 @@ func idle_wander(enemy: Node2D, stats: Node, delta: float) -> void:
 	else:
 		enemy.velocity = to_target.normalized() * stats.get_stat(Stat.Type.MOVE_SPEED) * wander_speed_factor
 
-func _on_damage_taken(_amount: float, _crit_multiplier: float) -> void:
+func _on_damage_taken(_amount: float, _crit_multiplier: float, _from_ability: bool) -> void:
 	start_aggro()
 
 func start_aggro() -> void:

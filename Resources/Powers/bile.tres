@@ -4,6 +4,7 @@
 
 [resource]
 script = ExtResource("1_4ithy")
-power_generation = 1.0
-name = "Mana"
+name = "Bile"
+color = Color(0.2968646, 0.6851512, 0.5094327, 1)
+out_of_combat_generation = 3.0
 metadata/_custom_type_script = "uid://s0hm6vu1m0mo"

@@ -28,6 +28,7 @@ signal cooldown_started(ability, duration)
 signal cast_finished()
 signal ability_used(ability)
 signal cast_failed(reason)
+signal unit_killed(unit)
 
 func _ready() -> void:
 	own_stats = get_node("../UnitStats")
@@ -121,7 +122,8 @@ func hit_target(ability, target, damage_multiplier: float = 1.0) -> void:
 		target_stats.register_miss()
 		return
 	if ability.damage > 0.0:
-		target_stats.take_damage(scaled_damage(ability.damage) * damage_multiplier, roll_crit(target_stats))
+		var from_ability: bool = ability != own_stats.unit_data.auto_attack
+		target_stats.take_damage(scaled_damage(ability.damage) * damage_multiplier, roll_crit(target_stats), from_ability, self)
 	if ability.power_gain != 0.0:
 		own_stats.modify_power(ability.power_gain)
 	for effect in ability.effects:
@@ -222,12 +224,18 @@ func play_effect(ability, suffix: String, at: Vector2) -> void:
 	get_parent().get_parent().add_child(effect)
 	effect.global_position = at
 	effect.play(anim)
+	
 func start_cooldown(ability) -> void:
 	if ability.cooldown > 0:
-		ability_cooldowns[ability] = true
+		var timer: SceneTreeTimer = get_tree().create_timer(ability.cooldown, false)
+		ability_cooldowns[ability] = timer
 		cooldown_started.emit(ability, ability.cooldown)
-		get_tree().create_timer(ability.cooldown, false).timeout.connect(_end_cooldown.bind(ability))
-
+		timer.timeout.connect(_end_cooldown.bind(ability))
+		
+func cooldown_left(ability) -> float:
+	var timer: SceneTreeTimer = ability_cooldowns.get(ability)
+	return timer.time_left if timer else 0.0
+	
 func in_reach(ability, target) -> bool:
 	if ability.uses_hitbox:
 		var pivot: Node2D = get_node("../AttackPivot")
@@ -300,7 +308,7 @@ func apply_effect(effect, caster: Node) -> void:
 				if effect.power_gain != 0.0:
 					caster.own_stats.modify_power(effect.power_gain)
 			if damage > 0.0:
-				own_stats.take_damage(damage, crit_multiplier)
+				own_stats.take_damage(damage, crit_multiplier, true, caster if is_instance_valid(caster) else null)
 			if effect.heal_percent > 0.0:
 				own_stats.heal(own_stats.max_health * effect.heal_percent / 100.0)
 		)
@@ -329,7 +337,7 @@ func _end_cooldown(ability) -> void:
 	ability_cooldowns.erase(ability)
 	
 func _regen_tick() -> void:
-	own_stats.modify_power(own_stats.power_generation(), false)
+	own_stats.modify_power(own_stats.power_generation(get_node("../CombatState").in_combat), false)
 	
 func miss_chance_against(target_stats: Node) -> float:
 	var level_diff: int = target_stats.level - own_stats.level
@@ -363,3 +371,8 @@ func effect_time_left(effect) -> float:
 	if not active_effects.has(effect):
 		return 0.0
 	return active_effects[effect]["duration_timer"].time_left
+	
+func register_kill(unit: Node) -> void:
+	if own_stats.power_data.power_on_kill != 0.0:
+		own_stats.modify_power(own_stats.power_data.power_on_kill)
+	unit_killed.emit(unit)

@@ -1,6 +1,7 @@
 extends Node
 
 const GENERAL_TREE_PATH: String = "res://Resources/Talents/general_tree.tres"
+const DEFAULT_CLASS_PATH: String = "res://Resources/Classes/wraith.tres"
 
 var bonus_stats: Dictionary[Stat.Type, float] = {}
 var gold: int = 0
@@ -26,8 +27,20 @@ signal talents_changed
 func _init() -> void:
 	xp_curve = load("res://Resources/Progression/xp_curve.tres")
 	general_tree = load(GENERAL_TREE_PATH)
+	start_run(load(DEFAULT_CLASS_PATH))
+
+func start_run(new_class: ClassData) -> void:
+	class_data = new_class
+	bonus_stats.clear()
+	gold = 0
+	ability_copies.clear()
+	learned_abilities.clear()
+	equipped_abilities.clear()
 	equipped_abilities.resize(max_abilities)
-	class_data = load("res://Resources/Classes/samurai.tres")
+	level = 1
+	xp = 0.0
+	talent_points = 0
+	talent_ranks.clear()
 	for i in class_data.abilities.size():
 		equip_ability(learn_ability(class_data.abilities[i]), i)
 

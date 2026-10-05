@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://ykb2on5if6wd"
-path="res://.godot/imported/sammove.png-6dedadadbb3741abf268748afc30cfcd.ctex"
+path="res://.godot/imported/sammove.png-394d6440de1cf3e35a1003c023a95753.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/sammove.png"
-dest_files=["res://.godot/imported/sammove.png-6dedadadbb3741abf268748afc30cfcd.ctex"]
+source_file="res://Assets/Sprites/Samurai Pack/sammove.png"
+dest_files=["res://.godot/imported/sammove.png-394d6440de1cf3e35a1003c023a95753.ctex"]
 
 [params]
 

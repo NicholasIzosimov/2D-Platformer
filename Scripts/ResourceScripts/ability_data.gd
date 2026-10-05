@@ -11,11 +11,13 @@ enum Category {COMBAT, UTILITY}
 @export_group("Core")
 @export var triggers_gcd: bool
 @export var uses_hitbox: bool = false
+@export var requires_target: bool = true
 @export var damage: float = 0.0
 @export var cooldown: float
-@export var power_gain: float = 0.0
 @export var power_cost: float
+@export var power_gain: float = 0.0
 @export var cast_time: float
+@warning_ignore("shadowed_global_identifier")
 @export var range: float
 @export var min_range: float = 0.0
 @export var effects: Array[StatusEffect]
@@ -33,6 +35,5 @@ enum Category {COMBAT, UTILITY}
 @export var windup: float = 0.0
 
 @export_group("Utility")
-@export var requires_target: bool = true
 @export var spawn_scene: PackedScene
 @export var out_of_combat_only: bool = false

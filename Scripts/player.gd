@@ -29,6 +29,7 @@ func _physics_process(delta: float) -> void:
 			dash_timer = dash_duration
 			dash_cooldown_timer = dash_cooldown
 			$CombatHandler.cast_cancel()
+			$UnitAnimator.play_for("dash", dash_duration)
 	if dash_timer > 0:
 		velocity = dash_direction * dash_speed
 		move_and_slide()

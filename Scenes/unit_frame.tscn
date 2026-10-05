@@ -75,7 +75,7 @@ horizontal_alignment = 1
 [node name="Portrait" type="TextureRect" parent="PortraitColumn" unique_id=1996945279]
 unique_name_in_owner = true
 texture_filter = 1
-custom_minimum_size = Vector2(60, 100)
+custom_minimum_size = Vector2(60, 70)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 6
@@ -101,16 +101,17 @@ stretch_mode = 5
 unique_name_in_owner = true
 visible = false
 texture_filter = 1
-position = Vector2(0, 90)
+position = Vector2(0, 60)
 scale = Vector2(0.4, 0.4)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1982439900]
+[node name="ResourceBars" type="VBoxContainer" parent="." unique_id=1982439900]
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 4
 theme_override_constants/separation = 0
 
-[node name="NameLabel" type="Label" parent="VBoxContainer" unique_id=1975650568]
+[node name="NameLabel" type="Label" parent="ResourceBars" unique_id=1975650568]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -118,11 +119,12 @@ theme_override_constants/outline_size = 3
 theme_override_font_sizes/font_size = 14
 horizontal_alignment = 1
 
-[node name="HealthBar" type="ProgressBar" parent="VBoxContainer" unique_id=2140835460]
+[node name="HealthBar" type="ProgressBar" parent="ResourceBars" unique_id=2140835460]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 16)
+custom_minimum_size = Vector2(0, 45)
 layout_mode = 2
 size_flags_vertical = 3
+size_flags_stretch_ratio = 1.87
 mouse_filter = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_pkrlc")
 theme_override_styles/fill = SubResource("StyleBoxFlat_pm0ju")
@@ -131,9 +133,9 @@ script = ExtResource("1_1r3t6")
 track_player = true
 show_numbers = true
 
-[node name="PowerBar" type="ProgressBar" parent="VBoxContainer" unique_id=534981990]
+[node name="PowerBar" type="ProgressBar" parent="ResourceBars" unique_id=534981990]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 16)
+custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2

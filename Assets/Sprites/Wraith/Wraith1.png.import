@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b41vqfpn0el3l"
-path="res://.godot/imported/samattack1.png-26d6990e3c007ce8aa1b4ead8e266963.ctex"
+uid="uid://cnypv7o6e7de2"
+path="res://.godot/imported/Wraith1.png-33fabc5e57a46217fb364c73557fdc7b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/samattack1.png"
-dest_files=["res://.godot/imported/samattack1.png-26d6990e3c007ce8aa1b4ead8e266963.ctex"]
+source_file="res://Assets/Sprites/Wraith/Wraith1.png"
+dest_files=["res://.godot/imported/Wraith1.png-33fabc5e57a46217fb364c73557fdc7b.ctex"]
 
 [params]
 

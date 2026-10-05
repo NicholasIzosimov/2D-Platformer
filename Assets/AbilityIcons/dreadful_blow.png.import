@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dxtovpuus8jfa"
-path="res://.godot/imported/samidle.png-8a871e398076ed0c77e5cecda0f2b380.ctex"
+uid="uid://c70es0jbieqtc"
+path="res://.godot/imported/dreadful_blow.png-33f7e55228d8cf04746ce4866d74c2d6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/samidle.png"
-dest_files=["res://.godot/imported/samidle.png-8a871e398076ed0c77e5cecda0f2b380.ctex"]
+source_file="res://Assets/AbilityIcons/dreadful_blow.png"
+dest_files=["res://.godot/imported/dreadful_blow.png-33f7e55228d8cf04746ce4866d74c2d6.ctex"]
 
 [params]
 

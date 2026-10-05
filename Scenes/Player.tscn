@@ -30,6 +30,12 @@ script = ExtResource("3_nn08x")
 [node name="Bars" parent="." index="6" unique_id=1050830573]
 z_index = 10
 
+[node name="PowerBar" parent="Bars" index="0" unique_id=1462988098]
+visible = false
+
+[node name="HealthBar" parent="Bars" index="1" unique_id=63060102]
+visible = false
+
 [node name="EnduranceBar" type="ProgressBar" parent="Bars" index="2" unique_id=1233817795]
 offset_left = -35.0
 offset_top = 45.0

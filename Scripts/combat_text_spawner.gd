@@ -4,7 +4,7 @@ extends Node
 @export var spread: float = 15.0
 @export var drift: float = 25.0
 @export var player_damage_color: Color = Color(1.0, 0.3, 0.3)
-
+@export var ability_damage_color: Color = Color(1.0, 0.85, 0.2)
 var unit_stats: Node
 var side: float = 1.0
 var anchor: Node2D
@@ -16,13 +16,15 @@ func _ready() -> void:
 	unit_stats.attack_missed.connect(_on_attack_missed)
 	#unit_stats.power_changed.connect(_on_power_changed)
 
-func _on_damage_taken(amount: float, crit_multiplier: float) -> void:
+func _on_damage_taken(amount: float, crit_multiplier: float, from_ability: bool) -> void:
 	if amount <= 0:
 		return
 	var number = create_number()
 	number.set_value(-amount)
 	if crit_multiplier > 1.0:
 		number.set_crit(crit_multiplier)
+	elif from_ability:
+		number.set_color(ability_damage_color)
 	if owner.is_in_group("player"):
 		number.set_color(player_damage_color)
 	anchor.add_child(number)
