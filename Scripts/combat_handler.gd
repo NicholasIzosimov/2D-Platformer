@@ -63,15 +63,17 @@ func cast_ability(ability, target) -> String:
 	ability_used.emit(ability)
 
 	if ability.triggers_gcd:
+		var gcd: float = own_stats.hasted(gcd_duration)
 		gcd_active = true
-		gcd_started.emit(gcd_duration)
-		gcd_timer.start(gcd_duration)
+		gcd_started.emit(gcd)
+		gcd_timer.start(gcd)
 
 	if ability.cast_time > 0:
+		var cast_time: float = own_stats.hasted(ability.cast_time)
 		is_casting = true
-		cast_started.emit(ability, ability.cast_time)
+		cast_started.emit(ability, cast_time)
 		cast_timer = Timer.new()
-		cast_timer.wait_time = ability.cast_time
+		cast_timer.wait_time = cast_time
 		cast_timer.one_shot = true
 		add_child(cast_timer)
 		var target_ref: WeakRef = weakref(target) if target else null
@@ -124,9 +126,9 @@ func hit_target(ability, target, damage_multiplier: float = 1.0) -> void:
 	if randf() * 100.0 < miss_chance_against(target_stats):
 		target_stats.register_miss()
 		return
-	if ability.damage > 0.0:
+	if base_damage(ability) > 0.0:
 		var from_ability: bool = ability != own_stats.unit_data.auto_attack
-		target_stats.take_damage(scaled_damage(ability.damage, ability_coefficient(ability)) * damage_multiplier, roll_crit(target_stats), from_ability, self)
+		target_stats.take_damage(ability_damage(ability) * damage_multiplier, roll_crit(target_stats), from_ability, self)
 	if ability.power_gain != 0.0:
 		own_stats.modify_power(ability.power_gain)
 	for effect in ability.effects:
@@ -368,11 +370,21 @@ func roll_crit(target_stats: Node) -> float:
 func scaled_damage(amount: float, coefficient: float) -> float:
 	var primary_bonus: float = 1.0 + own_stats.get_stat(Stat.Type.PRIMARY) * PRIMARY_STAT_SCALING
 	var damage_bonus: float = 1.0 + own_stats.get_stat(Stat.Type.DAMAGE_PERCENT) / 100.0
-	return (amount * primary_bonus + own_stats.ability_power() * coefficient) * damage_bonus
+	return (amount + own_stats.ability_power() * coefficient) * primary_bonus * damage_bonus
+
+func base_damage(ability) -> float:
+	var amount: float = ability.damage
+	if ability.uses_weapon_damage:
+		amount += own_stats.get_stat(Stat.Type.WEAPON_DAMAGE)
+	return amount
+
+func ability_damage(ability) -> float:
+	return scaled_damage(base_damage(ability), ability_coefficient(ability))
+
 
 func ability_coefficient(ability) -> float:
 	if ability == own_stats.unit_data.auto_attack:
-		return own_stats.unit_data.base_swing_time / AP_REFERENCE_TIME * ability.ap_scaling
+		return own_stats.base_swing_time() / AP_REFERENCE_TIME * ability.ap_scaling
 	var time: float = max(ability.cast_time, gcd_duration)
 	return min(time / AP_REFERENCE_TIME, 1.0) * ability.ap_scaling
 

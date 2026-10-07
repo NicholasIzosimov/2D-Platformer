@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://dy7tq4pgrtl6q" path="res://Scenes/character_pane.tscn" id="4_efsqc"]
 [ext_resource type="PackedScene" uid="uid://divn7g3016xhl" path="res://Scenes/talent_pane.tscn" id="5_yw3bn"]
 [ext_resource type="Script" uid="uid://yti72ecb3xss" path="res://Scripts/enemy_spawner.gd" id="6_vtehv"]
+[ext_resource type="PackedScene" uid="uid://bepc14y7wgkan" path="res://Scenes/bag_pane.tscn" id="7_6soxb"]
 [ext_resource type="Script" uid="uid://yon5ea1deaj3" path="res://Scripts/debug_tools.gd" id="7_loea4"]
 [ext_resource type="Texture2D" uid="uid://h0prnvh3rwo0" path="res://Assets/Tiny Swords (Free Pack)/Terrain/Tileset/Tilemap_color1.png" id="8_sv7pb"]
 [ext_resource type="Resource" uid="uid://dkxxluk1bxxtm" path="res://Resources/Progression/spawn_level_rule.tres" id="9_b1s7y"]
@@ -19,6 +20,7 @@
 [ext_resource type="Script" uid="uid://4nvgpejblxaf" path="res://Scripts/spawn_director.gd" id="16_y63gj"]
 [ext_resource type="Resource" uid="uid://brgvfw2nty8s5" path="res://Resources/Spawning/spawn_table.tres" id="17_1br8s"]
 [ext_resource type="Script" uid="uid://dgv1x1fa5gbcc" path="res://Scripts/moon_light.gd" id="19_ej3m1"]
+[ext_resource type="Script" uid="uid://bmutwim3mttm1" path="res://Scripts/shadow_layers.gd" id="21_l8kal"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cy4jt"]
 texture = ExtResource("8_sv7pb")
@@ -156,10 +158,10 @@ offset_bottom = -20.0
 [node name="CharacterPane" parent="CanvasLayer" unique_id=1357765377 instance=ExtResource("4_efsqc")]
 
 [node name="TalentPane" parent="CanvasLayer" unique_id=413069100 instance=ExtResource("5_yw3bn")]
-offset_left = -50.5
-offset_top = -27.5
-offset_right = -10.5
-offset_bottom = 23.5
+offset_left = -562.0
+offset_top = -425.5
+offset_right = 562.0
+offset_bottom = 425.5
 
 [node name="ErrorText" type="Label" parent="CanvasLayer" unique_id=1617025841]
 anchors_preset = -1
@@ -176,6 +178,19 @@ grow_vertical = 2
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("2_vtehv")
+
+[node name="BagPane" parent="CanvasLayer" unique_id=1487114124 instance=ExtResource("7_6soxb")]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -40.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 0
+grow_vertical = 0
 
 [node name="player" parent="." unique_id=664299930 instance=ExtResource("1_qumoa")]
 motion_mode = 0
@@ -234,5 +249,9 @@ script = ExtResource("19_ej3m1")
 illumination = 0.4
 shadow_darkness = 0.6
 shadow_length = 0.1
+
+[node name="ShadowLayers" type="Node2D" parent="." unique_id=1930035676]
+z_index = -1
+script = ExtResource("21_l8kal")
 
 [editable path="CanvasLayer/HUD"]

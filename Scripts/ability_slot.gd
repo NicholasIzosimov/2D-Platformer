@@ -57,7 +57,7 @@ func _process(_delta: float) -> void:
 		var gcd_left: float = combat_handler.gcd_timer.time_left if ability.triggers_gcd else 0.0
 		if gcd_left > waiting:
 			waiting = gcd_left
-			total = combat_handler.gcd_duration
+			total = combat_handler.gcd_timer.wait_time
 	if effect_left > 0.0:
 		bar.tint_progress = EFFECT_TINT
 		bar.value = effect_left / effect_total * 100
@@ -121,7 +121,7 @@ func build_tooltip() -> String:
 	var lines: Array[String] = ["[b]%s[/b]" % ability.name]
 	if ability.power_cost > 0.0:
 		lines.append("Cost: %d" % ability.power_cost)
-	lines.append("Instant" if ability.cast_time <= 0.0 else "%.1f sec cast" % ability.cast_time)
+	lines.append("Instant" if ability.cast_time <= 0.0 else "%.1f sec cast" % combat_handler.own_stats.hasted(ability.cast_time))
 	if ability.cooldown > 0.0:
 		lines.append("Cooldown: %s" % TimeFormat.short(ability.cooldown))
 	if ability.requires_target:

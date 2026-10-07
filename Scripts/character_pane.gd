@@ -11,8 +11,11 @@ func _ready() -> void:
 	for slot_type in slot_order:
 		var gear_slot = gear_slot_scene.instantiate()
 		gear_slot.slot = slot_type
+		gear_slot.empty_text = ItemData.Slot.keys()[slot_type].capitalize()
+		gear_slot.right_clicked.connect(func(): PlayerState.unequip_to_bag(slot_type))
 		%GearSlots.add_child(gear_slot)
 		slots[slot_type] = gear_slot
+	PlayerState.gear_changed.connect(func(): if visible: refresh())
 	
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("character_pane") or (visible and event.is_action_pressed("ui_cancel")):
@@ -27,6 +30,8 @@ func toggle() -> void:
 
 func refresh() -> void:
 	%Title.text = "Level %d" % PlayerState.level
+	for slot_type in slots:
+		slots[slot_type].set_item(PlayerState.equipped_gear.get(slot_type))
 	for child in %Stats.get_children():
 		%Stats.remove_child(child)
 		child.queue_free()
@@ -38,9 +43,12 @@ func refresh() -> void:
 	%PreviewSprite.play(player.get_node("UnitAnimator").key + "_idle")
 	add_row("Vigor", "%d" % stats.get_stat(Stat.Type.VIGOR))
 	add_row("Power", "%d" % stats.ability_power())
+	add_row("Weapon Damage", "%d" % stats.get_stat(Stat.Type.WEAPON_DAMAGE))
+	add_row("Attack Speed", "%.2f s" % stats.base_swing_time())
 	add_row("Armor", "%d" % stats.get_stat(Stat.Type.ARMOR))
 	add_row("Crit Chance", "%.1f%%" % stats.crit_percent())
 	add_row("Hit Chance", "%.1f%%" % stats.hit_percent())
+	add_row("Haste", "%.1f%%" % stats.get_stat(Stat.Type.HASTE))
 	add_row("Miss Chance", "%.1f%%" % stats.get_stat(Stat.Type.MISS_CHANCE))
 	add_row("Endurance", "(+%s/s)" % endurance.endurance_regen)
 	

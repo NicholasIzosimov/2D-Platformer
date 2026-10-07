@@ -1,5 +1,5 @@
 shader_type canvas_item;
-
+render_mode unshaded;
 uniform sampler2D body : filter_nearest;
 uniform vec4 region = vec4(0.0, 0.0, 1.0, 1.0);
 uniform vec2 body_center = vec2(0.0, -16.0);

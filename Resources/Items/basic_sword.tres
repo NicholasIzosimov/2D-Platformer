@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://c78oflfwbukyy"]
+
+[ext_resource type="Script" uid="uid://ce7o4y2ewecva" path="res://Scripts/ResourceScripts/item_data.gd" id="1_elslr"]
+[ext_resource type="Texture2D" uid="uid://ctiotx4xvcpq4" path="res://Assets/ItemIcons/Base_sword.png" id="1_lfcqv"]
+
+[resource]
+script = ExtResource("1_elslr")
+name = "Basic Sword"
+icon = ExtResource("1_lfcqv")
+slot = 9
+stats = Dictionary[int, float]({
+0: 2.0,
+1: 2.0,
+19: 2.0
+})
+attack_speed = 2.5
+metadata/_custom_type_script = "uid://ce7o4y2ewecva"

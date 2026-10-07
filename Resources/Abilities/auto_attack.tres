@@ -6,6 +6,7 @@
 [resource]
 script = ExtResource("2_n652d")
 name = "Auto Attack"
+uses_weapon_damage = true
 damage = 2.0
 ap_scaling = 0.3
 cooldown = 3.0

@@ -6,11 +6,18 @@ var shadows: Array = []
 
 func _ready() -> void:
 	var template: Node = get_node("../Shadow")
+	template.unit = get_parent()
 	shadows.append(template)
 	for i in max_shadows - 1:
 		var copy: Node = template.duplicate()
-		template.add_sibling.call_deferred(copy)
+		copy.unit = get_parent()
+		get_parent().add_child.call_deferred(copy)
 		shadows.append(copy)
+
+func _exit_tree() -> void:
+	for shadow in shadows:
+		if is_instance_valid(shadow):
+			shadow.queue_free()
 
 func _process(delta: float) -> void:
 	var unit: Node = get_parent()

@@ -11,7 +11,7 @@ const PROPERTY_LABELS: Dictionary = {
 	"damage": "Damage",
 	"windup": "Windup (sec)",
 	"aoe_radius": "Area Radius",
-	"aoe_max_targets": "Max Targets",
+	"aoe_max_targets": "Targets Hit",
 	"aoe_damage_multiplier": "Splash Damage",
 }
 
@@ -25,9 +25,10 @@ static func signed(value: float) -> String:
 
 static func ability(data: AbilityData, handler: Node = null) -> String:
 	var lines: Array[String] = []
-	if data.damage > 0.0:
-		var damage: float = handler.scaled_damage(data.damage, handler.ability_coefficient(data)) if handler else data.damage
-		lines.append("Deals %s damage instantly." % number(damage))
+	var base: float = handler.base_damage(data) if handler else data.damage
+	if base > 0.0:
+		var damage: float = handler.ability_damage(data) if handler else base
+		lines.append("Deals %s damage." % number(damage))
 	if data.aoe_radius > 0.0 and data.aoe_max_targets != 1:
 		var who: String = "all nearby enemies" if data.aoe_max_targets <= 0 else "up to %d nearby enemies" % (data.aoe_max_targets - 1)
 		lines.append("Also hits %s for %d%% of the damage." % [who, roundi(data.aoe_damage_multiplier * 100.0)])
@@ -68,4 +69,14 @@ static func talent(data: TalentData, rank: int) -> String:
 	if data.grants_ability:
 		lines.append("Teaches [b]%s[/b]:" % data.grants_ability.name)
 		lines.append(ability(data.grants_ability))
+	return "\n".join(lines)
+
+
+static func item(data: ItemData) -> String:
+	var lines: Array[String] = ["[b]%s[/b]" % data.name, "[color=gray]%s[/color]" % ItemData.Slot.keys()[data.slot].capitalize()]
+	if data.attack_speed > 0.0:
+		lines.append("Speed %.2f" % data.attack_speed)
+	for stat in data.stats:
+		var amount: float = data.stats[stat]
+		lines.append("%s%s %s" % ["+" if amount >= 0.0 else "-", Stat.format(stat, absf(amount)), Stat.label(stat)])
 	return "\n".join(lines)

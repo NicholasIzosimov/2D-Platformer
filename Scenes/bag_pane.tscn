@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://bepc14y7wgkan"]
+
+[ext_resource type="Script" uid="uid://b36fxje43yhhb" path="res://Scripts/bag_pane.gd" id="1_ryv2d"]
+[ext_resource type="PackedScene" uid="uid://cr3sddidhicqq" path="res://Scenes/gear_slot.tscn" id="2_cea84"]
+
+[node name="BagPane" type="PanelContainer" unique_id=1487114124]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_ryv2d")
+item_slot_scene = ExtResource("2_cea84")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=2126218081]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="BagSlots" type="GridContainer" parent="MarginContainer" unique_id=2120705134]
+unique_name_in_owner = true
+layout_mode = 2
+columns = 4

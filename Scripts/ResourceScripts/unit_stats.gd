@@ -9,6 +9,7 @@ const RATING_PER_PERCENT_GROWTH: float = 0.1
 @export var unit_data: UnitData
 var values: Dictionary[Stat.Type, float] = {}
 var power_data: PowerData
+var weapon_speed: float = 0.0
 var current_power: float
 var max_power: float
 var current_health: float
@@ -138,3 +139,9 @@ func crit_percent() -> float:
 
 func ability_power() -> float:
 	return get_stat(Stat.Type.PRIMARY) + get_stat(Stat.Type.ABILITY_POWER)
+
+func base_swing_time() -> float:
+	return weapon_speed if weapon_speed > 0.0 else unit_data.base_swing_time
+
+func hasted(time: float) -> float:
+	return time / (1.0 + get_stat(Stat.Type.HASTE) / 100.0)

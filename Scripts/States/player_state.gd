@@ -14,7 +14,10 @@ var level: int = 1
 var xp: float = 0.0
 var talent_points: int = 0
 var talent_ranks: Dictionary = {}
+var equipped_gear: Dictionary[ItemData.Slot, ItemData] = {}
 var xp_curve: XpCurve
+var bag_size: int = 16
+var bag: Array[ItemData] = []
 
 signal loadout_changed
 signal gold_changed(new_amount)
@@ -22,6 +25,8 @@ signal xp_changed
 signal leveled_up(new_level)
 signal bonus_stat_changed(stat, amount)
 signal talents_changed
+signal gear_changed
+signal bag_changed
 
 func _init() -> void:
 	xp_curve = load("res://Resources/Progression/xp_curve.tres")
@@ -39,8 +44,13 @@ func start_run() -> void:
 	xp = 0.0
 	talent_points = 0
 	talent_ranks.clear()
+	equipped_gear.clear()
 	for i in player_data.abilities.size():
 		equip_ability(learn_ability(player_data.abilities[i]), i)
+	bag.clear()
+	bag.resize(bag_size)
+	for item in player_data.starting_gear:
+		equip_item(item)
 
 func get_ability(original: AbilityData) -> AbilityData:
 	if not ability_copies.has(original):
@@ -151,3 +161,46 @@ func add_xp(amount: float) -> void:
 		leveled_up.emit(level)
 		talents_changed.emit()
 	xp_changed.emit()
+
+func equip_item(item: ItemData) -> ItemData:
+	var replaced: ItemData = unequip_item(item.slot)
+	equipped_gear[item.slot] = item
+	for stat in item.stats:
+		add_bonus_stat(stat, item.stats[stat])
+	gear_changed.emit()
+	return replaced
+
+func unequip_item(slot: ItemData.Slot) -> ItemData:
+	var item: ItemData = equipped_gear.get(slot)
+	if item == null:
+		return null
+	equipped_gear.erase(slot)
+	for stat in item.stats:
+		add_bonus_stat(stat, -item.stats[stat])
+	gear_changed.emit()
+	return item
+
+func weapon_speed() -> float:
+	var weapon: ItemData = equipped_gear.get(ItemData.Slot.MAIN_HAND)
+	return weapon.attack_speed if weapon else 0.0
+
+func add_to_bag(item: ItemData) -> bool:
+	var index: int = bag.find(null)
+	if index == -1:
+		return false
+	bag[index] = item
+	bag_changed.emit()
+	return true
+
+func equip_from_bag(index: int) -> void:
+	var item: ItemData = bag[index]
+	if item == null:
+		return
+	bag[index] = equip_item(item)
+	bag_changed.emit()
+
+func unequip_to_bag(slot: ItemData.Slot) -> bool:
+	if not equipped_gear.has(slot) or bag.find(null) == -1:
+		return false
+	add_to_bag(unequip_item(slot))
+	return true
