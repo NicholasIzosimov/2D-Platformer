@@ -18,6 +18,7 @@ var equipped_gear: Dictionary[ItemData.Slot, ItemData] = {}
 var xp_curve: XpCurve
 var bag_size: int = 16
 var bag: Array[ItemData] = []
+var quests: Array[Quest] = []
 
 signal loadout_changed
 signal gold_changed(new_amount)
@@ -27,6 +28,8 @@ signal bonus_stat_changed(stat, amount)
 signal talents_changed
 signal gear_changed
 signal bag_changed
+signal quests_changed
+signal quest_completed(quest)
 
 func _init() -> void:
 	xp_curve = load("res://Resources/Progression/xp_curve.tres")
@@ -45,6 +48,7 @@ func start_run() -> void:
 	talent_points = 0
 	talent_ranks.clear()
 	equipped_gear.clear()
+	quests.clear()
 	for i in player_data.abilities.size():
 		equip_ability(learn_ability(player_data.abilities[i]), i)
 	bag.clear()
@@ -204,3 +208,24 @@ func unequip_to_bag(slot: ItemData.Slot) -> bool:
 		return false
 	add_to_bag(unequip_item(slot))
 	return true
+
+func add_quest(quest: Quest) -> void:
+	quests.append(quest)
+	quests_changed.emit()
+
+func register_kill(unit_data: UnitData) -> void:
+	for quest in quests.duplicate():
+		if quest.target != unit_data:
+			continue
+		quest.progress += 1
+		if quest.is_complete():
+			complete_quest(quest)
+	quests_changed.emit()
+
+func complete_quest(quest: Quest) -> void:
+	quests.erase(quest)
+	add_xp(quest.xp_reward)
+	quest_completed.emit(quest)
+	
+func is_quest_target(unit_data: UnitData) -> bool:
+	return quests.any(func(quest): return quest.target == unit_data)

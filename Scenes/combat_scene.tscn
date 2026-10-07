@@ -20,6 +20,7 @@
 [ext_resource type="Script" uid="uid://4nvgpejblxaf" path="res://Scripts/spawn_director.gd" id="16_y63gj"]
 [ext_resource type="Resource" uid="uid://brgvfw2nty8s5" path="res://Resources/Spawning/spawn_table.tres" id="17_1br8s"]
 [ext_resource type="Script" uid="uid://dgv1x1fa5gbcc" path="res://Scripts/moon_light.gd" id="19_ej3m1"]
+[ext_resource type="Script" uid="uid://vl1x00ipjii7" path="res://Scripts/quest_director.gd" id="20_kikm5"]
 [ext_resource type="Script" uid="uid://bmutwim3mttm1" path="res://Scripts/shadow_layers.gd" id="21_l8kal"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cy4jt"]
@@ -238,6 +239,10 @@ enemy_scene = ExtResource("2_2ip8y")
 spawn_table = ExtResource("17_1br8s")
 max_enemies = 20
 spawn_interval = 0.5
+
+[node name="QuestDirector" type="Node" parent="." unique_id=404889286]
+script = ExtResource("20_kikm5")
+spawn_table = ExtResource("17_1br8s")
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=465484896]
 color = Color(0.54901963, 0.54901963, 0.6509804, 1)

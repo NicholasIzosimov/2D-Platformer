@@ -7,11 +7,8 @@ Last updated 2026-10-07 (branch `topdown-prototype`). Numbers = the user's list 
 **NEXT SESSION (top priority): preliminary scaling that is thought out**
 Problem seen 2026-10-07: a level 3 Warrior already hits far too hard — enemies get AP like the player (1 primary = 1 AP) and base damages are tiny (1–2), so AP dominates early; damage outpaces health. Current state of the code (checked 2026-10-07): `level_scaling.tres` has vigor 2/level ^1.4, primary 1/level ^1.2, armor 5/level ^1.4; `combat_handler.gd` `scaled_damage` uses PRIMARY twice on purpose — as a % multiplier on base damage (`PRIMARY_STAT_SCALING` 0.01) and as AP via `UnitStats.ability_power()` × coefficient — two scaling paths, one early-heavy, one late. Plan: pick a target time-to-kill for same-level fights (e.g. enemy needs ~N swings to kill you, you need ~M hits), match the primary and vigor curves in `level_scaling.tres` (same exponent), raise base damages so AP is a bonus, not the whole hit. Also consider armor vs attacker level and the level-difference miss/crit. AP system itself is done (formula, coefficients, `ap_scaling`).
 
-**Random quests (user, 2026-10-07 — next after shadows)**
-Whenever no quest is active, give the player one: kill 10 of a randomly picked mob type within the player's level range. Auto-completes, rewards 10% of a level's XP. Start the real quest log now (opens on L): for now just a list of quests with progress.
-
 **1. Loot pillar — 1, 11, 10, 8 (drops/XP part)**
-Items as data on the Stat system → gear + gold drops lying in the world showing their icon (pick up in range by click or E prompt) → bags on B → equip into character pane gear slots → drop/XP scaling by enemy level.
+Done: ItemData (stats, weapon attack_speed), starting gear, equip/unequip, bag pane (B, no pause), WEAPON_DAMAGE. Next: gear + gold drops lying in the world showing their icon (pick up in range by click or E prompt) → bags on B → equip into character pane gear slots → drop/XP scaling by enemy level.
 Visible gear plan: (1) anchor points per body-animation frame (hidden marker-pixel layer in the art: head/hand → offsets) so helmets/weapons/offhands are single drawings snapped to anchors in every animation; (2) abilities share a small set of base motions (slash, thrust, overhead, cast, channel, throw) via `animation_key`, uniqueness from effects; (3) later, layered synced sheets only for deforming pieces (chest/legs) and only for base motions; palette-swap shader for tiers. Shadows must then project the gear layers too.
 
 **2. Light & perception — 3, 4, 8 (aggro part)** — the core mechanic
@@ -25,6 +22,8 @@ Spell selection via talents (mechanism exists: talent nodes grant abilities), sh
 
 **In-game saving**
 Save a run to `user://` (ConfigFile/JSON or a custom Resource via ResourceSaver): PlayerState (level, XP, talent ranks, learned/equipped abilities, bonus stats, gold, later gear/bags) + world seed + player position; enemies not saved. Decided: always autosaves, death = run over. Save on events: campfire lit, level up, talent point spent, gear pickup, death (+ on quit). Write to a temp file then rename. Open: multiple slots?
+
+**Quests:** random kill quests + quest log (L) + ActionIcon done. Later: quest giver NPCs (`!`/`?` as more ActionIcon actions), always-on tracker vs log, move CharacterPane/BagPane/ErrorText into HUD for Unlock UI (QuestLog already there; uses fixed position, consider anchors).
 
 **UI / small (mix in anytime) — 9, 20, 19, 21**
 Char stat descriptions, juicy numbers, keybinding system, UI options incl. hover behaviour and per-slot/per-spell target priority (default = selected wins). Also: options menu on Escape (move "Unlock UI" there), fonts/style, DPS meter. Buff/debuff boxes are done (movable, preview in Unlock UI, slide/fade animations).

@@ -4,7 +4,6 @@ extends PanelContainer
 var slots: Array = []
 
 func _ready() -> void:
-	add_to_group("pause_panes")
 	visible = false
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	for i in PlayerState.bag_size:
@@ -22,7 +21,6 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func toggle() -> void:
 	visible = not visible
-	get_tree().paused = get_tree().get_nodes_in_group("pause_panes").any(func(pane): return pane.visible)
 
 func refresh() -> void:
 	for i in slots.size():
