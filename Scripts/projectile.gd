@@ -26,7 +26,7 @@ func _ready() -> void:
 		push_warning("Missing projectile animation: " + anim)
 
 func _physics_process(delta: float) -> void:
-	var step: float = ability.projectile_speed * delta
+	var step: float = Yards.to_px(ability.projectile_speed) * delta
 	global_position += direction * step
 	traveled += step
 	if traveled >= max_distance:

@@ -1,16 +1,27 @@
 [gd_resource type="Resource" script_class="UnitData" format=3 uid="uid://dig3gshgkeycx"]
 
 [ext_resource type="Script" uid="uid://5j6i1rvnlhe2" path="res://Scripts/ResourceScripts/ability_data.gd" id="1_yx0vs"]
+[ext_resource type="Resource" uid="uid://24dsufhqgiq6" path="res://Resources/Abilities/Player/quick_strike.tres" id="2_j5fhy"]
 [ext_resource type="Resource" uid="uid://bj6cc47r0o73x" path="res://Resources/Abilities/auto_attack.tres" id="2_wm3rn"]
 [ext_resource type="Resource" uid="uid://buwonyjvswl7g" path="res://Resources/Progression/level_scaling.tres" id="3_j5fhy"]
-[ext_resource type="Resource" uid="uid://d3p0cq81lslwu" path="res://Resources/Powers/bot_power.tres" id="4_jm4ap"]
+[ext_resource type="Resource" uid="uid://bj4sp8p3c5ljh" path="res://Resources/Abilities/Player/strike.tres" id="3_jm4ap"]
+[ext_resource type="Resource" uid="uid://qassep6py46l" path="res://Resources/Abilities/Utility/campfire.tres" id="4_jm4ap"]
 [ext_resource type="Script" uid="uid://djkq3ofrj4kyw" path="res://Scripts/ResourceScripts/unit_data.gd" id="5_xb6jo"]
+[ext_resource type="Resource" uid="uid://bgffdo0y4gbx5" path="res://Resources/Powers/energy.tres" id="6_j5fhy"]
 
 [resource]
 script = ExtResource("5_xb6jo")
+base_stats = Dictionary[int, float]({
+0: 10.0,
+3: 5.0,
+5: 10.0,
+9: 3.0
+})
 name = "Player"
+power = ExtResource("6_j5fhy")
+abilities = Array[ExtResource("1_yx0vs")]([ExtResource("2_j5fhy"), ExtResource("3_jm4ap"), ExtResource("4_jm4ap")])
 base_health = 20.0
 xp_reward = 0.0
-portrait_offset = Vector2(0.3, 0.2)
+portrait_offset = Vector2(0.2, 0)
 portrait_zoom = 0.8
 metadata/_custom_type_script = "uid://djkq3ofrj4kyw"

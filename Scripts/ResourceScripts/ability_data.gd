@@ -13,6 +13,7 @@ enum Category {COMBAT, UTILITY}
 @export var uses_hitbox: bool = false
 @export var requires_target: bool = true
 @export var damage: float = 0.0
+@export var ap_scaling: float = 1.0
 @export var cooldown: float
 @export var power_cost: float
 @export var power_gain: float = 0.0
@@ -31,9 +32,10 @@ enum Category {COMBAT, UTILITY}
 @export_group("Projectile & Misc")
 @export var is_projectile: bool = false
 @export var windup_from_animation: bool = false
-@export var projectile_speed: float = 600.0
+@export var projectile_speed: float = 12.0
 @export var windup: float = 0.0
 
 @export_group("Utility")
 @export var spawn_scene: PackedScene
+@export var spawn_offset: Vector2 = Vector2.ZERO
 @export var out_of_combat_only: bool = false

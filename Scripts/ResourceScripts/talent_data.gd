@@ -6,9 +6,7 @@ class_name TalentData
 @export var icon: Texture2D
 @export_multiline var description: String
 @export var max_ranks: int = 1
-@export var row: int = 0
-@export var column: float = 0.0
-@export var parents: Array[TalentData] = []
+@export var points_required: int = 0
 
 @export_group("Per Rank")
 @export var stat_bonuses: Dictionary[Stat.Type, float] = {}

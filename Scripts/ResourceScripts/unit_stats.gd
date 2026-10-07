@@ -132,3 +132,6 @@ func hit_percent() -> float:
 
 func crit_percent() -> float:
 	return get_stat(Stat.Type.CRIT_CHANCE) + rating_to_percent(get_stat(Stat.Type.CRIT_RATING))
+
+func ability_power() -> float:
+	return get_stat(Stat.Type.PRIMARY) + get_stat(Stat.Type.ABILITY_POWER)

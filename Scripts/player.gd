@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 @export var sprint_multiplier: float = 2.0
 @export var double_tap_window: float = 0.25
-@export var dash_speed: float = 500.0
+@export var dash_speed: float = 10.0
 @export var dash_duration: float = 0.3
 @export var dash_cooldown: float = 2.0
 var sprint_exhausted: bool = false
@@ -31,7 +31,7 @@ func _physics_process(delta: float) -> void:
 			$CombatHandler.cast_cancel()
 			$UnitAnimator.play_for("dash", dash_duration)
 	if dash_timer > 0:
-		velocity = dash_direction * dash_speed
+		velocity = dash_direction * Yards.to_px(dash_speed)
 		move_and_slide()
 		return
 		
@@ -46,7 +46,7 @@ func _physics_process(delta: float) -> void:
 
 	if not Input.is_action_pressed("sprint") and not tap_sprint:
 		sprint_exhausted = false
-	var speed: float = $UnitStats.get_stat(Stat.Type.MOVE_SPEED)
+	var speed: float = Yards.to_px($UnitStats.get_stat(Stat.Type.MOVE_SPEED))
 	var is_sprinting: bool = false
 	if (Input.is_action_pressed("sprint") or tap_sprint) and direction != Vector2.ZERO and not sprint_exhausted:
 		if $Endurance.spend($Endurance.sprint_cost * delta):

@@ -26,7 +26,7 @@ static func signed(value: float) -> String:
 static func ability(data: AbilityData, handler: Node = null) -> String:
 	var lines: Array[String] = []
 	if data.damage > 0.0:
-		var damage: float = handler.scaled_damage(data.damage) if handler else data.damage
+		var damage: float = handler.scaled_damage(data.damage, handler.ability_coefficient(data)) if handler else data.damage
 		lines.append("Deals %s damage instantly." % number(damage))
 	if data.aoe_radius > 0.0 and data.aoe_max_targets != 1:
 		var who: String = "all nearby enemies" if data.aoe_max_targets <= 0 else "up to %d nearby enemies" % (data.aoe_max_targets - 1)
@@ -43,7 +43,7 @@ static func status_effect(effect: StatusEffect, handler: Node = null) -> String:
 	var parts: Array[String] = []
 	var every: String = number(effect.tick_interval)
 	if effect.damage > 0.0 and effect.tick_interval > 0.0:
-		var damage: float = handler.scaled_damage(effect.damage) if handler else effect.damage
+		var damage: float = handler.scaled_damage(effect.damage, handler.effect_coefficient(effect)) if handler else effect.damage
 		parts.append("deals %s damage every %s sec" % [number(damage), every])
 	if effect.heal_percent > 0.0 and effect.tick_interval > 0.0:
 		parts.append("heals %s%% of max health every %s sec" % [number(effect.heal_percent), every])

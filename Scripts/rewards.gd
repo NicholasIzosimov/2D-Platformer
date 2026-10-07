@@ -1,4 +1,4 @@
-extends Node2D
+extends ScreenSized
 
 @export var floating_number_scene: PackedScene
 @export var xp_color: Color = Color(0.75, 0.45, 1.0)
@@ -9,6 +9,7 @@ extends Node2D
 var lines_shown: int = 0
 
 func _ready() -> void:
+	super._ready()
 	get_node("../UnitStats").died.connect(_on_died)
 
 func _on_died() -> void:

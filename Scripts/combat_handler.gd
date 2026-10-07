@@ -1,9 +1,10 @@
 extends Node
 
-const PIXELS_PER_UNIT = 50.0
 const CRIT_MIN: float = 1.5
 const CRIT_MAX: float = 2.0
 const PRIMARY_STAT_SCALING: float = 0.01
+const AP_REFERENCE_TIME: float = 3.0
+const DOT_REFERENCE_DURATION: float = 15.0
 const LINE_OF_SIGHT_MASK: int = 1
 const HURTBOX_MASK: int = 16
 const MISS_LEVEL_SCALE: float = 3.0
@@ -108,7 +109,7 @@ func resolve_effects(ability, target) -> void:
 		return
 	var center: Vector2 = target.get_node("Hurtbox").global_position
 	play_effect(ability, "_aoe", center)
-	var others: Array = hostile_units_in_radius(center, ability.aoe_radius * PIXELS_PER_UNIT)
+	var others: Array = hostile_units_in_radius(center, Yards.to_px(ability.aoe_radius))
 	others.erase(target)
 	others.sort_custom(func(a, b): return a.global_position.distance_to(center) < b.global_position.distance_to(center))
 	if ability.aoe_max_targets > 0:
@@ -123,7 +124,7 @@ func hit_target(ability, target, damage_multiplier: float = 1.0) -> void:
 		return
 	if ability.damage > 0.0:
 		var from_ability: bool = ability != own_stats.unit_data.auto_attack
-		target_stats.take_damage(scaled_damage(ability.damage) * damage_multiplier, roll_crit(target_stats), from_ability, self)
+		target_stats.take_damage(scaled_damage(ability.damage, ability_coefficient(ability)) * damage_multiplier, roll_crit(target_stats), from_ability, self)
 	if ability.power_gain != 0.0:
 		own_stats.modify_power(ability.power_gain)
 	for effect in ability.effects:
@@ -194,13 +195,16 @@ func spawn_object(ability) -> void:
 	if spawned.has_method("setup"):
 		spawned.setup(get_parent())
 	get_parent().get_parent().add_child(spawned)
-	spawned.global_position = get_node("../CollisionShape2D").global_position
+	var offset: Vector2 = ability.spawn_offset
+	if get_node("../AnimatedSprite2D").flip_h:
+		offset.x = -offset.x
+	spawned.global_position = get_parent().global_position + offset * Yards.PIXELS
 	
 func fire_projectile(ability, target) -> void:
 	var start: Vector2 = get_node("../AttackPivot").global_position
 	var direction: Vector2 = start.direction_to(target.get_node("Hurtbox").global_position)
 	var projectile = PROJECTILE_SCENE.instantiate()
-	projectile.setup(self, ability, direction, ability.range * PIXELS_PER_UNIT)
+	projectile.setup(self, ability, direction, Yards.to_px(ability.range))
 	get_parent().get_parent().add_child(projectile)
 	projectile.global_position = start
 
@@ -242,7 +246,7 @@ func in_reach(ability, target) -> bool:
 		var direction: Vector2 = pivot.global_position.direction_to(target.get_node("Hurtbox").global_position)
 		return hitbox_overlaps(target, aimed_hitbox_transform(direction))
 	var distance: float = get_parent().global_position.distance_to(target.global_position)
-	return distance <= ability.range * PIXELS_PER_UNIT and distance >= ability.min_range * PIXELS_PER_UNIT
+	return distance <= Yards.to_px(ability.range) and distance >= Yards.to_px(ability.min_range)
 	
 func reach_error(ability, target) -> String:
 	if not in_reach(ability, target):
@@ -302,7 +306,8 @@ func apply_effect(effect, caster: Node) -> void:
 			var damage: float = effect.damage
 			var crit_multiplier: float = 1.0
 			if is_instance_valid(caster):
-				damage = caster.scaled_damage(effect.damage)
+				if effect.damage > 0.0:
+					damage = caster.scaled_damage(effect.damage, caster.effect_coefficient(effect))
 				if caster.own_stats.dots_can_crit:
 					crit_multiplier = caster.roll_crit(own_stats)
 				if effect.power_gain != 0.0:
@@ -353,10 +358,19 @@ func roll_crit(target_stats: Node) -> float:
 		return randf_range(CRIT_MIN, CRIT_MAX) + own_stats.get_stat(Stat.Type.CRIT_DAMAGE)
 	return 1.0
 	
-func scaled_damage(amount: float) -> float:
+func scaled_damage(amount: float, coefficient: float) -> float:
 	var primary_bonus: float = 1.0 + own_stats.get_stat(Stat.Type.PRIMARY) * PRIMARY_STAT_SCALING
 	var damage_bonus: float = 1.0 + own_stats.get_stat(Stat.Type.DAMAGE_PERCENT) / 100.0
-	return amount * primary_bonus * damage_bonus
+	return (amount * primary_bonus + own_stats.ability_power() * coefficient) * damage_bonus
+
+func ability_coefficient(ability) -> float:
+	if ability == own_stats.unit_data.auto_attack:
+		return own_stats.unit_data.base_swing_time / AP_REFERENCE_TIME * ability.ap_scaling
+	var time: float = max(ability.cast_time, gcd_duration)
+	return min(time / AP_REFERENCE_TIME, 1.0) * ability.ap_scaling
+
+func effect_coefficient(effect) -> float:
+	return effect.tick_interval / DOT_REFERENCE_DURATION * effect.ap_scaling
 	
 func has_line_of_sight(from: Vector2, to: Vector2) -> bool:
 	var query := PhysicsRayQueryParameters2D.create(from, to, LINE_OF_SIGHT_MASK)

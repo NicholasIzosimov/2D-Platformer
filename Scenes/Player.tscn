@@ -36,7 +36,7 @@ visible = false
 [node name="HealthBar" parent="Bars" index="1" unique_id=63060102]
 visible = false
 
-[node name="EnduranceBar" type="ProgressBar" parent="Bars" index="2" unique_id=1233817795]
+[node name="EnduranceBar" type="ProgressBar" parent="FootBars" parent_id_path=PackedInt32Array(1662509250) index="0" unique_id=1233817795]
 offset_left = -35.0
 offset_top = 45.0
 offset_right = 35.0
@@ -46,10 +46,9 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_pkrlc")
 show_percentage = false
 script = ExtResource("8_bhhdu")
 
-[node name="AnimatedSprite2D" parent="." index="9" unique_id=1107684265]
+[node name="AnimatedSprite2D" parent="." index="10" unique_id=1107684265]
 animation = &"samurai_run"
-frame = 0
-frame_progress = 0.0
 
 [node name="Camera2D" type="Camera2D" parent="." index="11" unique_id=970156947]
 script = ExtResource("6_nn08x")
+target_view_height = 700.0

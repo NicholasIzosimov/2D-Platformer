@@ -1,12 +1,11 @@
 extends Node
 
-const GENERAL_TREE_PATH: String = "res://Resources/Talents/general_tree.tres"
-const DEFAULT_CLASS_PATH: String = "res://Resources/Classes/wraith.tres"
+
+const PLAYER_DATA_PATH: String = "res://Resources/Units/player.tres"
 
 var bonus_stats: Dictionary[Stat.Type, float] = {}
 var gold: int = 0
-var class_data: ClassData
-var general_tree: TalentTree
+var player_data: UnitData
 var ability_copies: Dictionary = {}
 var learned_abilities: Array[AbilityData] = []
 var max_abilities: int = 20
@@ -26,11 +25,10 @@ signal talents_changed
 
 func _init() -> void:
 	xp_curve = load("res://Resources/Progression/xp_curve.tres")
-	general_tree = load(GENERAL_TREE_PATH)
-	start_run(load(DEFAULT_CLASS_PATH))
+	player_data = load(PLAYER_DATA_PATH)
+	start_run()
 
-func start_run(new_class: ClassData) -> void:
-	class_data = new_class
+func start_run() -> void:
 	bonus_stats.clear()
 	gold = 0
 	ability_copies.clear()
@@ -41,8 +39,8 @@ func start_run(new_class: ClassData) -> void:
 	xp = 0.0
 	talent_points = 0
 	talent_ranks.clear()
-	for i in class_data.abilities.size():
-		equip_ability(learn_ability(class_data.abilities[i]), i)
+	for i in player_data.abilities.size():
+		equip_ability(learn_ability(player_data.abilities[i]), i)
 
 func get_ability(original: AbilityData) -> AbilityData:
 	if not ability_copies.has(original):
@@ -93,19 +91,27 @@ func add_bonus_stat(stat: Stat.Type, amount: float) -> void:
 func talent_rank(talent: TalentData) -> int:
 	return talent_ranks.get(talent, 0)
 
-func is_talent_unlocked(talent: TalentData) -> bool:
-	if talent.parents.is_empty():
+func points_spent() -> int:
+	var total: int = 0
+	for talent in talent_ranks:
+		total += talent_ranks[talent]
+	return total
+
+func is_talent_unlocked(talent: TalentData, parents: Array[TalentData]) -> bool:
+	if points_spent() < talent.points_required:
+		return false
+	if parents.is_empty():
 		return true
-	for parent in talent.parents:
+	for parent in parents:
 		if talent_rank(parent) >= parent.max_ranks:
 			return true
 	return false
 
-func can_spend(talent: TalentData) -> bool:
-	return talent_points > 0 and talent_rank(talent) < talent.max_ranks and is_talent_unlocked(talent)
+func can_spend(talent: TalentData, parents: Array[TalentData]) -> bool:
+	return talent_points > 0 and talent_rank(talent) < talent.max_ranks and is_talent_unlocked(talent, parents)
 
-func spend_talent_point(talent: TalentData) -> bool:
-	if not can_spend(talent):
+func spend_talent_point(talent: TalentData, parents: Array[TalentData]) -> bool:
+	if not can_spend(talent, parents):
 		return false
 	talent_points -= 1
 	talent_ranks[talent] = talent_rank(talent) + 1

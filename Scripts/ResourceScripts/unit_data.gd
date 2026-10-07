@@ -4,7 +4,7 @@ class_name UnitData
 
 @export var base_stats: Dictionary[Stat.Type, float] = {
 	Stat.Type.VIGOR: 1.0,
-	Stat.Type.MOVE_SPEED: 150.0,
+	Stat.Type.MOVE_SPEED: 3.0,
 	Stat.Type.CRIT_CHANCE: 5.0,
 	Stat.Type.MISS_CHANCE: 10.0,
 }

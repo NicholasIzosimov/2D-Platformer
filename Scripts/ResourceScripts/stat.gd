@@ -21,9 +21,11 @@ enum Type {
 	BLOCK,
 	HIT_RATING,
 	CRIT_RATING,
-}
+	ABILITY_POWER,
+	}
 const LABELS: Dictionary = {
 	Type.VIGOR: "Vigor",
+	Type.PRIMARY: "Power",
 	Type.ARMOR: "Armor",
 	Type.CRIT_CHANCE: "Crit Chance",
 	Type.CRIT_DAMAGE: "Crit Damage",
@@ -40,13 +42,12 @@ const LABELS: Dictionary = {
 	Type.BLOCK: "Block",
 	Type.HIT_RATING: "Hit Rating",
 	Type.CRIT_RATING: "Crit Rating",
+	Type.ABILITY_POWER: "Ability Power",
 }
 const PERCENT_STATS: Array = [Type.CRIT_CHANCE, Type.CRIT_DAMAGE, Type.MISS_CHANCE, Type.HIT_CHANCE, Type.DAMAGE_PERCENT, Type.DAMAGE_REDUCTION, Type.HASTE, Type.DODGE, Type.PARRY, Type.BLOCK]
 const DISPLAY_SCALE: Dictionary = {Type.CRIT_DAMAGE: 100.0}
 
 static func label(type: Type) -> String:
-	if type == Type.PRIMARY:
-		return PlayerState.class_data.primary_stat_name
 	return LABELS.get(type, "?")
 
 static func format(type: Type, amount: float) -> String:

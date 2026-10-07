@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://divn7g3016xhl"]
 
 [ext_resource type="Script" uid="uid://oruyrev7n3cr" path="res://Scripts/talent_pane.gd" id="1_m20gn"]
+[ext_resource type="Script" uid="uid://dfgj3dce6f65m" path="res://Scripts/tree_viewport.gd" id="2_10rn3"]
+[ext_resource type="PackedScene" uid="uid://bkgn6t7rxwufu" path="res://Scenes/skill_tree.tscn" id="2_n2v3j"]
 
 [node name="TalentPane" type="PanelContainer" unique_id=413069100]
 anchors_preset = 8
@@ -30,7 +32,15 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Trees" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1522908685]
+[node name="TreeViewport" type="Control" parent="MarginContainer/VBoxContainer" unique_id=1030526012]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(900, 600)
 layout_mode = 2
-theme_override_constants/separation = 16
+size_flags_vertical = 3
+script = ExtResource("2_10rn3")
+
+[node name="SkillTree" parent="MarginContainer/VBoxContainer/TreeViewport" unique_id=1027915147 instance=ExtResource("2_n2v3j")]
+layout_mode = 0
+offset_right = 900.0
+offset_bottom = 600.0
+mouse_filter = 2

@@ -1,11 +1,11 @@
 [gd_resource type="Resource" script_class="TalentData" format=3 uid="uid://bm6dhacn5qylh"]
 
 [ext_resource type="Script" uid="uid://ddk5gmr8tu4q7" path="res://Scripts/ResourceScripts/ability_mod.gd" id="1_2d2f1"]
-[ext_resource type="Resource" uid="uid://bj4sp8p3c5ljh" path="res://Resources/Abilities/Samurai/strike.tres" id="2_qdnug"]
+[ext_resource type="Resource" uid="uid://bj4sp8p3c5ljh" path="res://Resources/Abilities/Player/strike.tres" id="2_qdnug"]
 [ext_resource type="Script" uid="uid://ccvwsxd5vfeut" path="res://Scripts/ResourceScripts/talent_data.gd" id="2_r5miu"]
 [ext_resource type="Texture2D" uid="uid://byscrqrj4op12" path="res://Assets/TalentIcons/Cleaving Strike.png" id="2_yov04"]
-[ext_resource type="Resource" uid="uid://cko6r6aqb2f5m" path="res://Resources/Talents/Samurai/crit.tres" id="4_qdnug"]
-[ext_resource type="Resource" uid="uid://b5kafw8diy8g4" path="res://Resources/Talents/Samurai/crit_damage.tres" id="5_1giur"]
+[ext_resource type="Resource" uid="uid://cko6r6aqb2f5m" path="res://Resources/Talents/crit.tres" id="4_qdnug"]
+[ext_resource type="Resource" uid="uid://b5kafw8diy8g4" path="res://Resources/Talents/crit_damage.tres" id="5_1giur"]
 
 [sub_resource type="Resource" id="Resource_dw2x5"]
 script = ExtResource("1_2d2f1")

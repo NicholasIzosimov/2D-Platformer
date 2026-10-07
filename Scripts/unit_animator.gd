@@ -40,9 +40,10 @@ func _physics_process(_delta: float) -> void:
 	if locked:
 		return
 	var speed: float = body.velocity.length()
-	if speed > stats.get_stat(Stat.Type.MOVE_SPEED) * 0.25:
+	var move_speed: float = Yards.to_px(stats.get_stat(Stat.Type.MOVE_SPEED))
+	if speed > move_speed * 0.25:
 		play_loop("run")
-		sprite.speed_scale = speed / stats.get_stat(Stat.Type.MOVE_SPEED)
+		sprite.speed_scale = speed / move_speed
 	else:
 		play_loop("idle")
 		sprite.speed_scale = 1.0

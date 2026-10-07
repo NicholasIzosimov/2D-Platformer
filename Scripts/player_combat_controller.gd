@@ -135,7 +135,7 @@ func get_tab_candidates() -> Array:
 	var view: Rect2 = player.get_viewport().get_canvas_transform().affine_inverse() * player.get_viewport().get_visible_rect()
 	var result: Array = []
 	for enemy in get_living_enemies():
-		var aggro_range: float = enemy.get_node("EnemyCombatController").aggro_range
+		var aggro_range: float = Yards.to_px(enemy.get_node("EnemyCombatController").aggro_range)
 		if player.global_position.distance_to(enemy.global_position) > aggro_range:
 			continue
 		if not view.has_point(enemy.global_position):

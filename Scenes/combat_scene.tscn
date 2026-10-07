@@ -135,13 +135,13 @@ region_rect = Rect2(0, 2, 637, 397)
 
 [node name="Ground" type="TileMapLayer" parent="." unique_id=401014400]
 z_index = -10
-scale = Vector2(0.5, 0.5)
+scale = Vector2(0.25, 0.25)
 tile_set = SubResource("TileSet_pm0ju")
 collision_enabled = false
 
 [node name="Obstacles" type="TileMapLayer" parent="." unique_id=894308297]
 y_sort_enabled = true
-scale = Vector2(0.5, 0.5)
+scale = Vector2(0.25, 0.25)
 tile_set = SubResource("TileSet_pm0ju")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=653473165]

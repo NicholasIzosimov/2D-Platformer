@@ -17,10 +17,14 @@ unit_data = ExtResource("2_6bs3c")
 
 [node name="EnemyCombatController" type="Node" parent="." index="4" unique_id=78062697]
 script = ExtResource("2_wovta")
-aggro_range = 500.0
 leash_time = 7.0
+aggro_range = 5.0
+
+[node name="AnimatedSprite2D" parent="." index="9" unique_id=1107684265]
+scale = Vector2(0.35, 0.35)
+animation = &"player_attack"
 
 [node name="Rewards" type="Node2D" parent="." index="10" unique_id=755035872]
-position = Vector2(0, -75)
+position = Vector2(0, -40)
 script = ExtResource("5_mo1ky")
 floating_number_scene = ExtResource("6_6bs3c")

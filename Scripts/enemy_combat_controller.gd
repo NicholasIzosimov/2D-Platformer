@@ -2,19 +2,19 @@ extends Node
 
 @export var speed_variance: float = 0.05
 @export var hp_slow_factor: float = 0.3
-@export var separation_radius: float = 48.0
-@export var separation_strength: float = 80.0
 @export var path_bias: float = 20.0
 @export var weave_angle: float = 15.0
 @export var weave_speed: float = 2.0
-@export var aggro_range: float = 1100.0
 @export var leash_time: float = 5.0
-@export var wander_radius: float = 150.0
 @export var wander_speed_factor: float = 0.4
-@export var social_radius: float = 250.0
 @export var corpse_time: float = 3.0
 @export var retreat_buffer: float = 1.0
 @export var retreat_speed_factor: float = 0.9
+@export var separation_radius: float = 0.96
+@export var separation_strength: float = 1.6
+@export var aggro_range: float = 22.0
+@export var wander_radius: float = 3.0
+@export var social_radius: float = 5.0
 var target: Node
 var flow: Node
 var feet_offset: Vector2
@@ -52,7 +52,7 @@ func _physics_process(delta: float) -> void:
 	var distance = enemy.global_position.distance_to(target.global_position)
 	var in_range: bool = combat_handler.in_reach(stats.unit_data.auto_attack, target)
 	update_retreat(stats, combat_handler, distance)
-	var sees_player: bool = distance <= aggro_range and combat_handler.units_have_line_of_sight(enemy, target)
+	var sees_player: bool = distance <= Yards.to_px(aggro_range) and combat_handler.units_have_line_of_sight(enemy, target)
 	if sees_player:
 		start_aggro()
 	elif aggro:
@@ -68,20 +68,20 @@ func _physics_process(delta: float) -> void:
 		enemy.velocity = Vector2.ZERO
 	elif retreating:
 		var away: Vector2 = target.global_position.direction_to(enemy.global_position)
-		enemy.velocity = away * stats.get_stat(Stat.Type.MOVE_SPEED) * retreat_speed_factor
+		enemy.velocity = away * Yards.to_px(stats.get_stat(Stat.Type.MOVE_SPEED)) * retreat_speed_factor
 	elif (in_range or has_close_attack(stats, combat_handler)) and sees_player:
 		enemy.velocity = Vector2.ZERO
 	else:
 		var direction: Vector2 = flow.get_direction(enemy.global_position + feet_offset)
 		if direction == Vector2.ZERO:
 			direction = enemy.global_position.direction_to(target.global_position)
-		var wander_amount: float = clamp((distance - 150.0) / 300.0, 0.0, 1.0)
+		var wander_amount: float = clamp((distance - Yards.to_px(3.0)) / Yards.to_px(6.0), 0.0, 1.0)
 		if not sees_player:
 			wander_amount = 0.0
 		var angle: float = bias + sin(time * weave_speed + weave_phase) * deg_to_rad(weave_angle)
 		direction = direction.rotated(angle * wander_amount)
 		var hp_lost: float = 1.0 - stats.current_health / stats.max_health
-		var speed: float = stats.get_stat(Stat.Type.MOVE_SPEED) * (1.0 - hp_lost * hp_slow_factor)
+		var speed: float = Yards.to_px(stats.get_stat(Stat.Type.MOVE_SPEED)) * (1.0 - hp_lost * hp_slow_factor)
 		enemy.velocity = direction * speed
 
 	get_node("../UnitAnimator").face_target = target if aggro else null
@@ -108,17 +108,18 @@ func _on_died() -> void:
 	target.get_node("CombatState").end_soon()
 	
 func get_separation(enemy: Node2D) -> Vector2:
+	var radius: float = Yards.to_px(separation_radius)
 	var push := Vector2.ZERO
 	for other in get_tree().get_nodes_in_group("enemies"):
 		if other == enemy:
 			continue
 		var offset: Vector2 = enemy.global_position - other.global_position
 		var dist: float = offset.length()
-		if dist < separation_radius:
+		if dist < radius:
 			if dist < 0.01:
 				offset = Vector2.RIGHT.rotated(randf() * TAU)
-			push += offset.normalized() * (1.0 - dist / separation_radius)
-	return push * separation_strength
+			push += offset.normalized() * (1.0 - dist / radius)
+	return push * Yards.to_px(separation_strength)
 
 func idle_wander(enemy: Node2D, stats: Node, delta: float) -> void:
 	wander_timer -= delta
@@ -127,15 +128,15 @@ func idle_wander(enemy: Node2D, stats: Node, delta: float) -> void:
 		wander_target = enemy.global_position
 		var combat_handler = get_node("../CombatHandler")
 		for attempt in 5:
-			var candidate: Vector2 = enemy.global_position + Vector2.RIGHT.rotated(randf() * TAU) * randf_range(40.0, wander_radius)
+			var candidate: Vector2 = enemy.global_position + Vector2.RIGHT.rotated(randf() * TAU) * Yards.to_px(randf_range(0.8, wander_radius))
 			if combat_handler.has_line_of_sight(enemy.global_position + feet_offset, candidate + feet_offset):
 				wander_target = candidate
 				break
 	var to_target: Vector2 = wander_target - enemy.global_position
-	if to_target.length() < 8.0:
+	if to_target.length() < Yards.to_px(0.16):
 		enemy.velocity = Vector2.ZERO
 	else:
-		enemy.velocity = to_target.normalized() * stats.get_stat(Stat.Type.MOVE_SPEED) * wander_speed_factor
+		enemy.velocity = to_target.normalized() * Yards.to_px(stats.get_stat(Stat.Type.MOVE_SPEED)) * wander_speed_factor
 
 func _on_damage_taken(_amount: float, _crit_multiplier: float, _from_ability: bool) -> void:
 	start_aggro()
@@ -157,7 +158,7 @@ func alert_nearby() -> void:
 		var controller = other.get_node("EnemyCombatController")
 		if controller.aggro:
 			continue
-		if enemy.global_position.distance_to(other.global_position) > social_radius:
+		if enemy.global_position.distance_to(other.global_position) > Yards.to_px(social_radius):
 			continue
 		if not combat_handler.units_have_line_of_sight(enemy, other):
 			continue
@@ -169,13 +170,13 @@ func use_abilities(stats: Node, combat_handler: Node) -> void:
 			return
 			
 func update_retreat(stats: Node, combat_handler: Node, distance: float) -> void:
-	var min_range: float = stats.unit_data.auto_attack.min_range * combat_handler.PIXELS_PER_UNIT
+	var min_range: float = Yards.to_px(stats.unit_data.auto_attack.min_range)
 	if min_range <= 0.0 or has_close_attack(stats, combat_handler):
 		retreating = false
 		return
 	if distance < min_range:
 		retreating = true
-	elif distance >= min_range + retreat_buffer * combat_handler.PIXELS_PER_UNIT:
+	elif distance >= min_range + Yards.to_px(retreat_buffer):
 		retreating = false
 
 func has_close_attack(stats: Node, combat_handler: Node) -> bool:

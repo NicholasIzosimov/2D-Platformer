@@ -6,6 +6,7 @@ class_name StatusEffect
 @export var icon: Texture2D
 @export var is_debuff: bool
 @export var damage: float
+@export var ap_scaling: float = 1.0
 @export var affect_stat: Stat.Type
 @export var stat_amount: float
 @export var spell_duration: float
