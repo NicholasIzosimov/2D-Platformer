@@ -221,7 +221,7 @@ size = Vector2(12, 4)
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1107684265]
 position = Vector2(0, -16)
 sprite_frames = ExtResource("14_7ftqo")
-animation = &"samurai_attack"
+animation = &"player_#sheathe"
 
 [node name="Shadow" type="AnimatedSprite2D" parent="." unique_id=1036900275]
 position = Vector2(0, -4)

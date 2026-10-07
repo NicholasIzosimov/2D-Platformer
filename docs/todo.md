@@ -33,6 +33,7 @@ G Gear drop, gold drop · 1 LoS/bush hiding drops aggro · 2 Bigger aggro radius
 Extras: DPS meter · boss mechanics · terrain-destroying enemies (goblins) · slightly more spawns per level · scroll-wheel zoom (decide max) · Warmth fades out softly · right-click auto-walk to target · fonts/UI style · talent point reminder · idle enemies avoid each other · projectile wall grace period · decimals below 1 on bars · crouch (slower, smaller aggro range — dropped from main list)
 
 ## Open design decisions (ask, don't assume)
+- **Lighting:** campfire light is done (Add blending, current saturation is intended). Possible later idea: limit light sources within X range (e.g. max N campfires per area) if many fires stacked ever look blown out.
 - **Spellbook:** (1) full WoW bars, (2) Guild Wars 1 style: spellbook + limited bar swappable only out of combat — Claude's recommendation, (3) original fixed slots with discard. PlayerState keeps learned vs equipped; bar shows one slot per `cast_N` action but PlayerState allows 20 equipped → talent-granted abilities can land in hidden slots.
 - **Art scale:** current tiles are 64 px drawn at 0.5 scale. Own art plan: 16 px tiles + ~36–45 px characters (64×64 frames), camera zoom ×2, all sprites scale 1; halve pixel-based tunables (or move them to yards first).
 - **Power Regen stat** applies in combat only (placeholder); `bot_power.tres` has no out-of-combat rate (enemies don't regen power OOC — left as is for now).

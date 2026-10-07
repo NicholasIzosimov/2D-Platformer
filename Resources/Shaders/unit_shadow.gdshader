@@ -4,6 +4,7 @@ uniform vec4 region = vec4(0.0, 0.0, 1.0, 1.0);
 uniform float feet_v = 0.75;
 uniform float near_width = 0.4;
 uniform float far_width = 1.8;
+uniform float tip_fade = 0.0;
 
 void fragment() {
 	vec2 local = (UV - region.xy) / region.zw;
@@ -14,6 +15,6 @@ void fragment() {
 		COLOR = vec4(0.0);
 	} else {
 		vec4 tex = texture(TEXTURE, region.xy + vec2(x, local.y) * region.zw);
-		COLOR = vec4(COLOR.rgb, COLOR.a * tex.a);
+		COLOR = vec4(COLOR.rgb, COLOR.a * tex.a * mix(1.0, 1.0 - tip_fade, d));
 	}
 }

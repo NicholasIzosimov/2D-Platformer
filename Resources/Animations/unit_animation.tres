@@ -276,6 +276,46 @@ region = Rect2(384, 0, 192, 192)
 atlas = ExtResource("10_qgayl")
 region = Rect2(576, 0, 192, 192)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_kig6b"]
+atlas = ExtResource("11_aurin")
+region = Rect2(1408, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w7cbo"]
+atlas = ExtResource("11_aurin")
+region = Rect2(1344, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_winjd"]
+atlas = ExtResource("11_aurin")
+region = Rect2(1280, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ec53w"]
+atlas = ExtResource("11_aurin")
+region = Rect2(1216, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bnjtb"]
+atlas = ExtResource("11_aurin")
+region = Rect2(1152, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e6ldd"]
+atlas = ExtResource("11_aurin")
+region = Rect2(1152, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lb2is"]
+atlas = ExtResource("11_aurin")
+region = Rect2(1216, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gmunq"]
+atlas = ExtResource("11_aurin")
+region = Rect2(1280, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cije2"]
+atlas = ExtResource("11_aurin")
+region = Rect2(1344, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5sy5l"]
+atlas = ExtResource("11_aurin")
+region = Rect2(1408, 0, 64, 64)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_r00pm"]
 atlas = ExtResource("11_aurin")
 region = Rect2(960, 0, 64, 64)
@@ -427,46 +467,6 @@ region = Rect2(384, 0, 64, 64)
 [sub_resource type="AtlasTexture" id="AtlasTexture_6732a"]
 atlas = ExtResource("12_qgayl")
 region = Rect2(448, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_kig6b"]
-atlas = ExtResource("11_aurin")
-region = Rect2(1408, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_w7cbo"]
-atlas = ExtResource("11_aurin")
-region = Rect2(1344, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_winjd"]
-atlas = ExtResource("11_aurin")
-region = Rect2(1280, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ec53w"]
-atlas = ExtResource("11_aurin")
-region = Rect2(1216, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_bnjtb"]
-atlas = ExtResource("11_aurin")
-region = Rect2(1152, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_e6ldd"]
-atlas = ExtResource("11_aurin")
-region = Rect2(1152, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_lb2is"]
-atlas = ExtResource("11_aurin")
-region = Rect2(1216, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_gmunq"]
-atlas = ExtResource("11_aurin")
-region = Rect2(1280, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_cije2"]
-atlas = ExtResource("11_aurin")
-region = Rect2(1344, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_5sy5l"]
-atlas = ExtResource("11_aurin")
-region = Rect2(1408, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jl18m"]
 atlas = ExtResource("8_g5vma")
@@ -1175,6 +1175,46 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_kig6b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w7cbo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_winjd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ec53w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bnjtb")
+}],
+"loop": 0,
+"name": &"player_#sheathe",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e6ldd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lb2is")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gmunq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cije2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5sy5l")
+}],
+"loop": 0,
+"name": &"player_#unsheathe",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_r00pm")
 }, {
 "duration": 1.0,
@@ -1311,46 +1351,6 @@ animations = [{
 "loop": 1,
 "name": &"player_run",
 "speed": 7.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_kig6b")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_w7cbo")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_winjd")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ec53w")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_bnjtb")
-}],
-"loop": 0,
-"name": &"player_sheathe",
-"speed": 8.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_e6ldd")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_lb2is")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_gmunq")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_cije2")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_5sy5l")
-}],
-"loop": 0,
-"name": &"player_unsheathe",
-"speed": 8.0
 }, {
 "frames": [{
 "duration": 1.0,

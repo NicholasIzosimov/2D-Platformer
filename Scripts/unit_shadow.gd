@@ -10,6 +10,7 @@ const SHADER: Shader = preload("res://Resources/Shaders/unit_shadow.gdshader")
 @export var length_bonus: float = 0.8
 @export var near_width: float = 0.4
 @export var far_width: float = 1.8
+@export var tip_fade: float = 0.7
 @export var smoothing: float = 2.0
 @export var fade_out_speed: float = 20.0
 @export var fade_in_speed: float = 3.0
@@ -88,3 +89,4 @@ func update_taper(lit_amount: float) -> void:
 	material.set_shader_parameter("feet_v", (frame_size.y / 2.0 - offset.y) / frame_size.y)
 	material.set_shader_parameter("near_width", lerp(1.0, near_width, lit_amount))
 	material.set_shader_parameter("far_width", lerp(1.0, far_width, lit_amount))
+	material.set_shader_parameter("tip_fade", tip_fade * lit_amount)

@@ -113,6 +113,8 @@ func _drop_data(_at_position: Vector2, data: Variant) -> void:
 	PlayerState.swap_slots(data["slot_index"], slot_index)
 
 func _make_custom_tooltip(_for_text: String) -> Object:
+	if ability == null or dragging:
+		return null
 	return RichTooltip.make(build_tooltip())
 
 func build_tooltip() -> String:
