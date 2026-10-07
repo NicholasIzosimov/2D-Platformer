@@ -4,11 +4,13 @@
 [ext_resource type="Script" uid="uid://ds4vabwfl1g5r" path="res://Scripts/ResourceScripts/item_template.gd" id="2_ofhdo"]
 [ext_resource type="Resource" uid="uid://vj1s4clspq1a" path="res://Resources/Items/Templates/wraith_hood.tres" id="3_ofhdo"]
 [ext_resource type="Resource" uid="uid://d1fax26moo3bf" path="res://Resources/Items/Templates/quick_gloves.tres" id="4_5gn7v"]
+[ext_resource type="Resource" uid="uid://ckclhi35iebdh" path="res://Resources/Items/Templates/vigourous_ring.tres" id="5_lbumq"]
 
 [resource]
 script = ExtResource("1_ie0d6")
 templates = Dictionary[ExtResource("2_ofhdo"), float]({
 ExtResource("3_ofhdo"): 1.0,
-ExtResource("4_5gn7v"): 1.0
+ExtResource("4_5gn7v"): 1.0,
+ExtResource("5_lbumq"): 1.0
 })
 metadata/_custom_type_script = "uid://0flf12yjfjnx"

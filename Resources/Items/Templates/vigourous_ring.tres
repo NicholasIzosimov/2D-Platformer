@@ -6,7 +6,7 @@
 
 [resource]
 script = ExtResource("2_w02pt")
-name = "Vigourous Ring"
+name = "Vigorous Ring"
 slot = 8
 icon = ExtResource("1_nqdhe")
 forced_stats = Dictionary[int, float]({

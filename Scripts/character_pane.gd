@@ -45,11 +45,11 @@ func refresh() -> void:
 	add_row("Power", "%d" % stats.ability_power())
 	add_row("Weapon Damage", "%d" % stats.get_stat(Stat.Type.WEAPON_DAMAGE))
 	add_row("Attack Speed", "%.2f s" % stats.base_swing_time())
-	add_row("Armor", "%d" % stats.get_stat(Stat.Type.ARMOR))
+	add_row("Armor", "%d (%d%%)" % [roundi(stats.get_stat(Stat.Type.ARMOR)), roundi(stats.get_armor_reduction() * 100.0)])
+	add_row("Haste", "%.1f%%" % stats.haste_percent())
 	add_row("Crit Chance", "%.1f%%" % stats.crit_percent())
 	add_row("Hit Chance", "%.1f%%" % stats.hit_percent())
-	add_row("Haste", "%.1f%%" % stats.haste_percent())
-	add_row("Miss Chance", "%.1f%%" % stats.get_stat(Stat.Type.MISS_CHANCE))
+	add_row("Miss Chance", "%.1f%%" % max(stats.get_stat(Stat.Type.MISS_CHANCE) - stats.hit_percent(), 0.0))
 	add_row("Endurance", "(+%s/s)" % endurance.endurance_regen)
 	
 func add_row(label_text: String, value_text: String) -> void:

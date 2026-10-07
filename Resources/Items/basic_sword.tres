@@ -9,8 +9,6 @@ name = "Basic Sword"
 icon = ExtResource("1_lfcqv")
 slot = 9
 stats = Dictionary[int, float]({
-0: 2.0,
-1: 2.0,
 19: 2.0
 })
 attack_speed = 2.5

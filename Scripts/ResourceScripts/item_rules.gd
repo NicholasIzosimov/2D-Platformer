@@ -38,7 +38,8 @@ func generate(template: ItemTemplate, item_level: int) -> ItemData:
 	item.item_level = item_level
 	item.rarity = template.fixed_rarity if template.fixed_rarity else roll_rarity()
 	var total_budget: float = budget(item_level, item.rarity, template.slot)
-	var weights: Dictionary = pick_stats(template, item.rarity.stat_count)
+	var has_armor: bool = armor_slots.has(item.slot)
+	var weights: Dictionary = pick_stats(template, item.rarity.stat_count - (1 if has_armor else 0))
 	var total_weight: float = 0.0
 	for stat in weights:
 		total_weight += weights[stat]
@@ -49,12 +50,16 @@ func generate(template: ItemTemplate, item_level: int) -> ItemData:
 			item.stats[stat] = rounded
 	if item.attack_speed > 0.0:
 		item.stats[Stat.Type.WEAPON_DAMAGE] = roundf(total_budget * weapon_dps_per_budget * item.attack_speed)
-	if armor_slots.has(item.slot):
+	if has_armor:
 		item.stats[Stat.Type.ARMOR] = item.stats.get(Stat.Type.ARMOR, 0.0) + roundf(total_budget * armor_per_budget)
 	return item
 
 func pick_stats(template: ItemTemplate, count: int) -> Dictionary:
-	var picked: Dictionary = template.forced_stats.duplicate()
+	var picked: Dictionary = {}
+	for stat in template.forced_stats:
+		if picked.size() >= count:
+			break
+		picked[stat] = template.forced_stats[stat]
 	var chances: Dictionary = stat_pool.duplicate()
 	for stat in picked:
 		chances.erase(stat)
