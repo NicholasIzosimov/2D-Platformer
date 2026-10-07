@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="LevelScaling" format=3 uid="uid://buwonyjvswl7g"]
+
+[ext_resource type="Script" uid="uid://b0uf6wptdrp1l" path="res://Scripts/ResourceScripts/level_scaling.gd" id="1_8lpiw"]
+
+[resource]
+script = ExtResource("1_8lpiw")
+vigor_per_level = 2.0
+vigor_exponent = 1.4
+primary_stat_per_level = 1.0
+primary_stat_exponent = 1.2
+armor_per_level = 5.0
+armor_exponent = 1.4
+metadata/_custom_type_script = "uid://b0uf6wptdrp1l"

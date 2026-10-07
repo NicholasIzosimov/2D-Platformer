@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="AbilityData" format=3 uid="uid://srx2eilt7yc2"]
+
+[ext_resource type="Script" uid="uid://do4vdp8v5ea1s" path="res://Scripts/ResourceScripts/status_effect.gd" id="1_1l3ox"]
+[ext_resource type="Texture2D" uid="uid://bpjgccpef6j6q" path="res://Assets/AbilityIcons/Flatulence.png" id="2_5qqt3"]
+[ext_resource type="Script" uid="uid://5j6i1rvnlhe2" path="res://Scripts/ResourceScripts/ability_data.gd" id="2_77qvk"]
+
+[resource]
+script = ExtResource("2_77qvk")
+icon = ExtResource("2_5qqt3")
+name = "Flatulence"
+damage = 20.0
+triggers_gcd = true
+range = 10.0
+cooldown = 10.0
+cast_time = 2.0
+power_cost = 20.0
+metadata/_custom_type_script = "uid://5j6i1rvnlhe2"

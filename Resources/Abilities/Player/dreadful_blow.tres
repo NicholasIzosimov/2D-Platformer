@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AbilityData" format=3 uid="uid://ceus3ssdm0kna"]
+
+[ext_resource type="Script" uid="uid://do4vdp8v5ea1s" path="res://Scripts/ResourceScripts/status_effect.gd" id="1_q0poe"]
+[ext_resource type="Texture2D" uid="uid://c70es0jbieqtc" path="res://Assets/AbilityIcons/dreadful_blow.png" id="2_gs8ko"]
+[ext_resource type="Script" uid="uid://5j6i1rvnlhe2" path="res://Scripts/ResourceScripts/ability_data.gd" id="2_nor2t"]
+
+[resource]
+script = ExtResource("2_nor2t")
+icon = ExtResource("2_gs8ko")
+name = "Dreadful Blow"
+triggers_gcd = true
+damage = 20.0
+power_cost = 40.0
+range = 3.0
+metadata/_custom_type_script = "uid://5j6i1rvnlhe2"

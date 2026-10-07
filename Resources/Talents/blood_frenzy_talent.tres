@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="TalentData" format=3 uid="uid://cqdu5oob1xkwr"]
+
+[ext_resource type="Script" uid="uid://ddk5gmr8tu4q7" path="res://Scripts/ResourceScripts/ability_mod.gd" id="1_d8g25"]
+[ext_resource type="Resource" uid="uid://cv3pwmcstpv3r" path="res://Resources/Abilities/Player/blood_frenzy_buff.tres" id="2_u83c0"]
+[ext_resource type="Texture2D" uid="uid://c4yl3tdybr87d" path="res://Assets/AbilityIcons/BloodFrenzy.png" id="3_3c0ug"]
+[ext_resource type="Script" uid="uid://ccvwsxd5vfeut" path="res://Scripts/ResourceScripts/talent_data.gd" id="4_jy50t"]
+
+[resource]
+script = ExtResource("4_jy50t")
+name = "Blood Frenzy"
+icon = ExtResource("3_3c0ug")
+grants_ability = ExtResource("2_u83c0")
+metadata/_custom_type_script = "uid://ccvwsxd5vfeut"

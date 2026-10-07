@@ -1,0 +1,87 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://d2lh8uiirp25v"]
+
+[ext_resource type="Texture2D" uid="uid://dg7fl6q5qsrnh" path="res://Assets/Tiny Swords (Free Pack)/Units/Black Units/Archer/Arrow.png" id="1_xwqp4"]
+[ext_resource type="Texture2D" uid="uid://bq702wbgihbqk" path="res://Assets/EffectVisuals/CampfireBuff.png" id="2_1jb8w"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1jb8w"]
+atlas = ExtResource("1_xwqp4")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p2goj"]
+atlas = ExtResource("2_1jb8w")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2nb6d"]
+atlas = ExtResource("2_1jb8w")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1rx3g"]
+atlas = ExtResource("2_1jb8w")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vo1tk"]
+atlas = ExtResource("2_1jb8w")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_di7lk"]
+atlas = ExtResource("2_1jb8w")
+region = Rect2(512, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_psr70"]
+atlas = ExtResource("2_1jb8w")
+region = Rect2(640, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tiklf"]
+atlas = ExtResource("2_1jb8w")
+region = Rect2(768, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_76whb"]
+atlas = ExtResource("2_1jb8w")
+region = Rect2(896, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j8ha4"]
+atlas = ExtResource("2_1jb8w")
+region = Rect2(1024, 0, 128, 128)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1jb8w")
+}],
+"loop": 0,
+"name": &"shoot_projectile",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p2goj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2nb6d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1rx3g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vo1tk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_di7lk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_psr70")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tiklf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_76whb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j8ha4")
+}],
+"loop": 1,
+"name": &"warmth_aura",
+"speed": 5.0
+}]

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="AbilityData" format=3 uid="uid://bj6cc47r0o73x"]
+
+[ext_resource type="Script" uid="uid://do4vdp8v5ea1s" path="res://Scripts/ResourceScripts/status_effect.gd" id="1_quqpd"]
+[ext_resource type="Script" uid="uid://5j6i1rvnlhe2" path="res://Scripts/ResourceScripts/ability_data.gd" id="2_n652d"]
+
+[resource]
+script = ExtResource("2_n652d")
+name = "Auto Attack"
+damage = 2.0
+ap_scaling = 0.3
+cooldown = 3.0
+range = 2.0
+windup = 0.1
+metadata/_custom_type_script = "uid://5j6i1rvnlhe2"

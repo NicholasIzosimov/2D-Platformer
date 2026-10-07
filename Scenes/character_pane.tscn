@@ -47,6 +47,15 @@ theme_override_constants/h_separation = 4
 theme_override_constants/v_separation = 4
 columns = 2
 
+[node name="Preview" type="Control" parent="MarginContainer/Layout/Body" unique_id=1750272821]
+custom_minimum_size = Vector2(160, 160)
+layout_mode = 2
+
+[node name="PreviewSprite" type="AnimatedSprite2D" parent="MarginContainer/Layout/Body/Preview" unique_id=137298890]
+unique_name_in_owner = true
+position = Vector2(100, 110)
+scale = Vector2(6, 6)
+
 [node name="Stats" type="GridContainer" parent="MarginContainer/Layout/Body" unique_id=559127851]
 unique_name_in_owner = true
 layout_mode = 2

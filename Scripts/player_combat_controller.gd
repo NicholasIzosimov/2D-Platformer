@@ -1,41 +1,32 @@
 extends Node
 
-var current_target: Node
-var hovered_target: Node
-@export var action_bar: Node
+@export var hud: Node
 @export var error_text: Node
 @export var cast_bar: Node
+var current_target: Node
+var hovered_target: Node
+signal target_changed(target)
 
 func _ready() -> void:
-	set_target(get_tree().get_first_node_in_group("enemies"))
 	var combat_handler = get_node("../player/CombatHandler")
-	combat_handler.gcd_started.connect(_on_gcd_started)
 	combat_handler.cast_cancelled.connect(_on_cast_cancelled)
-	combat_handler.cooldown_started.connect(_on_cooldown_started)
 	combat_handler.cast_started.connect(_on_cast_started)
-	combat_handler.cast_finished.connect(func(): get_node("../player").stop_channel_animation())
+	combat_handler.cast_failed.connect(func(reason): error_text.show_message(reason))
 	get_node("../player/Endurance").not_enough_endurance.connect(func(): error_text.show_message("Not enough endurance"))
+	hud.slot_activated.connect(try_cast_slot)
+	target_changed.connect(hud.show_target)
 	
 func _on_cast_started(ability, duration: float) -> void:
 	cast_bar.start_cast(duration)
 
-func _on_cooldown_started(ability, duration: float) -> void:
-	for slot in action_bar.current_slots:
-		if slot.ability == ability:
-			slot.start_countdown(duration)
-
-func _on_gcd_started(duration: float) -> void:
-	for slot in action_bar.current_slots:
-		slot.start_countdown(duration)
-
 func _on_cast_cancelled() -> void:
-	for slot in action_bar.current_slots:
-		slot.stop_countdown()
 	cast_bar.cancel_cast()
 	error_text.show_message("Can't cast while moving")
-	get_node("../player").stop_channel_animation()
-
+	
 func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):
+		set_target(null)
+		return
 	if Input.is_action_just_pressed("tab_target"):
 		cycle_target()
 		return
@@ -46,40 +37,71 @@ func _unhandled_input(event: InputEvent) -> void:
 			set_target(clicked)
 		return
 
-	var i = 1
-	for slot in action_bar.current_slots:
-		if Input.is_action_just_pressed("cast_" + str(i)):
-			var target = get_valid_target()
-			if target == null:
-				error_text.show_message("No target")
-				return
-			var ability = slot.ability
-			var result = get_node("../player/CombatHandler").cast_ability(ability, target)
-			if result == "":
-				slot.bop()
-				var player_node = get_node("../player")
-				if ability.cast_time > 0:
-					player_node.start_channel_animation()
-				else:
-					player_node.play_attack_animation()
-			else:
-				error_text.show_message(result)
-		i += 1
-
+	for slot in hud.current_slots:
+		if slot.keybind_action != "" and event.is_action_pressed(slot.keybind_action):
+			try_cast_slot(slot)
+			return
+			
+func try_cast_slot(slot) -> void:
+	var ability = slot.ability
+	if ability == null:
+		return
+	var target = null
+	if ability.requires_target:
+		target = get_cast_target()
+		if target == null:
+			target = find_auto_target(ability)
+		if target == null:
+			error_text.show_message("No target")
+			return
+		if get_valid_target() == null:
+			set_target(target)
+	var result = get_node("../player/CombatHandler").cast_ability(ability, target)
+	if result == "":
+		slot.bop()
+	else:
+		error_text.show_message(result)
+		
 func _process(delta: float) -> void:
 	update_hover()
-	var target = get_valid_target()
-	if target == null:
-		return
-	var combat_handler = get_node("../player/CombatHandler")
-	var own_stats = get_node("../player/UnitStats")
-	var caster_position = get_node("../player").global_position
-	for slot in action_bar.current_slots:
+	var player = get_node("../player")
+	player.get_node("AutoAttack").target = get_valid_target()
+	var target = get_cast_target()
+	var combat_handler = player.get_node("CombatHandler")
+	var own_stats = player.get_node("UnitStats")
+	for slot in hud.current_slots:
 		var ability = slot.ability
-		var in_range = caster_position.distance_to(target.global_position) <= ability.range * combat_handler.PIXELS_PER_UNIT
+		if ability == null:
+			continue
+		var in_range = not ability.requires_target or target == null or combat_handler.in_reach(ability, target)
 		var has_power = own_stats.current_power >= ability.power_cost
 		slot.set_validity(in_range, has_power)
-
+		var holder = target if ability.requires_target else player
+		var left: float = 0.0
+		var total: float = 1.0
+		if is_instance_valid(holder):
+			for effect in ability.effects:
+				var time_left: float = holder.get_node("CombatHandler").effect_time_left(effect)
+				if time_left > left:
+					left = time_left
+					total = effect.spell_duration
+		slot.set_effect_timer(left, total)
+		
+func find_auto_target(ability) -> Node:
+	var player = get_node("../player")
+	var combat_handler = player.get_node("CombatHandler")
+	var best: Node = null
+	var best_distance: float = INF
+	for enemy in get_living_enemies():
+		var distance: float = player.global_position.distance_to(enemy.global_position)
+		if distance >= best_distance or not combat_handler.in_reach(ability, enemy):
+			continue
+		if not combat_handler.units_have_line_of_sight(player, enemy):
+			continue
+		best = enemy
+		best_distance = distance
+	return best
+	
 func get_living_enemies() -> Array:
 	var result = []
 	for enemy in get_tree().get_nodes_in_group("enemies"):
@@ -89,17 +111,40 @@ func get_living_enemies() -> Array:
 
 func get_valid_target() -> Node:
 	if not is_instance_valid(current_target) or current_target.get_node("UnitStats").is_dead:
-		var enemies = get_living_enemies()
-		set_target(enemies[0] if enemies.size() > 0 else null)
+		set_target(null)
 	return current_target
+	
+func get_cast_target() -> Node:
+	var selected: Node = get_valid_target()
+	if selected:
+		return selected
+	if is_instance_valid(hovered_target) and not hovered_target.get_node("UnitStats").is_dead:
+		return hovered_target
+	return null
 
 func cycle_target() -> void:
-	var enemies = get_living_enemies()
-	if enemies.is_empty():
-		set_target(null)
+	var candidates: Array = get_tab_candidates()
+	if candidates.is_empty():
 		return
-	var index = enemies.find(current_target)
-	set_target(enemies[(index + 1) % enemies.size()])
+	var index: int = candidates.find(current_target)
+	set_target(candidates[(index + 1) % candidates.size()])
+
+func get_tab_candidates() -> Array:
+	var player = get_node("../player")
+	var combat_handler = player.get_node("CombatHandler")
+	var view: Rect2 = player.get_viewport().get_canvas_transform().affine_inverse() * player.get_viewport().get_visible_rect()
+	var result: Array = []
+	for enemy in get_living_enemies():
+		var aggro_range: float = Yards.to_px(enemy.get_node("EnemyCombatController").aggro_range)
+		if player.global_position.distance_to(enemy.global_position) > aggro_range:
+			continue
+		if not view.has_point(enemy.global_position):
+			continue
+		if not combat_handler.units_have_line_of_sight(player, enemy):
+			continue
+		result.append(enemy)
+	result.sort_custom(func(a, b): return player.global_position.distance_squared_to(a.global_position) < player.global_position.distance_squared_to(b.global_position))
+	return result
 
 func set_target(new_target: Node) -> void:
 	if is_instance_valid(current_target):
@@ -107,7 +152,8 @@ func set_target(new_target: Node) -> void:
 	current_target = new_target
 	if is_instance_valid(current_target):
 		current_target.get_node("TargetIndicator").set_selected(true)
-
+	target_changed.emit(current_target if is_instance_valid(current_target) else null)
+	
 func get_enemy_under_mouse() -> Node:
 	var player = get_node("../player")
 	var params = PhysicsPointQueryParameters2D.new()
@@ -115,11 +161,17 @@ func get_enemy_under_mouse() -> Node:
 	params.collide_with_areas = true
 	params.collide_with_bodies = false
 	params.collision_mask = 8
+	var candidates: Array = []
 	for result in player.get_world_2d().direct_space_state.intersect_point(params):
 		var unit = result.collider.owner
-		if unit.is_in_group("enemies") and not unit.get_node("UnitStats").is_dead:
-			return unit
-	return null
+		if unit.is_in_group("enemies") and not unit.get_node("UnitStats").is_dead and not candidates.has(unit):
+			candidates.append(unit)
+	if candidates.is_empty():
+		return null
+	candidates.sort_custom(func(a, b): return a.global_position.y > b.global_position.y)
+	if candidates.size() > 1 and candidates[0] == current_target:
+		return candidates[1]
+	return candidates[0]
 
 func update_hover() -> void:
 	var hovered = get_enemy_under_mouse()

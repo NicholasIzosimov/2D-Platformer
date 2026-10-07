@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://divn7g3016xhl"]
+
+[ext_resource type="Script" uid="uid://oruyrev7n3cr" path="res://Scripts/talent_pane.gd" id="1_m20gn"]
+[ext_resource type="Script" uid="uid://dfgj3dce6f65m" path="res://Scripts/tree_viewport.gd" id="2_10rn3"]
+[ext_resource type="PackedScene" uid="uid://bkgn6t7rxwufu" path="res://Scenes/skill_tree.tscn" id="2_n2v3j"]
+
+[node name="TalentPane" type="PanelContainer" unique_id=413069100]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_m20gn")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=2125590162]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1505368438]
+layout_mode = 2
+
+[node name="Points" type="Label" parent="MarginContainer/VBoxContainer" unique_id=573703269]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="TreeViewport" type="Control" parent="MarginContainer/VBoxContainer" unique_id=1030526012]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(900, 600)
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("2_10rn3")
+
+[node name="SkillTree" parent="MarginContainer/VBoxContainer/TreeViewport" unique_id=1027915147 instance=ExtResource("2_n2v3j")]
+layout_mode = 0
+offset_right = 900.0
+offset_bottom = 600.0
+mouse_filter = 2

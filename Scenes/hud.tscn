@@ -1,0 +1,264 @@
+[gd_scene format=3 uid="uid://ur1htw0fkivh"]
+
+[ext_resource type="Script" uid="uid://ctytsm25xveti" path="res://Scripts/hud.gd" id="1_43w4t"]
+[ext_resource type="PackedScene" uid="uid://df1kljab75tjb" path="res://Scenes/ability_slot.tscn" id="2_244ca"]
+[ext_resource type="Script" uid="uid://cvf63wm7qrp2n" path="res://Scripts/combat_indicator.gd" id="4_p0qmi"]
+[ext_resource type="Script" uid="uid://cjc027gsopgyt" path="res://Scripts/cast_bar.gd" id="4_q6bf1"]
+[ext_resource type="Script" uid="uid://fci34va5e3f1" path="res://Scripts/swing_bar.gd" id="5_7gr8i"]
+[ext_resource type="PackedScene" uid="uid://brmq6gm1yuqol" path="res://Scenes/unit_frame.tscn" id="7_43w4t"]
+[ext_resource type="Script" uid="uid://bs6beqb88dx4m" path="res://Scripts/endurance_bar.gd" id="7_p0qmi"]
+[ext_resource type="Script" uid="uid://b12qvnvvnoyfj" path="res://Scripts/xp_bar.gd" id="8_p0qmi"]
+[ext_resource type="Script" uid="uid://dxtamt3522coq" path="res://Scripts/layout_editor.gd" id="9_7gr8i"]
+[ext_resource type="Script" uid="uid://cehn4vot2wra" path="res://Scripts/debuff_container.gd" id="10_5ep0j"]
+[ext_resource type="PackedScene" uid="uid://d0cpyodsk2niv" path="res://Scenes/debuff_icon.tscn" id="11_4f5kr"]
+[ext_resource type="Texture2D" uid="uid://bfcikulr0jk3b" path="res://Assets/AbilityIcons/GushingWound.png" id="11_piegi"]
+[ext_resource type="Texture2D" uid="uid://s8yki6rbu1rc" path="res://Assets/AbilityIcons/warmth.png" id="12_i2avg"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lw07u"]
+bg_color = Color(0.19769236, 0.18554819, 0.20661426, 0.67058825)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q6bf1"]
+bg_color = Color(0.91844857, 0.78026545, 0.4464535, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7gr8i"]
+bg_color = Color(0.09803922, 0.09803922, 0.09803922, 0.89411765)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_43w4t"]
+bg_color = Color(0.68721527, 0.6872149, 0.6872147, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xjbu4"]
+bg_color = Color(0.05882353, 0.19215687, 0.12941177, 0.77254903)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7lhys"]
+bg_color = Color(0.21731028, 0.52359927, 0.42132032, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3chas"]
+bg_color = Color(0.2470631, 0.13331369, 0.307844, 0.4745098)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3h6ce"]
+bg_color = Color(0.45275724, 0.2587541, 0.6908787, 1)
+
+[node name="HUD" type="Control" unique_id=171746954]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_43w4t")
+slot_scene = ExtResource("2_244ca")
+
+[node name="CombatIndicator" type="Label" parent="." unique_id=1523124479]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = 460.0
+offset_right = 200.0
+offset_bottom = 483.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "In Combat!"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("4_p0qmi")
+
+[node name="CastBar" type="ProgressBar" parent="." unique_id=66399127]
+custom_minimum_size = Vector2(400, 30)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = 430.0
+offset_right = 200.0
+offset_bottom = 460.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme_override_styles/background = SubResource("StyleBoxFlat_lw07u")
+theme_override_styles/fill = SubResource("StyleBoxFlat_q6bf1")
+value = 100.0
+show_percentage = false
+script = ExtResource("4_q6bf1")
+
+[node name="PlayerUnitFrame" parent="." unique_id=591488566 instance=ExtResource("7_43w4t")]
+layout_mode = 1
+offset_left = -530.0
+offset_top = 80.0
+offset_right = -218.0
+offset_bottom = 180.0
+
+[node name="TargetUnitFrame" parent="." unique_id=1763562457 instance=ExtResource("7_43w4t")]
+layout_mode = 1
+offset_left = 220.0
+offset_top = 80.0
+offset_right = 532.0
+offset_bottom = 180.0
+track_player = false
+portrait_on_right = true
+
+[node name="SwingBar" type="ProgressBar" parent="." unique_id=1229804212]
+custom_minimum_size = Vector2(400, 30)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = 400.0
+offset_right = 200.0
+offset_bottom = 430.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme_override_styles/background = SubResource("StyleBoxFlat_7gr8i")
+theme_override_styles/fill = SubResource("StyleBoxFlat_43w4t")
+value = 100.0
+show_percentage = false
+script = ExtResource("5_7gr8i")
+
+[node name="EnduranceBar" type="ProgressBar" parent="." unique_id=1806569704]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 0
+offset_left = 1080.0
+offset_top = 1088.0
+offset_right = 1480.0
+offset_bottom = 1120.0
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_xjbu4")
+theme_override_styles/fill = SubResource("StyleBoxFlat_7lhys")
+show_percentage = false
+script = ExtResource("7_p0qmi")
+track_player = true
+show_numbers = true
+
+[node name="AbilitySlots" type="HBoxContainer" parent="." unique_id=537638967 groups=["layout_fit_content"]]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = 280.0
+offset_bottom = 280.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+alignment = 1
+
+[node name="XPBar" type="ProgressBar" parent="." unique_id=801518690]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -750.0
+offset_top = -16.0
+offset_right = 750.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_3chas")
+theme_override_styles/fill = SubResource("StyleBoxFlat_3h6ce")
+show_percentage = false
+script = ExtResource("8_p0qmi")
+
+[node name="Label" type="Label" parent="XPBar" unique_id=1459850618]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="UnlockUIButton" type="Button" parent="." unique_id=1205660125]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+focus_mode = 0
+text = "Unlock UI"
+
+[node name="Debuffs" type="HFlowContainer" parent="." unique_id=389325966 groups=["layout_fit_content", "layout_preview"]]
+custom_minimum_size = Vector2(136, 24)
+layout_mode = 1
+offset_left = 300.0
+offset_top = 53.0
+offset_right = 600.0
+offset_bottom = 77.0
+scale = Vector2(1.5, 1.5)
+alignment = 2
+script = ExtResource("10_5ep0j")
+debuff_icon_scene = ExtResource("11_4f5kr")
+track_player = true
+show_buffs = false
+max_icons = 0
+preview_icon = ExtResource("11_piegi")
+preview_count = 4
+preview_interval = 3.0
+
+[node name="Buffs" type="HFlowContainer" parent="." unique_id=783887801 groups=["layout_fit_content", "layout_preview"]]
+custom_minimum_size = Vector2(136, 24)
+layout_mode = 1
+offset_left = 300.0
+offset_right = 600.0
+offset_bottom = 24.0
+scale = Vector2(1.5, 1.5)
+alignment = 2
+script = ExtResource("10_5ep0j")
+debuff_icon_scene = ExtResource("11_4f5kr")
+track_player = true
+show_debuffs = false
+max_icons = 0
+preview_icon = ExtResource("12_i2avg")
+preview_count = 4
+preview_interval = 3.0
+
+[node name="LayoutEditor" type="Control" parent="." unique_id=179531114 node_paths=PackedStringArray("unlock_button")]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("9_7gr8i")
+unlock_button = NodePath("../UnlockUIButton")

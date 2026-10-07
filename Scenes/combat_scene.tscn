@@ -1,18 +1,24 @@
-[gd_scene format=4 uid="uid://bjq60whfylylw"]
+[gd_scene format=3 uid="uid://bjq60whfylylw"]
 
 [ext_resource type="PackedScene" uid="uid://bvq24t0udl8op" path="res://Scenes/Player.tscn" id="1_qumoa"]
-[ext_resource type="PackedScene" uid="uid://ur1htw0fkivh" path="res://Scenes/action_bar.tscn" id="1_rdqa8"]
+[ext_resource type="PackedScene" uid="uid://ur1htw0fkivh" path="res://Scenes/hud.tscn" id="1_rdqa8"]
 [ext_resource type="Texture2D" uid="uid://boofidmbpnbr3" path="res://Assets/SkyNight.png" id="1_sso1v"]
 [ext_resource type="PackedScene" uid="uid://b0eqcr5beyybg" path="res://Scenes/Enemy.tscn" id="2_2ip8y"]
 [ext_resource type="Script" uid="uid://c1f27rlg282ua" path="res://Scripts/error_text.gd" id="2_vtehv"]
 [ext_resource type="Script" uid="uid://cqlwpi23btuns" path="res://Scripts/player_combat_controller.gd" id="4_7uj85"]
 [ext_resource type="PackedScene" uid="uid://dy7tq4pgrtl6q" path="res://Scenes/character_pane.tscn" id="4_efsqc"]
+[ext_resource type="PackedScene" uid="uid://divn7g3016xhl" path="res://Scenes/talent_pane.tscn" id="5_yw3bn"]
 [ext_resource type="Script" uid="uid://yti72ecb3xss" path="res://Scripts/enemy_spawner.gd" id="6_vtehv"]
 [ext_resource type="Script" uid="uid://yon5ea1deaj3" path="res://Scripts/debug_tools.gd" id="7_loea4"]
 [ext_resource type="Texture2D" uid="uid://h0prnvh3rwo0" path="res://Assets/Tiny Swords (Free Pack)/Terrain/Tileset/Tilemap_color1.png" id="8_sv7pb"]
+[ext_resource type="Resource" uid="uid://dkxxluk1bxxtm" path="res://Resources/Progression/spawn_level_rule.tres" id="9_b1s7y"]
 [ext_resource type="Script" uid="uid://coe7kbwm1s5ca" path="res://Scripts/nameplate_stacker.gd" id="9_cy4jt"]
 [ext_resource type="Script" uid="uid://hh0g0qnqves" path="res://Scripts/world_generator.gd" id="11_f12wh"]
-[ext_resource type="Resource" uid="uid://cho4trmodg566" path="res://Resources/Zones/plains.tres" id="12_2usbb"]
+[ext_resource type="Script" uid="uid://iljt3cqmf55k" path="res://Scripts/ResourceScripts/meadow_shape.gd" id="13_efsqc"]
+[ext_resource type="Script" uid="uid://drniy7ox0d5uy" path="res://Scripts/flow_field.gd" id="14_4nmng"]
+[ext_resource type="Script" uid="uid://4nvgpejblxaf" path="res://Scripts/spawn_director.gd" id="16_y63gj"]
+[ext_resource type="Resource" uid="uid://brgvfw2nty8s5" path="res://Resources/Spawning/spawn_table.tres" id="17_1br8s"]
+[ext_resource type="Script" uid="uid://dgv1x1fa5gbcc" path="res://Scripts/moon_light.gd" id="19_ej3m1"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cy4jt"]
 texture = ExtResource("8_sv7pb")
@@ -107,9 +113,16 @@ tile_size = Vector2i(64, 64)
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_cy4jt")
 
+[sub_resource type="Resource" id="Resource_efsqc"]
+script = ExtResource("13_efsqc")
+metadata/_custom_type_script = "uid://iljt3cqmf55k"
+
 [node name="CombatScene" type="Node2D" unique_id=312659833]
+y_sort_enabled = true
 
 [node name="Background" type="Parallax2D" parent="." unique_id=1346562611]
+visible = false
+z_index = -20
 scroll_scale = Vector2(0.3, 0.3)
 repeat_size = Vector2(2548, 1588)
 repeat_times = 3
@@ -121,18 +134,32 @@ centered = false
 region_enabled = true
 region_rect = Rect2(0, 2, 637, 397)
 
-[node name="Terrain" type="TileMapLayer" parent="." unique_id=401014400]
-scale = Vector2(0.5, 0.5)
-tile_map_data = PackedByteArray("AADs/wIAAAAFAAQAAADt/wIAAAAFAAQAAADu/wIAAAAFAAQAAADv/wIAAAAFAAQAAADw/wIAAAAFAAQAAADx/wIAAAAFAAQAAADy/wIAAAAFAAQAAADz/wIAAAAFAAQAAAD0/wIAAAAFAAQAAAD1/wIAAAAFAAQAAAD2/wIAAAAFAAQAAAD3/wIAAAAFAAQAAAD4/wIAAAAFAAQAAAD5/wIAAAAFAAQAAAD6/wIAAAAFAAQAAAD7/wIAAAAFAAQAAAD8/wIAAAAFAAQAAAD9/wEAAAAFAAQAAAD+/wEAAAAFAAQAAAD//wEAAAAFAAQAAAAAAAEAAAAFAAQAAAABAAEAAAAFAAQAAAACAAEAAAAFAAQAAAADAAAAAAAFAAQAAAAEAAAAAAAFAAQAAAAFAAAAAAAFAAQAAAAGAAAAAAAFAAQAAAAHAAAAAAAFAAQAAAAIAAEAAAAFAAQAAAAJAAEAAAAFAAQAAAAKAAEAAAAFAAQAAAALAAEAAAAFAAQAAAAMAAAAAAAFAAQAAAAMAP//AAAFAAQAAAANAP7/AAAFAAQAAAAOAP7/AAAFAAQAAAAPAP7/AAAFAAQAAAAQAP7/AAAFAAQAAAARAPz/AAAFAAQAAAARAP3/AAAFAAQAAAASAPz/AAAFAAQAAAATAPz/AAAFAAQAAAATAPf/AAAFAAQAAAATAPj/AAAFAAQAAAASAPj/AAAFAAQAAAASAPn/AAAFAAQAAAASAPr/AAAFAAQAAAARAPr/AAAFAAQAAAARAPv/AAAFAAQAAAATAPn/AAAFAAQAAAATAPr/AAAFAAQAAAASAPv/AAAFAAQAAAATAPv/AAAFAAQAAADv/wEAAAAFAAQAAADu/wEAAAAFAAQAAADu/wAAAAAFAAQAAADt////AAAFAAQAAADt//7/AAAFAAQAAADs//7/AAAFAAQAAADs//3/AAAFAAQAAADs////AAAFAAQAAADs/wAAAAAFAAQAAADt/wAAAAAFAAQAAADt/wEAAAAFAAQAAADs/wEAAAAFAAQAAADs//z/AAAFAAQAAADs//v/AAAFAAQAAADs//r/AAAFAAQAAADs//n/AAABAAAAAADt//3/AAABAAAAAADu////AAABAAAAAADv/wAAAAABAAAAAADw/wEAAAABAAAAAADx/wEAAAABAAAAAADy/wEAAAABAAAAAADz/wEAAAABAAAAAAD0/wEAAAABAAAAAAD1/wEAAAABAAAAAAD2/wEAAAABAAAAAAD3/wEAAAABAAAAAAD4/wEAAAABAAAAAAD5/wEAAAABAAAAAAD6/wEAAAABAAAAAAD7/wEAAAABAAAAAAD8/wEAAAABAAAAAAD9/wAAAAABAAAAAAD+/wAAAAABAAAAAAD//wAAAAABAAAAAAAAAAAAAAABAAAAAAABAAAAAAABAAAAAAACAAAAAAABAAAAAAADAP//AAABAAAAAAAEAP//AAABAAAAAAAFAP//AAABAAAAAAAGAP//AAABAAAAAAAHAP//AAABAAAAAAAIAAAAAAABAAAAAAAJAAAAAAABAAAAAAAKAAAAAAABAAAAAAALAAAAAAABAAAAAAAMAP7/AAABAAAAAAANAP3/AAABAAAAAAAOAP3/AAABAAAAAAAPAP3/AAABAAAAAAAQAP3/AAABAAAAAAARAPn/AAABAAAAAAASAPf/AAABAAAAAAATAPb/AAABAAAAAAA=")
+[node name="Ground" type="TileMapLayer" parent="." unique_id=401014400]
+z_index = -10
+scale = Vector2(0.25, 0.25)
+tile_set = SubResource("TileSet_pm0ju")
+collision_enabled = false
+
+[node name="Obstacles" type="TileMapLayer" parent="." unique_id=894308297]
+y_sort_enabled = true
+scale = Vector2(0.25, 0.25)
 tile_set = SubResource("TileSet_pm0ju")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=653473165]
 
-[node name="ActionBar" parent="CanvasLayer" unique_id=171746954 instance=ExtResource("1_rdqa8")]
-anchors_preset = -1
-offset_bottom = -275.0
+[node name="HUD" parent="CanvasLayer" unique_id=171746954 instance=ExtResource("1_rdqa8")]
+
+[node name="XPBar" parent="CanvasLayer/HUD" index="7" unique_id=801518690]
+offset_top = -40.0
+offset_bottom = -20.0
 
 [node name="CharacterPane" parent="CanvasLayer" unique_id=1357765377 instance=ExtResource("4_efsqc")]
+
+[node name="TalentPane" parent="CanvasLayer" unique_id=413069100 instance=ExtResource("5_yw3bn")]
+offset_left = -50.5
+offset_top = -27.5
+offset_right = -10.5
+offset_bottom = 23.5
 
 [node name="ErrorText" type="Label" parent="CanvasLayer" unique_id=1617025841]
 anchors_preset = -1
@@ -151,18 +178,20 @@ vertical_alignment = 1
 script = ExtResource("2_vtehv")
 
 [node name="player" parent="." unique_id=664299930 instance=ExtResource("1_qumoa")]
+motion_mode = 0
 
 [node name="SpawnPoint" type="Marker2D" parent="player" unique_id=1426186859]
 position = Vector2(300, -40)
 
-[node name="PlayerCombatController" type="Node" parent="." unique_id=829671021 node_paths=PackedStringArray("action_bar", "error_text", "cast_bar")]
+[node name="PlayerCombatController" type="Node" parent="." unique_id=829671021 node_paths=PackedStringArray("hud", "error_text", "cast_bar")]
 script = ExtResource("4_7uj85")
-action_bar = NodePath("../CanvasLayer/ActionBar")
+hud = NodePath("../CanvasLayer/HUD")
 error_text = NodePath("../CanvasLayer/ErrorText")
-cast_bar = NodePath("../CanvasLayer/ActionBar/HUD/CastBar")
+cast_bar = NodePath("../CanvasLayer/HUD/CastBar")
 
 [node name="EnemySpawner" type="Node" parent="." unique_id=159914997]
 script = ExtResource("6_vtehv")
+level_rule = ExtResource("9_b1s7y")
 
 [node name="DebugTools" type="Node" parent="." unique_id=64277418 node_paths=PackedStringArray("enemy_spawner", "spawn_point")]
 script = ExtResource("7_loea4")
@@ -173,10 +202,37 @@ spawn_point = NodePath("../player/SpawnPoint")
 [node name="NameplateStacker" type="Node" parent="." unique_id=1547484641]
 script = ExtResource("9_cy4jt")
 
-[node name="WorldGenerator" type="Node" parent="." unique_id=1442959269 node_paths=PackedStringArray("terrain", "player")]
+[node name="WorldGenerator" type="Node" parent="." unique_id=1442959269 node_paths=PackedStringArray("ground", "obstacles", "player")]
 script = ExtResource("11_f12wh")
-terrain = NodePath("../Terrain")
+ground = NodePath("../Ground")
+obstacles = NodePath("../Obstacles")
 player = NodePath("../player")
-shape = ExtResource("12_2usbb")
+shape = SubResource("Resource_efsqc")
 
-[editable path="CanvasLayer/ActionBar"]
+[node name="FlowField" type="Node" parent="." unique_id=441218998 node_paths=PackedStringArray("world", "player")]
+script = ExtResource("14_4nmng")
+world = NodePath("../WorldGenerator")
+player = NodePath("../player")
+field_radius = 36
+
+[node name="SpawnDirector" type="Node" parent="." unique_id=938874853 node_paths=PackedStringArray("enemy_spawner", "world")]
+script = ExtResource("16_y63gj")
+enemy_spawner = NodePath("../EnemySpawner")
+world = NodePath("../WorldGenerator")
+enemy_scene = ExtResource("2_2ip8y")
+spawn_table = ExtResource("17_1br8s")
+max_enemies = 20
+spawn_interval = 0.5
+
+[node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=465484896]
+color = Color(0.54901963, 0.54901963, 0.6509804, 1)
+
+[node name="MoonLight" type="DirectionalLight2D" parent="." unique_id=1993101109 groups=["light_sources"]]
+color = Color(0.6, 0.7019608, 1, 1)
+energy = 0.05
+script = ExtResource("19_ej3m1")
+illumination = 0.4
+shadow_darkness = 0.6
+shadow_length = 0.1
+
+[editable path="CanvasLayer/HUD"]

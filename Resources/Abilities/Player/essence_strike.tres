@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="AbilityData" format=3 uid="uid://da8bbc11k5ph7"]
+
+[ext_resource type="Script" uid="uid://do4vdp8v5ea1s" path="res://Scripts/ResourceScripts/status_effect.gd" id="1_fyeug"]
+[ext_resource type="Texture2D" uid="uid://b85k31a3cu5ur" path="res://Assets/AbilityIcons/essence_strike.png" id="2_3uqtt"]
+[ext_resource type="Script" uid="uid://5j6i1rvnlhe2" path="res://Scripts/ResourceScripts/ability_data.gd" id="2_y53d4"]
+
+[resource]
+script = ExtResource("2_y53d4")
+icon = ExtResource("2_3uqtt")
+name = "Essence Strike"
+triggers_gcd = true
+damage = 7.0
+cooldown = 3.0
+power_gain = 20.0
+range = 2.0
+metadata/_custom_type_script = "uid://5j6i1rvnlhe2"

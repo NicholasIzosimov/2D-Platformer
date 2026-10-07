@@ -1,6 +1,11 @@
 [gd_scene format=3 uid="uid://df1kljab75tjb"]
 
 [ext_resource type="Script" uid="uid://b81de2pceuy41" path="res://Scripts/ability_slot.gd" id="1_p0j81"]
+[ext_resource type="Shader" uid="uid://d2baxub4i8pgj" path="res://Resources/Shaders/desaturate.gdshader" id="1_vodii"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1br8s"]
+shader = ExtResource("1_vodii")
+shader_parameter/saturation = 1.0
 
 [sub_resource type="Gradient" id="Gradient_p0j81"]
 
@@ -11,6 +16,7 @@ height = 80
 fill_to = Vector2(0, 0)
 
 [node name="AbilitySlot" type="Button" unique_id=145900171]
+material = SubResource("ShaderMaterial_1br8s")
 custom_minimum_size = Vector2(80, 80)
 offset_right = 48.0
 offset_bottom = 48.0
@@ -40,6 +46,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 fill_mode = 5
 texture_progress = SubResource("GradientTexture2D_7uj85")
 tint_progress = Color(1, 1, 1, 0.27450982)

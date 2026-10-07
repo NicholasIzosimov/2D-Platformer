@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="PowerData" format=3 uid="uid://dg8jdgd0ufm2x"]
+
+[ext_resource type="Script" uid="uid://s0hm6vu1m0mo" path="res://Scripts/ResourceScripts/power_data.gd" id="1_fxc2k"]
+
+[resource]
+script = ExtResource("1_fxc2k")
+name = "Dread"
+color = Color(0.4006977, 0.40069774, 0.40069756, 1)
+out_of_combat_generation = -1.0
+starting_power_percent = 0.0
+power_on_kill = 20.0
+metadata/_custom_type_script = "uid://s0hm6vu1m0mo"

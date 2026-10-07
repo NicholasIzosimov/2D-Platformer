@@ -1,0 +1,120 @@
+[gd_scene format=3 uid="uid://bkgn6t7rxwufu"]
+
+[ext_resource type="Script" uid="uid://c1ic4dh2cwfdh" path="res://Scripts/skill_tree_view.gd" id="1_wp0ut"]
+[ext_resource type="Texture2D" uid="uid://dvaepqkmw0mt6" path="res://Assets/TalentIcons/CriticalEssence.png" id="2_2v864"]
+[ext_resource type="Script" uid="uid://tdytbxflibab" path="res://Scripts/talent_node.gd" id="3_mflhg"]
+[ext_resource type="Resource" uid="uid://cko6r6aqb2f5m" path="res://Resources/Talents/crit.tres" id="4_kvjh1"]
+[ext_resource type="Texture2D" uid="uid://dnd6cdwro4bfd" path="res://Assets/TalentIcons/Sharpen.png" id="5_qkl08"]
+[ext_resource type="Texture2D" uid="uid://bmjicpyi0xe2w" path="res://Assets/TalentIcons/CriticalAcuity.png" id="5_y7ohu"]
+[ext_resource type="Resource" uid="uid://cfc8f1s6ev2r7" path="res://Resources/Talents/damage.tres" id="6_2u4er"]
+[ext_resource type="Resource" uid="uid://b5kafw8diy8g4" path="res://Resources/Talents/crit_damage.tres" id="6_ip3ci"]
+[ext_resource type="Texture2D" uid="uid://bqrbc364gnjy4" path="res://Assets/TalentIcons/Far Reach.png" id="7_kvjh1"]
+[ext_resource type="Resource" uid="uid://bvhk745gedemk" path="res://Resources/Talents/strike_range.tres" id="8_y7ohu"]
+[ext_resource type="Texture2D" uid="uid://byscrqrj4op12" path="res://Assets/TalentIcons/Cleaving Strike.png" id="9_ip3ci"]
+[ext_resource type="Resource" uid="uid://bm6dhacn5qylh" path="res://Resources/Talents/strike_targets.tres" id="10_814fo"]
+[ext_resource type="Texture2D" uid="uid://c4yl3tdybr87d" path="res://Assets/AbilityIcons/BloodFrenzy.png" id="11_3v3eh"]
+[ext_resource type="Resource" uid="uid://cqdu5oob1xkwr" path="res://Resources/Talents/blood_frenzy_talent.tres" id="12_2in04"]
+[ext_resource type="Texture2D" uid="uid://d3ivgxoxnj62t" path="res://Assets/TalentIcons/Accuracy.png" id="15_ay0wg"]
+[ext_resource type="Resource" uid="uid://ei8uqvvs3l1f" path="res://Resources/Talents/hit.tres" id="16_kl0wf"]
+
+[node name="SkillTree" type="Control" unique_id=1027915147]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+script = ExtResource("1_wp0ut")
+
+[node name="Crit1" type="Button" parent="." unique_id=1875197763]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 56.0
+offset_bottom = 56.0
+focus_mode = 0
+icon = ExtResource("2_2v864")
+expand_icon = true
+script = ExtResource("3_mflhg")
+talent = ExtResource("4_kvjh1")
+metadata/_custom_type_script = "uid://tdytbxflibab"
+
+[node name="CritDam1" type="Button" parent="Crit1" unique_id=1586007222 node_paths=PackedStringArray("parents")]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 64.0
+offset_right = 112.0
+offset_bottom = 112.0
+focus_mode = 0
+icon = ExtResource("5_y7ohu")
+expand_icon = true
+script = ExtResource("3_mflhg")
+talent = ExtResource("6_ip3ci")
+parents = [NodePath("..")]
+metadata/_custom_type_script = "uid://tdytbxflibab"
+
+[node name="StrikeTargets" type="Button" parent="Crit1/CritDam1" unique_id=2049971342 node_paths=PackedStringArray("parents")]
+layout_mode = 0
+offset_top = 64.0
+offset_right = 48.0
+offset_bottom = 112.0
+focus_mode = 0
+icon = ExtResource("9_ip3ci")
+expand_icon = true
+script = ExtResource("3_mflhg")
+talent = ExtResource("10_814fo")
+parents = [NodePath("..")]
+metadata/_custom_type_script = "uid://tdytbxflibab"
+
+[node name="Damage" type="Button" parent="." unique_id=1979190530]
+layout_mode = 0
+offset_left = 264.0
+offset_top = 8.0
+offset_right = 312.0
+offset_bottom = 56.0
+focus_mode = 0
+icon = ExtResource("5_qkl08")
+expand_icon = true
+script = ExtResource("3_mflhg")
+talent = ExtResource("6_2u4er")
+metadata/_custom_type_script = "uid://tdytbxflibab"
+
+[node name="Hit" type="Button" parent="Damage" unique_id=1608214813 node_paths=PackedStringArray("parents")]
+layout_mode = 0
+offset_left = -64.0
+offset_top = 64.0
+offset_right = -16.0
+offset_bottom = 112.0
+focus_mode = 0
+icon = ExtResource("15_ay0wg")
+expand_icon = true
+script = ExtResource("3_mflhg")
+talent = ExtResource("16_kl0wf")
+parents = [NodePath("..")]
+metadata/_custom_type_script = "uid://tdytbxflibab"
+
+[node name="StrikeRange" type="Button" parent="Damage/Hit" unique_id=511687317 node_paths=PackedStringArray("parents")]
+layout_mode = 0
+offset_top = 64.0
+offset_right = 48.0
+offset_bottom = 112.0
+focus_mode = 0
+icon = ExtResource("7_kvjh1")
+expand_icon = true
+script = ExtResource("3_mflhg")
+talent = ExtResource("8_y7ohu")
+parents = [NodePath("..")]
+metadata/_custom_type_script = "uid://tdytbxflibab"
+
+[node name="BloodFrenzy" type="Button" parent="." unique_id=1286170705 node_paths=PackedStringArray("parents")]
+layout_mode = 0
+offset_left = 136.0
+offset_top = 200.0
+offset_right = 184.0
+offset_bottom = 248.0
+focus_mode = 0
+icon = ExtResource("11_3v3eh")
+expand_icon = true
+script = ExtResource("3_mflhg")
+talent = ExtResource("12_2in04")
+parents = [NodePath("../Crit1/CritDam1/StrikeTargets"), NodePath("../Damage/Hit/StrikeRange")]
+metadata/_custom_type_script = "uid://tdytbxflibab"

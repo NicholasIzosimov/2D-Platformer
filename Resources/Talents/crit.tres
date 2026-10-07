@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="TalentData" format=3 uid="uid://cko6r6aqb2f5m"]
+
+[ext_resource type="Script" uid="uid://ddk5gmr8tu4q7" path="res://Scripts/ResourceScripts/ability_mod.gd" id="1_m7k4f"]
+[ext_resource type="Texture2D" uid="uid://dvaepqkmw0mt6" path="res://Assets/TalentIcons/CriticalEssence.png" id="2_ld0vb"]
+[ext_resource type="Script" uid="uid://ccvwsxd5vfeut" path="res://Scripts/ResourceScripts/talent_data.gd" id="2_q8kgl"]
+
+[resource]
+script = ExtResource("2_q8kgl")
+name = "Critical Essence"
+icon = ExtResource("2_ld0vb")
+max_ranks = 5
+stat_bonuses = Dictionary[int, float]({
+3: 1.0
+})
+metadata/_custom_type_script = "uid://ccvwsxd5vfeut"

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AbilityData" format=3 uid="uid://24dsufhqgiq6"]
+
+[ext_resource type="Script" uid="uid://do4vdp8v5ea1s" path="res://Scripts/ResourceScripts/status_effect.gd" id="1_vlphq"]
+[ext_resource type="Texture2D" uid="uid://dwnxle0dqts56" path="res://Assets/AbilityIcons/quick_strike.png" id="2_rf3jp"]
+[ext_resource type="Script" uid="uid://5j6i1rvnlhe2" path="res://Scripts/ResourceScripts/ability_data.gd" id="2_rod4w"]
+
+[resource]
+script = ExtResource("2_rod4w")
+icon = ExtResource("2_rf3jp")
+name = "Quick Strike"
+triggers_gcd = true
+damage = 3.0
+power_gain = 2.0
+range = 2.0
+metadata/_custom_type_script = "uid://5j6i1rvnlhe2"

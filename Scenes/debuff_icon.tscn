@@ -20,6 +20,7 @@ fill_from = Vector2(1, 0)
 
 [node name="DebuffIcon" type="Panel" unique_id=562804786]
 custom_minimum_size = Vector2(24, 24)
+mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_pa315")
 script = ExtResource("1_h8qd1")
 
@@ -31,6 +32,7 @@ offset_left = 1.0
 offset_top = 1.0
 offset_right = 23.0
 offset_bottom = 23.0
+mouse_filter = 2
 
 [node name="TextureProgressBar" type="TextureProgressBar" parent="." unique_id=1970816838]
 custom_minimum_size = Vector2(22, 22)
@@ -39,6 +41,7 @@ offset_left = 1.0
 offset_top = 1.0
 offset_right = 65.0
 offset_bottom = 65.0
+mouse_filter = 2
 fill_mode = 4
 texture_progress = SubResource("GradientTexture2D_orcho")
 tint_progress = Color(1, 1, 1, 0.34117648)

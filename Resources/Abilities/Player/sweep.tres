@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="AbilityData" format=3 uid="uid://bvjumy1olrrk5"]
+
+[ext_resource type="Script" uid="uid://do4vdp8v5ea1s" path="res://Scripts/ResourceScripts/status_effect.gd" id="1_u42gw"]
+[ext_resource type="Texture2D" uid="uid://pc8b3j511ys2" path="res://Assets/AbilityIcons/sweep.png" id="2_2nkbl"]
+[ext_resource type="Script" uid="uid://5j6i1rvnlhe2" path="res://Scripts/ResourceScripts/ability_data.gd" id="3_jnwvm"]
+
+[resource]
+script = ExtResource("3_jnwvm")
+icon = ExtResource("2_2nkbl")
+name = "Sweep"
+triggers_gcd = true
+damage = 5.0
+cooldown = 3.0
+power_cost = 35.0
+range = 2.0
+aoe_radius = 2.0
+aoe_max_targets = 4
+aoe_damage_multiplier = 0.8
+metadata/_custom_type_script = "uid://5j6i1rvnlhe2"

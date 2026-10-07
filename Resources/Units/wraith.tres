@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="UnitData" format=3 uid="uid://dsmsyh4er8fc1"]
+
+[ext_resource type="Script" uid="uid://5j6i1rvnlhe2" path="res://Scripts/ResourceScripts/ability_data.gd" id="1_1hsrk"]
+[ext_resource type="Resource" uid="uid://bj6cc47r0o73x" path="res://Resources/Abilities/auto_attack.tres" id="2_n0thl"]
+[ext_resource type="Resource" uid="uid://cv3pwmcstpv3r" path="res://Resources/Abilities/Player/blood_frenzy_buff.tres" id="2_nj8no"]
+[ext_resource type="Resource" uid="uid://dsk04y4qu2q5q" path="res://Resources/Abilities/NPCs/basic_strike.tres" id="3_jvk8i"]
+[ext_resource type="Resource" uid="uid://buwonyjvswl7g" path="res://Resources/Progression/level_scaling.tres" id="3_nj8no"]
+[ext_resource type="Resource" uid="uid://d3p0cq81lslwu" path="res://Resources/Powers/bot_power.tres" id="4_jvk8i"]
+[ext_resource type="Resource" uid="uid://dka4335dyhxnb" path="res://Resources/Abilities/Player/gushing_wound.tres" id="4_rrvij"]
+[ext_resource type="Script" uid="uid://djkq3ofrj4kyw" path="res://Scripts/ResourceScripts/unit_data.gd" id="5_rrvij"]
+
+[resource]
+script = ExtResource("5_rrvij")
+name = "Wraith"
+abilities = Array[ExtResource("1_1hsrk")]([ExtResource("2_nj8no"), ExtResource("3_jvk8i"), ExtResource("4_rrvij")])
+metadata/_custom_type_script = "uid://djkq3ofrj4kyw"

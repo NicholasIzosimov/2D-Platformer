@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="XpCurve" format=3 uid="uid://bpweelg5rx8eb"]
+
+[ext_resource type="Script" uid="uid://boeu88kuw467s" path="res://Scripts/ResourceScripts/xp_curve.gd" id="1_o51ea"]
+
+[resource]
+script = ExtResource("1_o51ea")
+metadata/_custom_type_script = "uid://boeu88kuw467s"

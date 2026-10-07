@@ -1,24 +1,33 @@
 [gd_scene format=3 uid="uid://cekfdndcc4y2w"]
 
-[ext_resource type="Texture2D" uid="uid://b0s28avob05oy" path="res://Assets/Tiny Swords (Free Pack)/Units/Red Units/Warrior/Warrior_Run.png" id="1_8mmvs"]
 [ext_resource type="Script" uid="uid://cw3cqpsngvqt8" path="res://Scripts/ResourceScripts/unit_stats.gd" id="1_qk68r"]
 [ext_resource type="Script" uid="uid://8w715j655lte" path="res://Scripts/power_bar.gd" id="1_uqujc"]
 [ext_resource type="Script" uid="uid://ds5ll8uhk5y07" path="res://Scripts/health_bar.gd" id="1_x1v5g"]
 [ext_resource type="Resource" uid="uid://bl5puig3wbk7d" path="res://Resources/Units/base_unit.tres" id="2_20lhf"]
-[ext_resource type="Texture2D" uid="uid://dmaw3srbe0m7" path="res://Assets/Tiny Swords (Free Pack)/Units/Red Units/Warrior/Warrior_Attack2.png" id="2_x1v5g"]
 [ext_resource type="Script" uid="uid://dmdwmq035cfu4" path="res://Scripts/combat_text_spawner.gd" id="3_e33bx"]
-[ext_resource type="Texture2D" uid="uid://qyaghtlalssq" path="res://Assets/Tiny Swords (Free Pack)/Units/Red Units/Warrior/Warrior_Idle.png" id="3_ppost"]
 [ext_resource type="PackedScene" uid="uid://bt46q120wyags" path="res://Scenes/FloatingNumber.tscn" id="4_u1ivc"]
+[ext_resource type="Script" uid="uid://dmh1qeuf6bior" path="res://Scripts/screen_sized.gd" id="6_bn6fq"]
 [ext_resource type="Script" uid="uid://cdnq7w2sfu37e" path="res://Scripts/combat_handler.gd" id="6_ppost"]
 [ext_resource type="Script" uid="uid://cehn4vot2wra" path="res://Scripts/debuff_container.gd" id="8_b652i"]
+[ext_resource type="Script" uid="uid://flt2a5sho8vk" path="res://Scripts/level_label.gd" id="8_raq51"]
+[ext_resource type="Resource" uid="uid://c2cw31vjqcfij" path="res://Resources/UI/level_colors.tres" id="9_tuv1f"]
 [ext_resource type="PackedScene" uid="uid://d0cpyodsk2niv" path="res://Scenes/debuff_icon.tscn" id="9_wmjhw"]
+[ext_resource type="Texture2D" uid="uid://hk2fgwo38y5n" path="res://Assets/UI/InCombat.png" id="12_v8cch"]
+[ext_resource type="Script" uid="uid://crh1ik4k8qyl3" path="res://Scripts/combat_icon.gd" id="13_bn6fq"]
 [ext_resource type="Script" uid="uid://cn744cbf4xl18" path="res://Scripts/target_indicator.gd" id="13_ikfb6"]
 [ext_resource type="Script" uid="uid://bq2rt3o2ir0ln" path="res://Scripts/ellipse_ring.gd" id="14_1duij"]
+[ext_resource type="SpriteFrames" uid="uid://b5jpb1jxxexgu" path="res://Resources/Animations/unit_animation.tres" id="14_7ftqo"]
 [ext_resource type="Script" uid="uid://c5rjrc8wcs8g8" path="res://Scripts/unit_cast_bar.gd" id="15_7ftqo"]
+[ext_resource type="Script" uid="uid://boac4c7dewpyy" path="res://Scripts/unit_animator.gd" id="16_q4xie"]
+[ext_resource type="Script" uid="uid://cjco03it7q8av" path="res://Scripts/auto_attack.gd" id="17_pim51"]
+[ext_resource type="Script" uid="uid://bisjirjysnn7u" path="res://Scripts/effect_visuals.gd" id="17_tuv1f"]
+[ext_resource type="Script" uid="uid://c72bbgdje377a" path="res://Scripts/combat_state.gd" id="18_raq51"]
+[ext_resource type="Script" uid="uid://dpikkc32pafh7" path="res://Scripts/unit_shadow.gd" id="19_dcdq5"]
+[ext_resource type="Script" uid="uid://cdsgdkr5k1exw" path="res://Scripts/shadow_caster.gd" id="24_k6v23"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nn08x"]
-radius = 30.945
-height = 61.89
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bn6fq"]
+radius = 8.14
+height = 16.29
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u1ivc"]
 bg_color = Color(0.36862746, 0.64705884, 0.7254902, 0.22352941)
@@ -33,164 +42,17 @@ border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
 border_color = Color(0, 0, 0, 1)
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+expand_margin_bottom = 1.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x1v5g"]
 bg_color = Color(0.817662, 0.49519563, 0.51182157, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
 border_color = Color(0, 0, 0, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pm0ju"]
 size = Vector2(70, 21)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ikfb6"]
-size = Vector2(64, 80)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ikfb6"]
-atlas = ExtResource("2_x1v5g")
-region = Rect2(0, 0, 192, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_1duij"]
-atlas = ExtResource("2_x1v5g")
-region = Rect2(192, 0, 192, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_7ftqo"]
-atlas = ExtResource("2_x1v5g")
-region = Rect2(384, 0, 192, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_q4xie"]
-atlas = ExtResource("2_x1v5g")
-region = Rect2(576, 0, 192, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_pim51"]
-atlas = ExtResource("3_ppost")
-region = Rect2(0, 0, 192, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_raq51"]
-atlas = ExtResource("3_ppost")
-region = Rect2(192, 0, 192, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_tuv1f"]
-atlas = ExtResource("3_ppost")
-region = Rect2(384, 0, 192, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_h2ukl"]
-atlas = ExtResource("3_ppost")
-region = Rect2(576, 0, 192, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_v8cch"]
-atlas = ExtResource("3_ppost")
-region = Rect2(768, 0, 192, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_bn6fq"]
-atlas = ExtResource("3_ppost")
-region = Rect2(960, 0, 192, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_dcdq5"]
-atlas = ExtResource("3_ppost")
-region = Rect2(1152, 0, 192, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_k6v23"]
-atlas = ExtResource("3_ppost")
-region = Rect2(1344, 0, 192, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_20lhf"]
-atlas = ExtResource("1_8mmvs")
-region = Rect2(0, 0, 192, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_uqujc"]
-atlas = ExtResource("1_8mmvs")
-region = Rect2(192, 0, 192, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_e33bx"]
-atlas = ExtResource("1_8mmvs")
-region = Rect2(384, 0, 192, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_u1ivc"]
-atlas = ExtResource("1_8mmvs")
-region = Rect2(576, 0, 192, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_b652i"]
-atlas = ExtResource("1_8mmvs")
-region = Rect2(768, 0, 192, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_wmjhw"]
-atlas = ExtResource("1_8mmvs")
-region = Rect2(960, 0, 192, 192)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_qk68r"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ikfb6")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_1duij")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_7ftqo")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_q4xie")
-}],
-"loop": 0,
-"name": &"warrior_attack1",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_pim51")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_raq51")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_tuv1f")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_h2ukl")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_v8cch")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_bn6fq")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_dcdq5")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_k6v23")
-}],
-"loop": 1,
-"name": &"warrior_idle",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_20lhf")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_uqujc")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_e33bx")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_u1ivc")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_b652i")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_wmjhw")
-}],
-"loop": 1,
-"name": &"warrior_run",
-"speed": 5.0
-}]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7ftqo"]
 bg_color = Color(0.6, 0.6, 0.6, 0.47058824)
@@ -198,10 +60,21 @@ bg_color = Color(0.6, 0.6, 0.6, 0.47058824)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q4xie"]
 bg_color = Color(0.33871102, 0.68437856, 0.46821302, 1)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ikfb6"]
+size = Vector2(21, 29)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pkrlc"]
+size = Vector2(18, 27)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3h6ce"]
+size = Vector2(17.5, 27)
+
 [node name="Unit" type="CharacterBody2D" unique_id=1164345268]
+motion_mode = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1642381980]
-shape = SubResource("CapsuleShape2D_nn08x")
+position = Vector2(0, -8)
+shape = SubResource("CapsuleShape2D_bn6fq")
 
 [node name="UnitStats" type="Node" parent="." unique_id=937660047]
 script = ExtResource("1_qk68r")
@@ -215,6 +88,10 @@ floating_number_scene = ExtResource("4_u1ivc")
 script = ExtResource("6_ppost")
 
 [node name="Bars" type="Node2D" parent="." unique_id=1050830573]
+z_index = 3
+position = Vector2(0, 35)
+script = ExtResource("6_bn6fq")
+pivot = Vector2(0, -85)
 
 [node name="PowerBar" type="ProgressBar" parent="Bars" unique_id=1462988098]
 offset_left = -35.0
@@ -242,6 +119,26 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_x1v5g")
 show_percentage = false
 script = ExtResource("1_x1v5g")
 
+[node name="LevelLabel" type="Label" parent="Bars/HealthBar" unique_id=803717281]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -17.5
+offset_top = 5.0
+offset_right = 17.5
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 21
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("8_raq51")
+level_colors = ExtResource("9_tuv1f")
+
 [node name="DebuffContainer" type="HBoxContainer" parent="Bars/HealthBar" unique_id=1447666959]
 layout_mode = 0
 offset_top = -23.0
@@ -249,6 +146,16 @@ offset_right = 23.0
 mouse_filter = 2
 script = ExtResource("8_b652i")
 debuff_icon_scene = ExtResource("9_wmjhw")
+
+[node name="CombatIcon" type="TextureRect" parent="Bars/HealthBar" unique_id=1218748390]
+layout_mode = 0
+offset_left = -18.0
+offset_bottom = 18.0
+mouse_filter = 2
+texture = ExtResource("12_v8cch")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("13_bn6fq")
 
 [node name="TargetArrows" type="Node2D" parent="Bars" unique_id=1589329949]
 visible = false
@@ -269,38 +176,12 @@ collision_mask = 0
 position = Vector2(0, -60.5)
 shape = SubResource("RectangleShape2D_pm0ju")
 
-[node name="ClickArea" type="Area2D" parent="." unique_id=569529014]
-collision_layer = 8
-collision_mask = 0
+[node name="FootBars" type="Node2D" parent="." unique_id=1662509250]
+position = Vector2(0, -35)
+script = ExtResource("6_bn6fq")
+pivot = Vector2(0, 41)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ClickArea" unique_id=487929695]
-visible = false
-position = Vector2(0, -5.5)
-shape = SubResource("RectangleShape2D_ikfb6")
-
-[node name="TargetIndicator" type="Node2D" parent="." unique_id=1107148781]
-script = ExtResource("13_ikfb6")
-
-[node name="Selected" type="Node2D" parent="TargetIndicator" unique_id=527992807]
-visible = false
-
-[node name="SelectedRing" type="Node2D" parent="TargetIndicator/Selected" unique_id=2096132447]
-position = Vector2(0, 35)
-script = ExtResource("14_1duij")
-
-[node name="Hovered" type="Node2D" parent="TargetIndicator" unique_id=1445109139]
-visible = false
-
-[node name="HoveredRing" type="Node2D" parent="TargetIndicator/Hovered" unique_id=231731525]
-position = Vector2(0, 35)
-script = ExtResource("14_1duij")
-color = Color(0.5360236, 0.529154, 0.56858295, 1)
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1107684265]
-sprite_frames = SubResource("SpriteFrames_qk68r")
-animation = &"warrior_attack1"
-
-[node name="UnitCastBar" type="ProgressBar" parent="." unique_id=546332860]
+[node name="UnitCastBar" type="ProgressBar" parent="FootBars" unique_id=546332860]
 modulate = Color(1, 1, 1, 0)
 offset_left = -30.0
 offset_top = 41.0
@@ -310,3 +191,88 @@ theme_override_styles/background = SubResource("StyleBoxFlat_7ftqo")
 theme_override_styles/fill = SubResource("StyleBoxFlat_q4xie")
 show_percentage = false
 script = ExtResource("15_7ftqo")
+
+[node name="ClickArea" type="Area2D" parent="." unique_id=569529014]
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ClickArea" unique_id=487929695]
+position = Vector2(-1.5, -13.5)
+shape = SubResource("RectangleShape2D_ikfb6")
+
+[node name="TargetIndicator" type="Node2D" parent="." unique_id=1107148781]
+script = ExtResource("13_ikfb6")
+
+[node name="Selected" type="Node2D" parent="TargetIndicator" unique_id=527992807]
+visible = false
+
+[node name="SelectedRing" type="Node2D" parent="TargetIndicator/Selected" unique_id=2096132447]
+script = ExtResource("14_1duij")
+size = Vector2(12, 4)
+
+[node name="Hovered" type="Node2D" parent="TargetIndicator" unique_id=1445109139]
+visible = false
+
+[node name="HoveredRing" type="Node2D" parent="TargetIndicator/Hovered" unique_id=231731525]
+script = ExtResource("14_1duij")
+color = Color(0.5360236, 0.529154, 0.56858295, 1)
+size = Vector2(12, 4)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1107684265]
+position = Vector2(0, -16)
+sprite_frames = ExtResource("14_7ftqo")
+animation = &"wraith_combat_run"
+
+[node name="Shadow" type="Node2D" parent="." unique_id=1046130201]
+script = ExtResource("19_dcdq5")
+length_bonus = 4.0
+near_width = 1.0
+far_width = 2.0
+smoothing = 50000.0
+enter_strength = 0.05
+leave_strength = 0.01
+
+[node name="CombatText" type="Node2D" parent="." unique_id=415712433]
+script = ExtResource("6_bn6fq")
+pivot = Vector2(0, -40)
+
+[node name="UnitAnimator" type="Node" parent="." unique_id=1797381706]
+script = ExtResource("16_q4xie")
+impact_frames = {
+"archer_attack": 5
+}
+
+[node name="EffectVisuals" type="Node2D" parent="." unique_id=1185648165]
+position = Vector2(0.5, -20)
+scale = Vector2(0.5, 0.5)
+script = ExtResource("17_tuv1f")
+
+[node name="Hurtbox" type="Area2D" parent="." unique_id=1654225203]
+collision_layer = 16
+collision_mask = 0
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=720818542]
+position = Vector2(-1, -13.5)
+shape = SubResource("RectangleShape2D_pkrlc")
+
+[node name="AttackPivot" type="Node2D" parent="." unique_id=573844547]
+
+[node name="AttackHitbox" type="Area2D" parent="AttackPivot" unique_id=861350790]
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackPivot/AttackHitbox" unique_id=832845284]
+position = Vector2(17, -13.5)
+shape = SubResource("RectangleShape2D_3h6ce")
+
+[node name="AutoAttack" type="Node" parent="." unique_id=823675240]
+script = ExtResource("17_pim51")
+
+[node name="CombatState" type="Node" parent="." unique_id=1589695511]
+script = ExtResource("18_raq51")
+
+[node name="ShadowCaster" type="Node" parent="." unique_id=686072573]
+script = ExtResource("24_k6v23")
+max_shadows = 3

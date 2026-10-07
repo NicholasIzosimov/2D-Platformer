@@ -1,52 +1,61 @@
 extends Node
 
-var bonus_health: float = 0.0
-var bonus_primary_stat: float = 0.0
-var bonus_armor: float = 0.0
-var bonus_damage_reduction: float = 0.0
-var bonus_crit_chance: float = 0.0
-var bonus_crit_damage: float = 0.0
-var bonus_dodge_chance: float = 0.0
-var bonus_miss_chance: float = 0.0
-var bonus_parry_chance: float = 0.0
-var bonus_block_chance: float = 0.0
-var bonus_move_speed: float = 0.0
-var bonus_haste: float = 0.0
-var bonus_max_power: float = 0.0
+
+const PLAYER_DATA_PATH: String = "res://Resources/Units/player.tres"
+
+var bonus_stats: Dictionary[Stat.Type, float] = {}
 var gold: int = 0
-var class_data: ClassData
+var player_data: UnitData
+var ability_copies: Dictionary = {}
 var learned_abilities: Array[AbilityData] = []
-var max_abilities: int = 5
+var max_abilities: int = 20
 var equipped_abilities: Array[AbilityData] = []
-var bonus_power_generation: float = 0.0
 var level: int = 1
 var xp: float = 0.0
 var talent_points: int = 0
-var bonus_vigor: float = 0.0
-
-const XP_BASE: float = 100.0
-const XP_GROWTH: float = 1.5
+var talent_ranks: Dictionary = {}
+var xp_curve: XpCurve
 
 signal loadout_changed
 signal gold_changed(new_amount)
 signal xp_changed
 signal leveled_up(new_level)
+signal bonus_stat_changed(stat, amount)
+signal talents_changed
 
-func _ready() -> void:
+func _init() -> void:
+	xp_curve = load("res://Resources/Progression/xp_curve.tres")
+	player_data = load(PLAYER_DATA_PATH)
+	start_run()
+
+func start_run() -> void:
+	bonus_stats.clear()
+	gold = 0
+	ability_copies.clear()
+	learned_abilities.clear()
+	equipped_abilities.clear()
 	equipped_abilities.resize(max_abilities)
-	class_data = load("res://Resources/Classes/malefactor.tres")
-	for ability in class_data.abilities:
-		learn_ability(ability)
-	equip_ability(class_data.abilities[0], 0)
-	equip_ability(class_data.abilities[1], 1)
-	
-func learn_ability(ability: AbilityData) -> bool:
-	if not class_data.abilities.has(ability):
-		return false
-	if learned_abilities.has(ability):
-		return false
-	learned_abilities.append(ability)
-	return true
+	level = 1
+	xp = 0.0
+	talent_points = 0
+	talent_ranks.clear()
+	for i in player_data.abilities.size():
+		equip_ability(learn_ability(player_data.abilities[i]), i)
+
+func get_ability(original: AbilityData) -> AbilityData:
+	if not ability_copies.has(original):
+		var copy: AbilityData = original.duplicate()
+		var path: String = original.resource_path
+		if copy.animation_key == "" and path != "" and not path.contains("::"):
+			copy.animation_key = path.get_file().get_basename()
+		ability_copies[original] = copy
+	return ability_copies[original]
+
+func learn_ability(original: AbilityData) -> AbilityData:
+	var copy: AbilityData = get_ability(original)
+	if not learned_abilities.has(copy):
+		learned_abilities.append(copy)
+	return copy
 
 func equip_ability(ability: AbilityData, slot: int) -> bool:
 	if not learned_abilities.has(ability):
@@ -59,7 +68,12 @@ func equip_ability(ability: AbilityData, slot: int) -> bool:
 	equipped_abilities[slot] = ability
 	loadout_changed.emit()
 	return true
-	
+
+func equip_in_free_slot(ability: AbilityData) -> void:
+	var slot: int = equipped_abilities.find(null)
+	if slot != -1:
+		equip_ability(ability, slot)
+
 func unequip_slot(slot: int) -> void:
 	equipped_abilities[slot] = null
 	loadout_changed.emit()
@@ -69,7 +83,51 @@ func swap_slots(a: int, b: int) -> void:
 	equipped_abilities[a] = equipped_abilities[b]
 	equipped_abilities[b] = temp
 	loadout_changed.emit()
-	
+
+func add_bonus_stat(stat: Stat.Type, amount: float) -> void:
+	bonus_stats[stat] = bonus_stats.get(stat, 0.0) + amount
+	bonus_stat_changed.emit(stat, amount)
+
+func talent_rank(talent: TalentData) -> int:
+	return talent_ranks.get(talent, 0)
+
+func points_spent() -> int:
+	var total: int = 0
+	for talent in talent_ranks:
+		total += talent_ranks[talent]
+	return total
+
+func is_talent_unlocked(talent: TalentData, parents: Array[TalentData]) -> bool:
+	if points_spent() < talent.points_required:
+		return false
+	if parents.is_empty():
+		return true
+	for parent in parents:
+		if talent_rank(parent) >= parent.max_ranks:
+			return true
+	return false
+
+func can_spend(talent: TalentData, parents: Array[TalentData]) -> bool:
+	return talent_points > 0 and talent_rank(talent) < talent.max_ranks and is_talent_unlocked(talent, parents)
+
+func spend_talent_point(talent: TalentData, parents: Array[TalentData]) -> bool:
+	if not can_spend(talent, parents):
+		return false
+	talent_points -= 1
+	talent_ranks[talent] = talent_rank(talent) + 1
+	apply_talent_rank(talent)
+	talents_changed.emit()
+	return true
+
+func apply_talent_rank(talent: TalentData) -> void:
+	for stat in talent.stat_bonuses:
+		add_bonus_stat(stat, talent.stat_bonuses[stat])
+	for mod in talent.ability_mods:
+		var ability: AbilityData = get_ability(mod.ability)
+		ability.set(mod.property, ability.get(mod.property) + mod.amount_per_rank)
+	if talent.grants_ability and talent_rank(talent) == 1:
+		equip_in_free_slot(learn_ability(talent.grants_ability))
+
 func add_gold(amount: int) -> void:
 	gold += amount
 	gold_changed.emit(gold)
@@ -82,7 +140,7 @@ func spend_gold(amount: int) -> bool:
 	return true
 
 func xp_to_next_level() -> float:
-	return XP_BASE * pow(level, XP_GROWTH)
+	return xp_curve.xp_to_next_level(level)
 
 func add_xp(amount: float) -> void:
 	xp += amount
@@ -90,6 +148,6 @@ func add_xp(amount: float) -> void:
 		xp -= xp_to_next_level()
 		level += 1
 		talent_points += 1
-		print("Level up! Now level ", level)
 		leveled_up.emit(level)
+		talents_changed.emit()
 	xp_changed.emit()
