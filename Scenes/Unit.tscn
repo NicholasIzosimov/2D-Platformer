@@ -221,14 +221,15 @@ size = Vector2(12, 4)
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1107684265]
 position = Vector2(0, -16)
 sprite_frames = ExtResource("14_7ftqo")
-animation = &"player_#sheathe"
+animation = &"wraith_combat_run"
 
-[node name="Shadow" type="AnimatedSprite2D" parent="." unique_id=1036900275]
-position = Vector2(0, -4)
+[node name="Shadow" type="Node2D" parent="." unique_id=1046130201]
 script = ExtResource("19_dcdq5")
 length_bonus = 4.0
+near_width = 1.0
+far_width = 2.0
 smoothing = 50000.0
-enter_strength = 0.01
+enter_strength = 0.05
 leave_strength = 0.01
 
 [node name="CombatText" type="Node2D" parent="." unique_id=415712433]
@@ -274,4 +275,4 @@ script = ExtResource("18_raq51")
 
 [node name="ShadowCaster" type="Node" parent="." unique_id=686072573]
 script = ExtResource("24_k6v23")
-max_shadows = 10
+max_shadows = 3

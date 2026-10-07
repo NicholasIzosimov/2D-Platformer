@@ -37,6 +37,7 @@ visible = false
 visible = false
 
 [node name="EnduranceBar" type="ProgressBar" parent="FootBars" parent_id_path=PackedInt32Array(1662509250) index="0" unique_id=1233817795]
+visible = false
 offset_left = -35.0
 offset_top = 45.0
 offset_right = 35.0
@@ -47,8 +48,10 @@ show_percentage = false
 script = ExtResource("8_bhhdu")
 
 [node name="AnimatedSprite2D" parent="." index="10" unique_id=1107684265]
-animation = &"samurai_run"
+animation = &"player_idle"
 
 [node name="Camera2D" type="Camera2D" parent="." index="11" unique_id=970156947]
 script = ExtResource("6_nn08x")
-target_view_height = 700.0
+target_view_height = 720.0
+min_view_height = 240.0
+zoom_damping = 18.0

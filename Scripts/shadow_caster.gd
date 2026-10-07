@@ -1,6 +1,7 @@
 extends Node
 
 @export var max_shadows: int = 2
+@export var ambient_light: float = 0.1
 var shadows: Array = []
 
 func _ready() -> void:
@@ -14,7 +15,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	var unit: Node = get_parent()
 	var lights: Array[Dictionary] = Lighting.lights_at(get_tree(), unit.global_position, unit)
-	var total: float = 0.0
+	var total: float = ambient_light
 	for info in lights:
 		total += info.strength
 	for info in lights:

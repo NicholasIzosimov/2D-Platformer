@@ -21,10 +21,15 @@ leash_time = 7.0
 aggro_range = 5.0
 
 [node name="AnimatedSprite2D" parent="." index="9" unique_id=1107684265]
+position = Vector2(0, -12)
 scale = Vector2(0.35, 0.35)
-animation = &"player_attack"
+animation = &"peon_run"
 
 [node name="Rewards" type="Node2D" parent="." index="10" unique_id=755035872]
 position = Vector2(0, -40)
 script = ExtResource("5_mo1ky")
 floating_number_scene = ExtResource("6_6bs3c")
+
+[node name="Shadow" parent="." index="11" unique_id=1046130201]
+near_width = 0.4
+far_width = 1.8

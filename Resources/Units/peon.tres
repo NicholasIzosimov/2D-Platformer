@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="UnitData" format=3 uid="uid://dg1dfckbky0ed"]
+
+[ext_resource type="Script" uid="uid://5j6i1rvnlhe2" path="res://Scripts/ResourceScripts/ability_data.gd" id="1_63apg"]
+[ext_resource type="Resource" uid="uid://bj6cc47r0o73x" path="res://Resources/Abilities/auto_attack.tres" id="2_4fvcq"]
+[ext_resource type="Resource" uid="uid://cuj7dvko15as0" path="res://Resources/Abilities/NPCs/weak_hit.tres" id="2_cbdpp"]
+[ext_resource type="Resource" uid="uid://buwonyjvswl7g" path="res://Resources/Progression/level_scaling.tres" id="3_cbdpp"]
+[ext_resource type="Resource" uid="uid://d3p0cq81lslwu" path="res://Resources/Powers/bot_power.tres" id="4_7viq4"]
+[ext_resource type="Script" uid="uid://djkq3ofrj4kyw" path="res://Scripts/ResourceScripts/unit_data.gd" id="5_qw0rl"]
+
+[resource]
+script = ExtResource("5_qw0rl")
+name = "Peon"
+abilities = Array[ExtResource("1_63apg")]([ExtResource("2_cbdpp")])
+base_health = 5.0
+metadata/_custom_type_script = "uid://djkq3ofrj4kyw"

@@ -9,6 +9,10 @@
 [ext_resource type="Script" uid="uid://bs6beqb88dx4m" path="res://Scripts/endurance_bar.gd" id="7_p0qmi"]
 [ext_resource type="Script" uid="uid://b12qvnvvnoyfj" path="res://Scripts/xp_bar.gd" id="8_p0qmi"]
 [ext_resource type="Script" uid="uid://dxtamt3522coq" path="res://Scripts/layout_editor.gd" id="9_7gr8i"]
+[ext_resource type="Script" uid="uid://cehn4vot2wra" path="res://Scripts/debuff_container.gd" id="10_5ep0j"]
+[ext_resource type="PackedScene" uid="uid://d0cpyodsk2niv" path="res://Scenes/debuff_icon.tscn" id="11_4f5kr"]
+[ext_resource type="Texture2D" uid="uid://bfcikulr0jk3b" path="res://Assets/AbilityIcons/GushingWound.png" id="11_piegi"]
+[ext_resource type="Texture2D" uid="uid://s8yki6rbu1rc" path="res://Assets/AbilityIcons/warmth.png" id="12_i2avg"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lw07u"]
 bg_color = Color(0.19769236, 0.18554819, 0.20661426, 0.67058825)
@@ -134,9 +138,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -200.0
-offset_top = 368.0
+offset_top = 400.0
 offset_right = 200.0
-offset_bottom = 398.0
+offset_bottom = 430.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
@@ -147,13 +151,12 @@ show_percentage = false
 script = ExtResource("5_7gr8i")
 
 [node name="EnduranceBar" type="ProgressBar" parent="." unique_id=1806569704]
-visible = false
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 0
 offset_left = 1080.0
-offset_top = 1118.0
+offset_top = 1088.0
 offset_right = 1480.0
-offset_bottom = 1150.0
+offset_bottom = 1120.0
 size_flags_vertical = 3
 mouse_filter = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_xjbu4")
@@ -163,7 +166,7 @@ script = ExtResource("7_p0qmi")
 track_player = true
 show_numbers = true
 
-[node name="AbilitySlots" type="HBoxContainer" parent="." unique_id=537638967]
+[node name="AbilitySlots" type="HBoxContainer" parent="." unique_id=537638967 groups=["layout_fit_content"]]
 layout_mode = 1
 anchors_preset = 14
 anchor_top = 0.5
@@ -214,7 +217,43 @@ offset_bottom = 8.0
 focus_mode = 0
 text = "Unlock UI"
 
+[node name="Debuffs" type="HFlowContainer" parent="." unique_id=389325966 groups=["layout_fit_content", "layout_preview"]]
+custom_minimum_size = Vector2(136, 24)
+layout_mode = 1
+offset_left = 300.0
+offset_top = 53.0
+offset_right = 600.0
+offset_bottom = 77.0
+scale = Vector2(1.5, 1.5)
+alignment = 2
+script = ExtResource("10_5ep0j")
+debuff_icon_scene = ExtResource("11_4f5kr")
+track_player = true
+show_buffs = false
+max_icons = 0
+preview_icon = ExtResource("11_piegi")
+preview_count = 4
+preview_interval = 3.0
+
+[node name="Buffs" type="HFlowContainer" parent="." unique_id=783887801 groups=["layout_fit_content", "layout_preview"]]
+custom_minimum_size = Vector2(136, 24)
+layout_mode = 1
+offset_left = 300.0
+offset_right = 600.0
+offset_bottom = 24.0
+scale = Vector2(1.5, 1.5)
+alignment = 2
+script = ExtResource("10_5ep0j")
+debuff_icon_scene = ExtResource("11_4f5kr")
+track_player = true
+show_debuffs = false
+max_icons = 0
+preview_icon = ExtResource("12_i2avg")
+preview_count = 4
+preview_interval = 3.0
+
 [node name="LayoutEditor" type="Control" parent="." unique_id=179531114 node_paths=PackedStringArray("unlock_button")]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

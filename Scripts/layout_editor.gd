@@ -2,11 +2,12 @@ extends Control
 
 const SAVE_PATH: String = "user://ui_layout.cfg"
 const SECTION: String = "hud"
+const FIT_GROUP: String = "layout_fit_content"
 const MIN_HANDLE_SIZE: Vector2 = Vector2(48, 24)
+const PREVIEW_GROUP: String = "layout_preview"
 @export var unlock_button: Button
 @export var grid: float = 8.0
 @export var handle_color: Color = Color(0.3, 0.6, 1.0, 0.35)
-
 var elements: Array[Control] = []
 var moves: Dictionary = {}
 var handles: Dictionary = {}
@@ -27,6 +28,7 @@ func _ready() -> void:
 	load_layout()
 	if unlock_button:
 		unlock_button.pressed.connect(set_unlocked.bind(true))
+	get_parent().move_child.call_deferred(self, -1)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if visible and event.is_action_pressed("ui_cancel"):
@@ -35,6 +37,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func set_unlocked(value: bool) -> void:
 	visible = value
+	get_tree().call_group(PREVIEW_GROUP, "set_preview", value)
 	get_tree().paused = get_tree().get_nodes_in_group("pause_panes").any(func(pane): return pane.visible)
 	if value:
 		build_handles()
@@ -81,9 +84,26 @@ func build_handles() -> void:
 
 func update_handles() -> void:
 	for element in handles:
-		var rect: Rect2 = element.get_global_rect()
+		var rect: Rect2 = content_rect(element) if element.is_in_group(FIT_GROUP) else element.get_global_rect()
 		handles[element].global_position = rect.position
 		handles[element].size = rect.size.max(MIN_HANDLE_SIZE)
+
+func content_rect(element: Control) -> Rect2:
+	var own: Rect2 = element.get_global_rect()
+	if not element is Container:
+		return own
+	var reserved := Rect2(own.position, element.custom_minimum_size * element.get_global_transform().get_scale())
+	var content := Rect2()
+	var found: bool = false
+	if reserved.has_area():
+		content = reserved
+		found = true
+	for child in element.get_children():
+		if child is Control and child.visible:
+			var child_rect: Rect2 = content_rect(child)
+			content = child_rect if not found else content.merge(child_rect)
+			found = true
+	return content if found else own
 
 func _on_handle_input(event: InputEvent, element: Control) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
@@ -102,6 +122,8 @@ func _on_handle_input(event: InputEvent, element: Control) -> void:
 
 func apply_move(element: Control, move: Vector2) -> void:
 	var change: Vector2 = move - moves.get(element, Vector2.ZERO)
+	if element.is_layout_rtl():
+		change.x = -change.x
 	element.offset_left += change.x
 	element.offset_right += change.x
 	element.offset_top += change.y
@@ -125,3 +147,7 @@ func save_layout() -> void:
 	for element in elements:
 		config.set_value(SECTION, element.name, moves.get(element, Vector2.ZERO))
 	config.save(SAVE_PATH)
+	
+func _process(_delta: float) -> void:
+	if visible:
+		update_handles()

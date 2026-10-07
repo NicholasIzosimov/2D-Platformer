@@ -7,9 +7,11 @@ extends Camera2D
 @export var target_view_height: float = 540.0
 @export var min_view_height: float = 360.0
 @export var max_view_height: float = 720.0
-@export var zoom_duration: float = 0.12
+@export var zoom_stiffness: float = 180.0
+@export var zoom_damping: float = 12.0
 var zoom_steps: int = 0
-var zoom_tween: Tween
+var target_zoom: float = 1.0
+var zoom_velocity: float = 0.0
 
 func _ready() -> void:
 	position_smoothing_enabled = true
@@ -21,6 +23,18 @@ func _process(delta: float) -> void:
 	var body := get_parent() as CharacterBody2D
 	var target_offset: Vector2 = (body.velocity * lead_time).limit_length(Yards.to_px(max_lead))
 	offset = offset.lerp(target_offset, 1.0 - exp(-lead_smoothing * delta))
+	spring_zoom(min(delta, 1.0 / 30.0))
+
+func spring_zoom(delta: float) -> void:
+	var current: float = zoom.x
+	if current == target_zoom and zoom_velocity == 0.0:
+		return
+	zoom_velocity += (zoom_stiffness * (target_zoom - current) - zoom_damping * zoom_velocity) * delta
+	current += zoom_velocity * delta
+	if abs(target_zoom - current) < 0.001 and abs(zoom_velocity) < 0.01:
+		current = target_zoom
+		zoom_velocity = 0.0
+	zoom = Vector2(current, current)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("zoom_in"):
@@ -39,11 +53,7 @@ func update_zoom(animate: bool = false) -> void:
 	var max_scale: int = max(min_scale, floori(window.y / min_view_height))
 	var pixel_scale: int = clampi(default_scale + zoom_steps, min_scale, max_scale)
 	zoom_steps = pixel_scale - default_scale
-	var target: Vector2 = Vector2.ONE * pixel_scale / stretch
-	if zoom_tween:
-		zoom_tween.kill()
-	if animate:
-		zoom_tween = create_tween()
-		zoom_tween.tween_property(self, "zoom", target, zoom_duration)
-	else:
-		zoom = target
+	target_zoom = pixel_scale / stretch
+	if not animate:
+		zoom = Vector2(target_zoom, target_zoom)
+		zoom_velocity = 0.0

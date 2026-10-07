@@ -25,12 +25,14 @@ func _process(delta: float) -> void:
 		return
 	time_remaining = max(0.0, time_remaining - delta)
 	$Label.text = TimeFormat.short(time_remaining)
-	$TextureProgressBar.value = (time_remaining / total_duration) * 100
+	$TextureProgressBar.value = (1.0 - time_remaining / total_duration) * 100
 	
 func set_icon(texture: Texture2D) -> void:
 	$TextureRect.texture = texture
 	
 func _make_custom_tooltip(_for_text: String) -> Object:
+	if effect == null:
+		return null
 	var text: String = "[b]%s[/b]" % effect.name
 	var details: String = Describe.status_effect(effect)
 	if details != "":

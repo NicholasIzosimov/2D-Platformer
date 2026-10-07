@@ -1,42 +1,40 @@
 # Todo list, status and open decisions
 
-Last updated 2026-10-07 (branch `topdown-prototype`, latest commit ee46ae0). Numbers = the user's list below. Remove items when done.
+Last updated 2026-10-07 (branch `topdown-prototype`). Numbers = the user's list below. Remove items when done.
 
 ## Recommended order (work through one at a time)
 
-**0. Classless restructure — steps 1–3 done (classes removed, skill tree scene, pan/zoom pane); step 4 left**
-No classes: one player (`player.tres` holds starting abilities, power, animation key `player_*`), one big skill tree. Steps: (1) remove ClassData + class select → Start Run; (2) skill tree as a scene: hand-placed `TalentNode`s with links, @tool line drawing; unlock rule stays "linked parent maxed" + new "points spent in tree ≥ X" requirement per node; (3) tree pane with pan/zoom, grows from centre; (4) per-ability animations (`player_<ability>` → fallback `player_attack`). One power resource for now; keep `UnitStats.set_power_data` so a keystone/transformation can swap it later (e.g. skeleton form → Dread). Primary stat displayed as "Power"; AP shown, primary hidden in the character pane.
-
 **NEXT SESSION (top priority): preliminary scaling that is thought out**
-Problem seen 2026-10-07: a level 3 Warrior already hits far too hard — enemies get AP like the player (1 primary = 1 AP) and base damages are tiny (1–2), so AP dominates early; primary grows with exponent 1.4 vs vigor 1.2 so damage outpaces health. Plan: pick a target time-to-kill for same-level fights (e.g. enemy needs ~N swings to kill you, you need ~M hits), match the primary and vigor curves in `level_scaling.tres` (same exponent), raise base damages so AP is a bonus, not the whole hit. Also consider armor vs attacker level and the level-difference miss/crit. Quick relief meanwhile: lower `primary_stat_per_level`.
+Problem seen 2026-10-07: a level 3 Warrior already hits far too hard — enemies get AP like the player (1 primary = 1 AP) and base damages are tiny (1–2), so AP dominates early; damage outpaces health. Current state of the code (checked 2026-10-07): `level_scaling.tres` has vigor 2/level ^1.4, primary 1/level ^1.2, armor 5/level ^1.4; `combat_handler.gd` `scaled_damage` counts PRIMARY twice — as a % multiplier on base damage (`PRIMARY_STAT_SCALING` 0.01) AND as AP via `UnitStats.ability_power()` (PRIMARY + ABILITY_POWER) × coefficient — decide which one stays. Plan: pick a target time-to-kill for same-level fights (e.g. enemy needs ~N swings to kill you, you need ~M hits), match the primary and vigor curves in `level_scaling.tres` (same exponent), raise base damages so AP is a bonus, not the whole hit. Also consider armor vs attacker level and the level-difference miss/crit. AP system itself is done (formula, coefficients, `ap_scaling`).
 
-**1. Damage model — 9 (before gear)** — AP system DONE (formula, coefficients, `ap_scaling`); remaining: the scaling above
-
-**2. Loot pillar — G, 8, 7, 5 (drops/XP part)**
+**1. Loot pillar — 1, 11, 10, 8 (drops/XP part)**
 Items as data on the Stat system → gear + gold drops lying in the world showing their icon (pick up in range by click or E prompt) → bags on B → equip into character pane gear slots → drop/XP scaling by enemy level.
+Visible gear plan: (1) anchor points per body-animation frame (hidden marker-pixel layer in the art: head/hand → offsets) so helmets/weapons/offhands are single drawings snapped to anchors in every animation; (2) abilities share a small set of base motions (slash, thrust, overhead, cast, channel, throw) via `animation_key`, uniqueness from effects; (3) later, layered synced sheets only for deforming pieces (chest/legs) and only for base motions; palette-swap shader for tiers. Shadows must then project the gear layers too.
 
-**3. Perception system — 1, 2, 5 (aggro part)**
-One aggro-range formula per enemy: base × level difference × light (larger without campfire), plus line-of-sight / cover rules (hiding in a bush while out of LoS drops aggro). Unique selling point — build as one system.
+**2. Light & perception — 3, 4, 8 (aggro part)** — the core mechanic
+Perpetual night: living beings are drawn to light, hide in the shadows, a campfire is a risk (enemies drift towards lights slowly; light doesn't pass LoS). One aggro formula per enemy: base × level difference × how lit the player is, plus LoS/cover rules (hiding in a bush out of LoS drops aggro). Building blocks exist: `Lighting.light_at` (total light at a spot; moon must count as background light, not exposure), `light_info` per light, LoS checks. Possibly add LoS per light so walls block light for perception.
 
-**4. World & atmosphere — 4, 3, 15, 16, 14, 13**
-Own forest art (trees/bushes, 16 px tiles + ~40 px characters at camera zoom ×2 if switching art scale), lighting that interacts with obstacles (shader / LightOccluder2D — ties into 2), enemy camps with assigned groups, enemies near objects (tents), gradual per-level asset shift, then map/minimap. Decide in 13 whether terrain is kept or discarded during progression.
+**3. World & atmosphere — 7, 2, 17, 18, 16, 15, 5**
+Own forest art (trees/bushes; 16 px grid, ~32 px characters), shadows from lights for props/objects (2: reuse the projected silhouette shadow for static props, ground point at origin), enemy camps with assigned groups (17: a SpawnGroup resource — list of units + counts, spawned together in a radius; spawn table entries can point to a unit or a group), enemies near objects (18), gradual per-level asset shift (16), map/minimap + decide terrain persistence (15), random dungeons with set layouts and mini bosses via cave entrances (5).
 
-**5. Progression content — 10, 22, 11, 12, 23**
-Spell selection via talents (mechanism exists: talents grant abilities), Thunder-Clap-style AoE that spreads Gushing Wound, shop, boss arena (big top HP bar, dodge-heavy AoE) + shop spawn, quests.
+**4. Progression content — 12, 13, 14, 22**
+Spell selection via talents (mechanism exists: talent nodes grant abilities), shop, boss arena (big top HP bar, dodge-heavy AoE) + shop spawn, quests. Classless step 4 still open: per-ability animations (`player_<ability>` → fallback `player_attack`).
 
-**UI / small (mix in anytime) — 6, 19, 20, 17, 21, 18**
-Char stat descriptions, juicy numbers, WoW-like buff/debuff box (movable via layout editor), keybinding system, UI options incl. hover behaviour and per-slot/per-spell target priority (default = selected wins). 18 enemy OOC health regen already exists (1%/s default) — just set `out_of_combat_regen` = 3 on enemy UnitData. Also: options menu on Escape (move "Unlock UI" there), fonts/style, DPS meter.
+**In-game saving**
+Save a run to `user://` (ConfigFile/JSON or a custom Resource via ResourceSaver): PlayerState (level, XP, talent ranks, learned/equipped abilities, bonus stats, gold, later gear/bags) + world seed + player position; enemies not saved. Decided: always autosaves, death = run over. Save on events: campfire lit, level up, talent point spent, gear pickup, death (+ on quit). Write to a temp file then rename. Open: multiple slots?
 
-## The user's list
-G Gear drop, gold drop · 1 LoS/bush hiding drops aggro · 2 Bigger aggro radius without campfire light · 3 Lighting that reflects on obstacles (shader?) · 4 Own trees/bushes, forest start area · 5 Scale drops/XP/aggro range by enemy level vs player level · 6 Char stat descriptions · 7 Bags on B · 8 ARPG ground loot (icon, click in range / E prompt) · 9 AP-style flat damage + coefficients · 10 Spell selection via talents · 11 Shop · 12 Boss arena + shop spawn · 13 Minimap/map, terrain persistence · 14 Gradual asset mix shift per level · 15 Enemy camps/clusters · 16 Enemies near objects (camps, tents) · 17 Keybinding system · 18 Enemy OOC health regen 3%/s · 19 Juicy numbers · 20 WoW-like buff/debuff display · 21 UI hover options · 22 AoE that spreads Gushing Wound · 23 Quests
+**UI / small (mix in anytime) — 9, 20, 19, 21**
+Char stat descriptions, juicy numbers, keybinding system, UI options incl. hover behaviour and per-slot/per-spell target priority (default = selected wins). Also: options menu on Escape (move "Unlock UI" there), fonts/style, DPS meter. Buff/debuff boxes are done (movable, preview in Unlock UI, slide/fade animations).
 
-Extras: DPS meter · boss mechanics · terrain-destroying enemies (goblins) · slightly more spawns per level · scroll-wheel zoom (decide max) · Warmth fades out softly · right-click auto-walk to target · fonts/UI style · talent point reminder · idle enemies avoid each other · projectile wall grace period · decimals below 1 on bars · crouch (slower, smaller aggro range — dropped from main list)
+## The user's list (2026-10-07)
+1 Gear drop, gold drop · 2 Shadows from light sources for objects · 3 LoS/bush hiding drops aggro · 4 Light as mechanic: perpetual night, beings drawn to light, hide in shadows, campfires risky · 5 Random dungeons (layouts, mini bosses, cave entrances) · 6 Shadow fades out when its light dies ✔ (brightness-weighted light strength) · 7 Own trees/bushes, forest start area · 8 Scale drops/XP/aggro range by enemy level vs player level · 9 Char stat descriptions · 10 Bags on B · 11 ARPG ground loot · 12 Spell selection via talents · 13 Shop · 14 Boss arena + shop spawn · 15 Minimap/map, terrain persistence · 16 Gradual asset mix shift per level · 17 Enemy camps/clusters · 18 Enemies near objects (camps, tents) · 19 Keybinding system · 20 Juicy numbers · 21 UI hover options · 22 Quests
+
+Extras: DPS meter · boss mechanics · terrain-destroying enemies (goblins) · slightly more spawns per level · right-click auto-walk to target · fonts/UI style · talent point reminder · idle enemies avoid each other · projectile 1 s wall-collision grace · decimals below 1 on bars
 
 ## Open design decisions (ask, don't assume)
-- **Lighting:** campfire light is done (Add blending, current saturation is intended). Possible later idea: limit light sources within X range (e.g. max N campfires per area) if many fires stacked ever look blown out.
+- **Lighting:** campfire light done (Add, current saturation intended). Moon = `MoonLight` (DirectionalLight2D + `moon_light.gd`, constant shadow direction, `illumination` competes with fires). Shadow darkness = lit_alpha × (light / (ambient + all lights))^share_contrast. Possible later: limit light sources per area; per-pixel shadow washout where a shadow reaches into another light.
 - **Spellbook:** (1) full WoW bars, (2) Guild Wars 1 style: spellbook + limited bar swappable only out of combat — Claude's recommendation, (3) original fixed slots with discard. PlayerState keeps learned vs equipped; bar shows one slot per `cast_N` action but PlayerState allows 20 equipped → talent-granted abilities can land in hidden slots.
-- **Art scale:** current tiles are 64 px drawn at 0.5 scale. Own art plan: 16 px tiles + ~36–45 px characters (64×64 frames), camera zoom ×2, all sprites scale 1; halve pixel-based tunables (or move them to yards first).
-- **Power Regen stat** applies in combat only (placeholder); `bot_power.tres` has no out-of-combat rate (enemies don't regen power OOC — left as is for now).
+- **Power Regen stat** applies in combat only (placeholder); `bot_power.tres` has no out-of-combat rate (enemies don't regen power OOC — left as is).
 - **DoT talent builds** (Gushing Wound: faster ticks, haste scaling, crits, longer/stronger): needs talent mods for StatusEffect fields, player ability copies that also copy their effects (currently shallow `duplicate()` shares effects!), per-effect `can_crit` instead of only `UnitStats.dots_can_crit`.
 - Auto-attack crits: currently big yellow like all crits; maybe big white.
 - Physics interpolation is ON: anything teleported (player start, enemy spawn placement, projectiles, spawned objects) may need `reset_physics_interpolation()`.

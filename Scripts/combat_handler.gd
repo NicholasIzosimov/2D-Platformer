@@ -74,20 +74,22 @@ func cast_ability(ability, target) -> String:
 		cast_timer.wait_time = ability.cast_time
 		cast_timer.one_shot = true
 		add_child(cast_timer)
+		var target_ref: WeakRef = weakref(target) if target else null
 		cast_timer.timeout.connect(func():
+			var cast_target = target_ref.get_ref() if target_ref else null
 			is_casting = false
 			cast_finished.emit()
 			cast_timer.queue_free()
 			if ability.requires_target:
-				if not is_instance_valid(target) or target.get_node("UnitStats").is_dead:
+				if not is_instance_valid(cast_target) or cast_target.get_node("UnitStats").is_dead:
 					return
-				var failed: String = reach_error(ability, target)
+				var failed: String = reach_error(ability, cast_target)
 				if failed != "":
 					cast_failed.emit(failed)
 					return
-				aim_at(target)
+				aim_at(cast_target)
 			own_stats.modify_power(-ability.power_cost)
-			deliver(ability, target)
+			deliver(ability, cast_target)
 		)
 		cast_timer.start()
 	else:
@@ -163,18 +165,20 @@ func deliver(ability, target) -> void:
 	windup_timer.one_shot = true
 	windup_timer.wait_time = windup
 	add_child(windup_timer)
+	var target_ref: WeakRef = weakref(target) if target else null
 	windup_timer.timeout.connect(func():
+		var windup_target = target_ref.get_ref() if target_ref else null
 		windup_timer.queue_free()
 		if own_stats.is_dead:
 			return
-		if ability.requires_target and (not is_instance_valid(target) or target.get_node("UnitStats").is_dead):
+		if ability.requires_target and (not is_instance_valid(windup_target) or windup_target.get_node("UnitStats").is_dead):
 			return
 		if ability.requires_target and not ability.is_projectile:
-			var still_hits: bool = hitbox_hits(target) if ability.uses_hitbox else reach_error(ability, target) == ""
+			var still_hits: bool = hitbox_hits(windup_target) if ability.uses_hitbox else reach_error(ability, windup_target) == ""
 			if not still_hits:
-				target.get_node("UnitStats").register_miss()
+				windup_target.get_node("UnitStats").register_miss()
 				return
-		release(ability, target)
+		release(ability, windup_target)
 	)
 	windup_timer.start()
 
@@ -302,18 +306,21 @@ func apply_effect(effect, caster: Node) -> void:
 		tick_timer = Timer.new()
 		tick_timer.wait_time = effect.tick_interval
 		add_child(tick_timer)
+		var caster_ref: WeakRef = weakref(caster) if caster else null
 		tick_timer.timeout.connect(func():
+			var source = caster_ref.get_ref() if caster_ref else null
 			var damage: float = effect.damage
 			var crit_multiplier: float = 1.0
-			if is_instance_valid(caster):
+			if is_instance_valid(source):
 				if effect.damage > 0.0:
-					damage = caster.scaled_damage(effect.damage, caster.effect_coefficient(effect))
-				if caster.own_stats.dots_can_crit:
-					crit_multiplier = caster.roll_crit(own_stats)
+					damage = source.scaled_damage(effect.damage, source.effect_coefficient(effect))
+				if source.own_stats.dots_can_crit:
+					crit_multiplier = source.roll_crit(own_stats)
 				if effect.power_gain != 0.0:
-					caster.own_stats.modify_power(effect.power_gain)
+					source.own_stats.modify_power(effect.power_gain)
 			if damage > 0.0:
-				own_stats.take_damage(damage, crit_multiplier, true, caster if is_instance_valid(caster) else null)
+				var living_caster: bool = is_instance_valid(source) and not source.own_stats.is_dead
+				own_stats.take_damage(damage, crit_multiplier, true, source if living_caster else null)
 			if effect.heal_percent > 0.0:
 				own_stats.heal(own_stats.max_health * effect.heal_percent / 100.0)
 		)

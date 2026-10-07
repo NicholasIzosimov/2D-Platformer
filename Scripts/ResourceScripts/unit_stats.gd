@@ -24,6 +24,7 @@ signal power_changed(amount, show_text)
 signal attack_missed
 signal level_changed
 signal stat_changed(stat)
+signal hit_by(source)
 
 func _ready() -> void:
 	values = unit_data.base_stats.duplicate()
@@ -96,6 +97,8 @@ func take_damage(raw_damage: float, crit_multiplier: float = 1.0, from_ability: 
 	damage *= 1.0 - clamp(get_stat(Stat.Type.DAMAGE_REDUCTION), 0.0, 100.0) / 100.0
 	damage *= randf_range(1.0 - DAMAGE_VARIANCE, 1.0 + DAMAGE_VARIANCE)
 	damage_taken.emit(damage, crit_multiplier, from_ability)
+	if source != null:
+		hit_by.emit(source)
 	modify_health(damage)
 	if is_dead and source != null:
 		source.register_kill(get_parent())
