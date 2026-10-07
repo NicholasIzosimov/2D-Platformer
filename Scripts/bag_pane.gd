@@ -2,9 +2,11 @@ extends PanelContainer
 
 @export var item_slot_scene: PackedScene
 var slots: Array = []
+var open: bool = false
 
 func _ready() -> void:
-	visible = false
+	visible = open
+	add_to_group("layout_preview")
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	for i in PlayerState.bag_size:
 		var item_slot = item_slot_scene.instantiate()
@@ -12,6 +14,7 @@ func _ready() -> void:
 		%BagSlots.add_child(item_slot)
 		slots.append(item_slot)
 	PlayerState.bag_changed.connect(refresh)
+	PlayerState.gold_changed.connect(func(_amount): refresh())
 	refresh()
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -20,8 +23,13 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 func toggle() -> void:
-	visible = not visible
+	open = not open
+	visible = open
+
+func set_preview(value: bool) -> void:
+	visible = value or open
 
 func refresh() -> void:
 	for i in slots.size():
 		slots[i].set_item(PlayerState.bag[i])
+	%GoldLabel.text = str(PlayerState.gold)

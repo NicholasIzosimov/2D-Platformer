@@ -2,10 +2,14 @@
 
 [ext_resource type="Script" uid="uid://b36fxje43yhhb" path="res://Scripts/bag_pane.gd" id="1_ryv2d"]
 [ext_resource type="PackedScene" uid="uid://cr3sddidhicqq" path="res://Scenes/gear_slot.tscn" id="2_cea84"]
+[ext_resource type="Texture2D" uid="uid://du02qapws2xaj" path="res://Assets/UI/gold_coin.png" id="3_cftyi"]
 
 [node name="BagPane" type="PanelContainer" unique_id=1487114124]
+anchors_preset = -1
 offset_right = 40.0
 offset_bottom = 40.0
+grow_horizontal = 0
+grow_vertical = 0
 script = ExtResource("1_ryv2d")
 item_slot_scene = ExtResource("2_cea84")
 
@@ -16,7 +20,27 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="BagSlots" type="GridContainer" parent="MarginContainer" unique_id=2120705134]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1586512975]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="BagSlots" type="GridContainer" parent="MarginContainer/VBoxContainer" unique_id=2120705134]
 unique_name_in_owner = true
 layout_mode = 2
 columns = 4
+
+[node name="GoldRow" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=2018447709]
+layout_mode = 2
+alignment = 2
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/GoldRow" unique_id=1537427456]
+texture_filter = 1
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+texture = ExtResource("3_cftyi")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="GoldLabel" type="Label" parent="MarginContainer/VBoxContainer/GoldRow" unique_id=907312181]
+unique_name_in_owner = true
+layout_mode = 2

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ItemTemplate" format=3 uid="uid://d1fax26moo3bf"]
+
+[ext_resource type="Script" uid="uid://ds4vabwfl1g5r" path="res://Scripts/ResourceScripts/item_template.gd" id="1_6vcot"]
+[ext_resource type="Texture2D" uid="uid://c5xtoxm2f0xho" path="res://Assets/ItemIcons/quick_gloves.png" id="2_4h0ga"]
+
+[resource]
+script = ExtResource("1_6vcot")
+name = "Quick Gloves"
+slot = 5
+icon = ExtResource("2_4h0ga")
+forced_stats = Dictionary[int, float]({
+20: 1.0
+})
+metadata/_custom_type_script = "uid://ds4vabwfl1g5r"

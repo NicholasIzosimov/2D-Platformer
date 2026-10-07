@@ -73,7 +73,10 @@ static func talent(data: TalentData, rank: int) -> String:
 
 
 static func item(data: ItemData) -> String:
-	var lines: Array[String] = ["[b]%s[/b]" % data.name, "[color=gray]%s[/color]" % ItemData.Slot.keys()[data.slot].capitalize()]
+	var color: Color = data.rarity.color if data.rarity else Color.WHITE
+	var lines: Array[String] = ["[b][color=#%s]%s[/color][/b]" % [color.to_html(false), data.name]]
+	lines.append("[color=gray]Item Level %d[/color]" % data.item_level)
+	lines.append("[color=gray]%s[/color]" % ItemData.Slot.keys()[data.slot].capitalize())
 	if data.attack_speed > 0.0:
 		lines.append("Speed %.2f" % data.attack_speed)
 	for stat in data.stats:

@@ -23,6 +23,7 @@ enum Type {
 	CRIT_RATING,
 	ABILITY_POWER,
 	WEAPON_DAMAGE,
+	HASTE_RATING,
 	}
 const LABELS: Dictionary = {
 	Type.VIGOR: "Vigor",
@@ -45,6 +46,7 @@ const LABELS: Dictionary = {
 	Type.CRIT_RATING: "Crit Rating",
 	Type.ABILITY_POWER: "Ability Power",
 	Type.WEAPON_DAMAGE: "Weapon Damage",
+	Type.HASTE_RATING: "Haste Rating",
 }
 const PERCENT_STATS: Array = [Type.CRIT_CHANCE, Type.CRIT_DAMAGE, Type.MISS_CHANCE, Type.HIT_CHANCE, Type.DAMAGE_PERCENT, Type.DAMAGE_REDUCTION, Type.HASTE, Type.DODGE, Type.PARRY, Type.BLOCK]
 const DISPLAY_SCALE: Dictionary = {Type.CRIT_DAMAGE: 100.0}

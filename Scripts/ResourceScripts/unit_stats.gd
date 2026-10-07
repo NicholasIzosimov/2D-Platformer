@@ -143,5 +143,8 @@ func ability_power() -> float:
 func base_swing_time() -> float:
 	return weapon_speed if weapon_speed > 0.0 else unit_data.base_swing_time
 
+func haste_percent() -> float:
+	return get_stat(Stat.Type.HASTE) + rating_to_percent(get_stat(Stat.Type.HASTE_RATING))
+
 func hasted(time: float) -> float:
-	return time / (1.0 + get_stat(Stat.Type.HASTE) / 100.0)
+	return time / (1.0 + haste_percent() / 100.0)

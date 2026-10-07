@@ -48,7 +48,7 @@ func refresh() -> void:
 	add_row("Armor", "%d" % stats.get_stat(Stat.Type.ARMOR))
 	add_row("Crit Chance", "%.1f%%" % stats.crit_percent())
 	add_row("Hit Chance", "%.1f%%" % stats.hit_percent())
-	add_row("Haste", "%.1f%%" % stats.get_stat(Stat.Type.HASTE))
+	add_row("Haste", "%.1f%%" % stats.haste_percent())
 	add_row("Miss Chance", "%.1f%%" % stats.get_stat(Stat.Type.MISS_CHANCE))
 	add_row("Endurance", "(+%s/s)" % endurance.endurance_regen)
 	

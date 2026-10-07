@@ -127,7 +127,7 @@ texture_filter = 1
 position = Vector2(35, -35)
 sprite_frames = ExtResource("9_4rtpo")
 animation = &"quest_target"
-frame_progress = 0.52931744
+frame_progress = 0.68914986
 script = ExtResource("9_742ik")
 
 [node name="LevelLabel" type="Label" parent="Bars/HealthBar" unique_id=803717281]

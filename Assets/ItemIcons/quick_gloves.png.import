@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c6q26fkum7dmc"
-path="res://.godot/imported/PlaceholderBackground.png-9e6981553b27c81a70ddd90e0ed5dfb6.ctex"
+uid="uid://c5xtoxm2f0xho"
+path="res://.godot/imported/quick_gloves.png-b6513425f9ee70416e55c9a85e32263b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/PlaceholderBackground.png"
-dest_files=["res://.godot/imported/PlaceholderBackground.png-9e6981553b27c81a70ddd90e0ed5dfb6.ctex"]
+source_file="res://Assets/ItemIcons/quick_gloves.png"
+dest_files=["res://.godot/imported/quick_gloves.png-b6513425f9ee70416e55c9a85e32263b.ctex"]
 
 [params]
 

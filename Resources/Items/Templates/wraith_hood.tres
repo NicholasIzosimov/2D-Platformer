@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ItemTemplate" format=3 uid="uid://vj1s4clspq1a"]
+
+[ext_resource type="Script" uid="uid://ds4vabwfl1g5r" path="res://Scripts/ResourceScripts/item_template.gd" id="1_kda8v"]
+[ext_resource type="Texture2D" uid="uid://bvkychi3yyunm" path="res://Assets/ItemIcons/wraith's_hood.png" id="2_yygq1"]
+
+[resource]
+script = ExtResource("1_kda8v")
+name = "Wraith's Hood"
+icon = ExtResource("2_yygq1")
+metadata/_custom_type_script = "uid://ds4vabwfl1g5r"

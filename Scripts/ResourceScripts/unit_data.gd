@@ -12,6 +12,7 @@ class_name UnitData
 @export var power: PowerData = preload("res://Resources/Powers/bot_power.tres")
 @export var abilities: Array[AbilityData] = []
 @export var starting_gear: Array[ItemData] = []
+@export var loot_table: LootTable
 @export var base_health: float = 10.0
 @export var xp_reward: float = 1.0
 @export var level_scaling: LevelScaling = preload("res://Resources/Progression/level_scaling.tres")

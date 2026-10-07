@@ -3,6 +3,8 @@ extends Node
 @export var hud: Node
 @export var error_text: Node
 @export var cast_bar: Node
+@export var combat_cursor: Texture2D = preload("res://Assets/UI/CombatPointer.png")
+@export var combat_cursor_hotspot: Vector2 = Vector2(6, 6)
 var current_target: Node
 var hovered_target: Node
 signal target_changed(target)
@@ -182,3 +184,7 @@ func update_hover() -> void:
 	hovered_target = hovered
 	if is_instance_valid(hovered_target):
 		hovered_target.get_node("TargetIndicator").set_hovered(true)
+	Input.set_custom_mouse_cursor(combat_cursor if is_instance_valid(hovered_target) else null, Input.CURSOR_ARROW, combat_cursor_hotspot)
+
+func _exit_tree() -> void:
+	Input.set_custom_mouse_cursor(null)
