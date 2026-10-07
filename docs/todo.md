@@ -1,15 +1,16 @@
 # Todo list, status and open decisions
 
-Last updated 2026-10-06 (branch `topdown-prototype`, latest commit dbd72ca). Numbers = the user's list below. Remove items when done.
+Last updated 2026-10-07 (branch `topdown-prototype`, latest commit ee46ae0). Numbers = the user's list below. Remove items when done.
 
 ## Recommended order (work through one at a time)
 
 **0. Classless restructure — steps 1–3 done (classes removed, skill tree scene, pan/zoom pane); step 4 left**
 No classes: one player (`player.tres` holds starting abilities, power, animation key `player_*`), one big skill tree. Steps: (1) remove ClassData + class select → Start Run; (2) skill tree as a scene: hand-placed `TalentNode`s with links, @tool line drawing; unlock rule stays "linked parent maxed" + new "points spent in tree ≥ X" requirement per node; (3) tree pane with pan/zoom, grows from centre; (4) per-ability animations (`player_<ability>` → fallback `player_attack`). One power resource for now; keep `UnitStats.set_power_data` so a keystone/transformation can swap it later (e.g. skeleton form → Dread). Primary stat displayed as "Power"; AP shown, primary hidden in the character pane.
 
-**1. Damage model — 9 (before gear)**
-Flat damage / "attack power" stat (1 AP = +1 damage on instant abilities) × per-ability coefficient (from cast time, ticks, duration, swing time) → % multipliers (primary stat, Damage %) → crit → variance last (already in `UnitStats.take_damage`).
-Also open: baseline scaling is broken (health ×50 vs damage ×2 by level 50 with current LevelScaling) — decide target time-to-kill for same-level fights, then set per-level values. Armor uses a fixed constant (400); consider scaling it with attacker level (WoW-style).
+**NEXT SESSION (top priority): preliminary scaling that is thought out**
+Problem seen 2026-10-07: a level 3 Warrior already hits far too hard — enemies get AP like the player (1 primary = 1 AP) and base damages are tiny (1–2), so AP dominates early; primary grows with exponent 1.4 vs vigor 1.2 so damage outpaces health. Plan: pick a target time-to-kill for same-level fights (e.g. enemy needs ~N swings to kill you, you need ~M hits), match the primary and vigor curves in `level_scaling.tres` (same exponent), raise base damages so AP is a bonus, not the whole hit. Also consider armor vs attacker level and the level-difference miss/crit. Quick relief meanwhile: lower `primary_stat_per_level`.
+
+**1. Damage model — 9 (before gear)** — AP system DONE (formula, coefficients, `ap_scaling`); remaining: the scaling above
 
 **2. Loot pillar — G, 8, 7, 5 (drops/XP part)**
 Items as data on the Stat system → gear + gold drops lying in the world showing their icon (pick up in range by click or E prompt) → bags on B → equip into character pane gear slots → drop/XP scaling by enemy level.

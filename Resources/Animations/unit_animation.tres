@@ -20,6 +20,7 @@
 [ext_resource type="Texture2D" uid="uid://c7b504f3onfgh" path="res://Assets/Tiny Swords (Free Pack)/Units/Red Units/Pawn/Pawn_Idle Axe.png" id="10_qxmih"]
 [ext_resource type="Texture2D" uid="uid://bhfxjqmva8qe2" path="res://Assets/Sprites/Player/Rat 1.png" id="11_aurin"]
 [ext_resource type="Texture2D" uid="uid://dwgrc5s0pdp4j" path="res://Assets/Tiny Swords (Free Pack)/Units/Red Units/Pawn/Pawn_Run Axe.png" id="11_l8hb2"]
+[ext_resource type="Texture2D" uid="uid://cfq0e14jf2p3n" path="res://Assets/Sprites/Player/RatStanced.png" id="12_1ptqc"]
 [ext_resource type="Texture2D" uid="uid://c2xbhecpa0eoa" path="res://Assets/Sprites/Player/RatWalk.png" id="12_qgayl"]
 [ext_resource type="Texture2D" uid="uid://cnypv7o6e7de2" path="res://Assets/Sprites/Wraith/Wraith1.png" id="17_x47kv"]
 
@@ -300,56 +301,52 @@ atlas = ExtResource("11_aurin")
 region = Rect2(896, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_q04nn"]
-atlas = ExtResource("11_aurin")
-region = Rect2(1408, 0, 64, 64)
+atlas = ExtResource("12_1ptqc")
+region = Rect2(0, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_e4lai"]
-atlas = ExtResource("11_aurin")
-region = Rect2(1472, 0, 64, 64)
+atlas = ExtResource("12_1ptqc")
+region = Rect2(64, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dbgfy"]
-atlas = ExtResource("11_aurin")
-region = Rect2(1536, 0, 64, 64)
+atlas = ExtResource("12_1ptqc")
+region = Rect2(128, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cqmyu"]
-atlas = ExtResource("11_aurin")
-region = Rect2(1600, 0, 64, 64)
+atlas = ExtResource("12_1ptqc")
+region = Rect2(192, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_apb1f"]
-atlas = ExtResource("11_aurin")
-region = Rect2(1664, 0, 64, 64)
+atlas = ExtResource("12_1ptqc")
+region = Rect2(256, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mmy2k"]
-atlas = ExtResource("11_aurin")
-region = Rect2(1728, 0, 64, 64)
+atlas = ExtResource("12_1ptqc")
+region = Rect2(320, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1fqsn"]
-atlas = ExtResource("11_aurin")
-region = Rect2(1792, 0, 64, 64)
+atlas = ExtResource("12_1ptqc")
+region = Rect2(384, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yvair"]
-atlas = ExtResource("11_aurin")
-region = Rect2(1856, 0, 64, 64)
+atlas = ExtResource("12_1ptqc")
+region = Rect2(448, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_08bvh"]
-atlas = ExtResource("11_aurin")
-region = Rect2(2176, 0, 64, 64)
+atlas = ExtResource("12_1ptqc")
+region = Rect2(512, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_d6clu"]
-atlas = ExtResource("11_aurin")
-region = Rect2(2112, 0, 64, 64)
+atlas = ExtResource("12_1ptqc")
+region = Rect2(576, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vxu03"]
-atlas = ExtResource("11_aurin")
-region = Rect2(2048, 0, 64, 64)
+atlas = ExtResource("12_1ptqc")
+region = Rect2(640, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_njh7n"]
-atlas = ExtResource("11_aurin")
-region = Rect2(1984, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ywodg"]
-atlas = ExtResource("11_aurin")
-region = Rect2(1920, 0, 64, 64)
+atlas = ExtResource("12_1ptqc")
+region = Rect2(704, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_h4ejd"]
 atlas = ExtResource("11_aurin")
@@ -1240,13 +1237,10 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_njh7n")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ywodg")
 }],
 "loop": 1,
 "name": &"player_combat_idle",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,

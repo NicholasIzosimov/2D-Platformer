@@ -22,6 +22,8 @@
 [ext_resource type="Script" uid="uid://cjco03it7q8av" path="res://Scripts/auto_attack.gd" id="17_pim51"]
 [ext_resource type="Script" uid="uid://bisjirjysnn7u" path="res://Scripts/effect_visuals.gd" id="17_tuv1f"]
 [ext_resource type="Script" uid="uid://c72bbgdje377a" path="res://Scripts/combat_state.gd" id="18_raq51"]
+[ext_resource type="Script" uid="uid://dpikkc32pafh7" path="res://Scripts/unit_shadow.gd" id="19_dcdq5"]
+[ext_resource type="Script" uid="uid://cdsgdkr5k1exw" path="res://Scripts/shadow_caster.gd" id="24_k6v23"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bn6fq"]
 radius = 8.14
@@ -219,7 +221,15 @@ size = Vector2(12, 4)
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1107684265]
 position = Vector2(0, -16)
 sprite_frames = ExtResource("14_7ftqo")
-animation = &"player_run"
+animation = &"samurai_attack"
+
+[node name="Shadow" type="AnimatedSprite2D" parent="." unique_id=1036900275]
+position = Vector2(0, -4)
+script = ExtResource("19_dcdq5")
+length_bonus = 4.0
+smoothing = 50000.0
+enter_strength = 0.01
+leave_strength = 0.01
 
 [node name="CombatText" type="Node2D" parent="." unique_id=415712433]
 script = ExtResource("6_bn6fq")
@@ -261,3 +271,7 @@ script = ExtResource("17_pim51")
 
 [node name="CombatState" type="Node" parent="." unique_id=1589695511]
 script = ExtResource("18_raq51")
+
+[node name="ShadowCaster" type="Node" parent="." unique_id=686072573]
+script = ExtResource("24_k6v23")
+max_shadows = 10

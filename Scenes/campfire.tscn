@@ -4,6 +4,7 @@
 [ext_resource type="Resource" uid="uid://e2ggqdbcybuq" path="res://Resources/Abilities/Utility/warmth.tres" id="2_e8k8h"]
 [ext_resource type="SpriteFrames" uid="uid://7fiu0hoqa7n3" path="res://Resources/Animations/campfire_frame.tres" id="3_qycku"]
 [ext_resource type="Texture2D" uid="uid://nd12inl3cgex" path="res://Resources/Lights/soft_glow.tres" id="5_1j15t"]
+[ext_resource type="Script" uid="uid://kf6hbrgon8v7" path="res://Scripts/light_source.gd" id="5_blmeq"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pm0ju"]
 radius = 89.16
@@ -18,12 +19,13 @@ scale = Vector2(0.5, 0.5)
 sprite_frames = ExtResource("3_qycku")
 animation = &"burn"
 
-[node name="PointLight2D" type="PointLight2D" parent="." unique_id=1770056463]
-position = Vector2(0.5000057, -11)
-scale = Vector2(2.078125, 1.90625)
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=1770056463 groups=["light_sources"]]
+position = Vector2(-2, -15)
 energy = 0.45
 texture = ExtResource("5_1j15t")
-texture_scale = 0.5
+texture_scale = 3.0
+script = ExtResource("5_blmeq")
+ground_height = 11.0
 
 [node name="WarmthArea" type="Area2D" parent="." unique_id=2088575640]
 collision_layer = 0

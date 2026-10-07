@@ -33,7 +33,9 @@ func refresh() -> void:
 	var player = get_tree().get_first_node_in_group("player")
 	var stats = player.get_node("UnitStats")
 	var endurance = player.get_node("Endurance")
-
+	var player_sprite: AnimatedSprite2D = player.get_node("AnimatedSprite2D")
+	%PreviewSprite.sprite_frames = player_sprite.sprite_frames
+	%PreviewSprite.play(player.get_node("UnitAnimator").key + "_idle")
 	add_row("Vigor", "%d" % stats.get_stat(Stat.Type.VIGOR))
 	add_row("Power", "%d" % stats.ability_power())
 	add_row("Armor", "%d" % stats.get_stat(Stat.Type.ARMOR))
