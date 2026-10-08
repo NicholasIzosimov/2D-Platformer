@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cq6xnfslrotm5" path="res://Assets/WorldObjects/Chest.png" id="2_s5dow"]
 [ext_resource type="Shader" uid="uid://ch7tgdw66vh3x" path="res://Resources/Shaders/sway.gdshader" id="3_5fyjq"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_0q862"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wsjyd"]
 resource_local_to_scene = true
 shader = ExtResource("3_5fyjq")
 shader_parameter/strength = 0.03
@@ -19,7 +19,7 @@ size = Vector2(22, 11)
 texture = ExtResource("2_s5dow")
 
 [node name="SwayMaterial" parent="." index="1" unique_id=1144367935]
-material = SubResource("ShaderMaterial_0q862")
+material = SubResource("ShaderMaterial_wsjyd")
 
 [node name="CollisionShape2D" parent="StaticBody2D" parent_id_path=PackedInt32Array(498950714) index="0" unique_id=2025183214]
 position = Vector2(0, 4.5)

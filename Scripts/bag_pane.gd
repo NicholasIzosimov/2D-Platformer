@@ -10,6 +10,7 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	for i in PlayerState.bag_size:
 		var item_slot = item_slot_scene.instantiate()
+		item_slot.compare = true
 		item_slot.right_clicked.connect(func(): PlayerState.equip_from_bag(i))
 		%BagSlots.add_child(item_slot)
 		slots.append(item_slot)

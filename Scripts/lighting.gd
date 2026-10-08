@@ -3,6 +3,7 @@ extends RefCounted
 
 const GROUP: String = "light_sources"
 const CASTER_GROUP: String = "shadow_casters"
+const SHADOW_GROUP: String = "cast_shadows"
 
 static func lights_at(tree: SceneTree, at: Vector2, ignore: Node = null) -> Array[Dictionary]:
 	var result: Array[Dictionary] = []

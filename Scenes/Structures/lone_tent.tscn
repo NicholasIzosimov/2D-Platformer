@@ -30,7 +30,7 @@ script = ExtResource("1_s3toc")
 [node name="PoorTent" parent="." unique_id=1413736599 instance=ExtResource("1_m6yen")]
 
 [node name="SpawnPoint1" type="Marker2D" parent="." unique_id=1612198429]
-position = Vector2(0, 5)
+position = Vector2(0, 20)
 script = ExtResource("2_dotpu")
 spawn_table = ExtResource("3_3n6d2")
 

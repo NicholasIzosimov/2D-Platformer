@@ -29,8 +29,11 @@ var shown_alpha: float = 0.0
 var shown_lit: float = 0.0
 var unit: Node2D
 var layers: ShadowLayers
+var cast: Dictionary = {}
+static var image_cache: Dictionary = {}
 
 func _ready() -> void:
+	add_to_group(Lighting.SHADOW_GROUP)
 	layers = get_tree().get_first_node_in_group(ShadowLayers.GROUP)
 	length = squash
 	material = ShaderMaterial.new()
@@ -112,6 +115,9 @@ func update_projection(shift: Vector2, lit_amount: float) -> void:
 	var half: float = body_size.x * 0.5 * max(1.0, far) + abs(body_center.x)
 	var tip: Vector2 = shift * top_height
 	bounds = Rect2(Vector2(-half, 0.0), Vector2.ZERO).expand(Vector2(half, 0.0)).expand(tip + Vector2(-half, 0.0)).expand(tip + Vector2(half, 0.0)).grow(2.0)
+	cast = {"atlas": atlas, "region": region, "center": body_center, "size": body_size, "shift": shift, 
+	"top": top_height, "near": lerp(1.0, near_width, lit_amount), "far": far, "tip": tip_fade * lit_amount, 
+	"flip": source.flip_h, "reach": tip.length() + half}
 	queue_redraw()
 
 func _draw() -> void:
@@ -128,3 +134,36 @@ func apply_sway() -> void:
 	material.set_shader_parameter("sway_speed", sway.get_shader_parameter("speed"))
 	material.set_shader_parameter("sway_phase", pos.x * 0.05 + pos.y * 0.03)
 	material.set_shader_parameter("sway_pivot", -source.position.y)
+
+func shade_at(point: Vector2) -> float:
+	var strength: float = shown_alpha * fade
+	if not visible or strength <= 0.01 or cast.is_empty():
+		return 0.0
+	var ground: Vector2 = point - global_position
+	if ground.length() > cast.reach:
+		return 0.0
+	var h: float = ground.y / cast.shift.y
+	if h < 0.0 or h > cast.top:
+		return 0.0
+	var hn: float = h / cast.top
+	var x: float = (ground.x - cast.shift.x * h) / lerp(cast.near, cast.far, hn)
+	var uv: Vector2 = (Vector2(x, -h) - cast.center) / cast.size + Vector2(0.5, 0.5)
+	if cast.flip:
+		uv.x = 1.0 - uv.x
+	if uv.x < 0.0 or uv.x > 1.0 or uv.y < 0.0 or uv.y > 1.0:
+		return 0.0
+	return strength * sample_alpha(uv) * lerp(1.0, 1.0 - cast.tip, hn)
+
+func sample_alpha(uv: Vector2) -> float:
+	var atlas: Texture2D = cast.atlas
+	var image: Image = image_cache.get(atlas)
+	if image == null:
+		image = atlas.get_image()
+		if image.is_compressed():
+			image.decompress()
+		image_cache[atlas] = image
+	var region: Vector4 = cast.region
+	var size: Vector2 = Vector2(image.get_size())
+	var pixel := Vector2i((Vector2(region.x, region.y) + uv * Vector2(region.z, region.w)) * size)
+	pixel = pixel.clamp(Vector2i.ZERO, image.get_size() - Vector2i.ONE)
+	return image.get_pixelv(pixel).a
