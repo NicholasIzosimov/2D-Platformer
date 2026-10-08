@@ -7,6 +7,7 @@ extends Node
 @export var moves: bool = true
 @export var lazy: bool = false
 @export var wake_duration: float = 0.5
+@export var min_secondary_share: float = 0.25
 var template: Node
 var slots: Array = []
 var elapsed: float = 0.0
@@ -63,7 +64,7 @@ func _process(delta: float) -> void:
 		total += info.strength
 	for info in lights:
 		info["share"] = info.strength / total
-	var free_lights: Array = lights.slice(0, slots.size())
+	var free_lights: Array = lights.slice(0, slots.size()).filter(func(info): return info == lights[0] or info.share >= min_secondary_share)
 	var slot_info: Array = []
 	slot_info.resize(slots.size())
 	for i in slots.size():
@@ -84,3 +85,4 @@ func wake(light: Node2D) -> void:
 	if light is LightSource and light.ground_position().distance_to(get_parent().global_position) > light.radius():
 		return
 	awake = wake_duration
+	elapsed = 0.0

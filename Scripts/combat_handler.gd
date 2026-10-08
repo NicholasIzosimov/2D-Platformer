@@ -200,11 +200,11 @@ func spawn_object(ability) -> void:
 	var spawned = ability.spawn_scene.instantiate()
 	if spawned.has_method("setup"):
 		spawned.setup(get_parent())
-	get_parent().get_parent().add_child(spawned)
 	var offset: Vector2 = ability.spawn_offset
 	if get_node("../AnimatedSprite2D").flip_h:
 		offset.x = -offset.x
-	spawned.global_position = get_parent().global_position + offset * Yards.PIXELS
+	spawned.position = get_parent().position + offset * Yards.PIXELS
+	get_parent().get_parent().add_child(spawned)
 	
 func fire_projectile(ability, target) -> void:
 	var start: Vector2 = get_node("../AttackPivot").global_position
