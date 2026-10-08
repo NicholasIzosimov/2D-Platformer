@@ -15,7 +15,7 @@ var awake: float = 0.0
 
 func _ready() -> void:
 	add_to_group(Lighting.CASTER_GROUP)
-	template = get_node("../Shadow")
+	template = get_node("Shadow")
 	template.hide()
 	template.set_physics_process(false)
 	elapsed = randf() * update_interval

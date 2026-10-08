@@ -33,7 +33,3 @@ script = ExtResource("5_mo1ky")
 floating_number_scene = ExtResource("6_6bs3c")
 global_loot = ExtResource("6_mo1ky")
 item_rules = ExtResource("7_6bs3c")
-
-[node name="Shadow" parent="." index="11" unique_id=1046130201]
-near_width = 0.4
-far_width = 1.8

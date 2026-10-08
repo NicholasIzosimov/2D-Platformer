@@ -1,7 +1,7 @@
 extends Node2D
 
 const EFFECTS: SpriteFrames = preload("res://Resources/Animations/effect_animations.tres")
-const GLOW: Texture2D = preload("res://Resources/Lights/soft_glow.tres")
+const GLOW: Texture2D = preload("res://Resources/Lights/Textures/soft_glow.tres")
 var active: Dictionary = {}
 
 func _ready() -> void:

@@ -13,7 +13,7 @@
 [resource]
 script = ExtResource("5_xb6jo")
 base_stats = Dictionary[int, float]({
-0: 10.0,
+0: 2.0,
 3: 5.0,
 5: 10.0,
 9: 3.0

@@ -25,8 +25,7 @@
 [ext_resource type="Script" uid="uid://cjco03it7q8av" path="res://Scripts/auto_attack.gd" id="17_pim51"]
 [ext_resource type="Script" uid="uid://bisjirjysnn7u" path="res://Scripts/effect_visuals.gd" id="17_tuv1f"]
 [ext_resource type="Script" uid="uid://c72bbgdje377a" path="res://Scripts/combat_state.gd" id="18_raq51"]
-[ext_resource type="Script" uid="uid://dpikkc32pafh7" path="res://Scripts/unit_shadow.gd" id="19_dcdq5"]
-[ext_resource type="Script" uid="uid://cdsgdkr5k1exw" path="res://Scripts/shadow_caster.gd" id="24_k6v23"]
+[ext_resource type="PackedScene" uid="uid://bpisofceoji0e" path="res://Scenes/Components/shadow.tscn" id="26_742ik"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bn6fq"]
 radius = 1.5
@@ -253,15 +252,6 @@ position = Vector2(0, -16)
 sprite_frames = ExtResource("14_7ftqo")
 animation = &"wraith_combat_run"
 
-[node name="Shadow" type="Node2D" parent="." unique_id=1046130201]
-script = ExtResource("19_dcdq5")
-length_bonus = 4.0
-near_width = 1.0
-far_width = 2.0
-smoothing = 50000.0
-enter_strength = 0.05
-leave_strength = 0.01
-
 [node name="CombatText" type="Node2D" parent="." unique_id=415712433]
 script = ExtResource("6_bn6fq")
 pivot = Vector2(0, -40)
@@ -303,6 +293,4 @@ script = ExtResource("17_pim51")
 [node name="CombatState" type="Node" parent="." unique_id=1589695511]
 script = ExtResource("18_raq51")
 
-[node name="ShadowCaster" type="Node" parent="." unique_id=686072573]
-script = ExtResource("24_k6v23")
-max_shadows = 3
+[node name="ShadowCaster" parent="." unique_id=2134996495 instance=ExtResource("26_742ik")]

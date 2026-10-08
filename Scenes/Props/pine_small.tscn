@@ -7,7 +7,7 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4ftun"]
 resource_local_to_scene = true
 shader = ExtResource("2_tb7dq")
-shader_parameter/strength = 0.03
+shader_parameter/strength = 0.1
 shader_parameter/speed = 1.2
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4ftun"]
@@ -33,3 +33,5 @@ region_rect = Rect2(0, 20, 64, 44)
 [node name="CollisionShape2D" parent="StaticBody2D" parent_id_path=PackedInt32Array(498950714) index="0" unique_id=2025183214]
 position = Vector2(0, -4)
 shape = SubResource("RectangleShape2D_4ftun")
+
+[editable path="ShadowCaster"]

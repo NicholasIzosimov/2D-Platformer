@@ -1,15 +1,29 @@
 class_name LightSource
 extends PointLight2D
 
+@export var preset: LightPreset
 @export var ground_height: float = 0.0
 var base_energy: float = 1.0
 var last_energy: float = 0.0
 
 func _ready() -> void:
-	base_energy = max(energy, 0.001)
+	apply_preset()
 	add_to_group(Lighting.GROUP)
 	last_energy = energy
 	Lighting.wake_casters(get_tree(), self)
+
+func set_preset(new_preset: LightPreset) -> void:
+	preset = new_preset
+	apply_preset()
+
+func apply_preset() -> void:
+	if preset:
+		texture = preset.texture
+		texture_scale = preset.texture_scale
+		energy = preset.energy
+		color = preset.color
+		ground_height = preset.ground_height
+	base_energy = max(energy, 0.001)
 
 func _process(_delta: float) -> void:
 	if energy != last_energy:

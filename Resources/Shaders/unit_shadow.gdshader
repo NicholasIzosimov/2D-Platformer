@@ -10,6 +10,10 @@ uniform float top_height = 48.0;
 uniform float near_width = 1.0;
 uniform float far_width = 1.0;
 uniform float tip_fade = 0.0;
+uniform float sway_strength = 0.0;
+uniform float sway_speed = 0.0;
+uniform float sway_phase = 0.0;
+uniform float sway_pivot = 0.0;
 
 varying vec2 local_pos;
 
@@ -25,6 +29,7 @@ void fragment() {
 	} else {
 		float hn = h / top_height;
 		float x = (ground.x - shift.x * h) / mix(near_width, far_width, hn);
+		x -= max(h - sway_pivot, 0.0) * sway_strength * sin(TIME * sway_speed + sway_phase);
 		vec2 uv = (vec2(x, -h) - body_center) / body_size + 0.5;
 		if (flip > 0.5) {
 			uv.x = 1.0 - uv.x;

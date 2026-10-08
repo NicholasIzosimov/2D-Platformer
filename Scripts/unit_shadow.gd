@@ -1,6 +1,7 @@
 extends Node2D
 
 const SHADER: Shader = preload("res://Resources/Shaders/unit_shadow.gdshader")
+const SWAY_SHADER: Shader = preload("res://Resources/Shaders/sway.gdshader")
 @export var squash: float = 0.25
 @export var ambient_alpha: float = 0.15
 @export var lit_alpha: float = 0.45
@@ -30,13 +31,12 @@ var unit: Node2D
 var layers: ShadowLayers
 
 func _ready() -> void:
-	if unit == null:
-		unit = get_parent()
 	layers = get_tree().get_first_node_in_group(ShadowLayers.GROUP)
 	length = squash
 	material = ShaderMaterial.new()
 	material.shader = SHADER
-
+	apply_sway()
+	
 func _physics_process(_delta: float) -> void:
 	if is_instance_valid(unit):
 		global_position = unit.global_position
@@ -116,3 +116,15 @@ func update_projection(shift: Vector2, lit_amount: float) -> void:
 
 func _draw() -> void:
 	draw_rect(bounds, Color.WHITE)
+
+func apply_sway() -> void:
+	if source == null or not source.material is ShaderMaterial:
+		return
+	var sway: ShaderMaterial = source.material
+	if sway.shader != SWAY_SHADER:
+		return
+	var pos: Vector2 = source.global_position
+	material.set_shader_parameter("sway_strength", sway.get_shader_parameter("strength"))
+	material.set_shader_parameter("sway_speed", sway.get_shader_parameter("speed"))
+	material.set_shader_parameter("sway_phase", pos.x * 0.05 + pos.y * 0.03)
+	material.set_shader_parameter("sway_pivot", -source.position.y)

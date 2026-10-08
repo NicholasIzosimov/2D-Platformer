@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="LightPreset" format=3 uid="uid://deni23trjs30w"]
+
+[ext_resource type="Script" uid="uid://cipmqph0n5inp" path="res://Scripts/ResourceScripts/light_preset.gd" id="1_qmcot"]
+[ext_resource type="Texture2D" uid="uid://nd12inl3cgex" path="res://Resources/Lights/Textures/soft_glow.tres" id="2_yr8na"]
+
+[resource]
+script = ExtResource("1_qmcot")
+texture = ExtResource("2_yr8na")
+texture_scale = 2.0
+energy = 0.45
+color = Color(0.64705884, 0.44313726, 0.2784314, 1)
+ground_height = 11.0
+metadata/_custom_type_script = "uid://cipmqph0n5inp"

@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://bpisofceoji0e"]
+
+[ext_resource type="Script" uid="uid://cdsgdkr5k1exw" path="res://Scripts/shadow_caster.gd" id="1_vm1pr"]
+[ext_resource type="Script" uid="uid://dpikkc32pafh7" path="res://Scripts/unit_shadow.gd" id="2_de8fc"]
+
+[node name="ShadowCaster" type="Node" unique_id=2134996495]
+script = ExtResource("1_vm1pr")
+max_shadows = 3
+
+[node name="Shadow" type="Node2D" parent="." unique_id=1067717364]
+script = ExtResource("2_de8fc")
+length_bonus = 3.0
+near_width = 1.0
+far_width = 2.0
+smoothing = 50000.0
+enter_strength = 0.05
+leave_strength = 0.01

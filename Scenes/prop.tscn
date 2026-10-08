@@ -2,8 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b8x5ovpuffn8k" path="res://Scripts/prop.gd" id="1_b5kkq"]
 [ext_resource type="Shader" uid="uid://ch7tgdw66vh3x" path="res://Resources/Shaders/sway.gdshader" id="2_5sh6o"]
-[ext_resource type="Script" uid="uid://dpikkc32pafh7" path="res://Scripts/unit_shadow.gd" id="3_844ta"]
-[ext_resource type="Script" uid="uid://cdsgdkr5k1exw" path="res://Scripts/shadow_caster.gd" id="4_mpnaq"]
+[ext_resource type="PackedScene" uid="uid://bpisofceoji0e" path="res://Scenes/Components/shadow.tscn" id="3_6l8ut"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_b5kkq"]
 resource_local_to_scene = true
@@ -26,17 +25,8 @@ disable_mode = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=2025183214]
 
-[node name="Shadow" type="Node2D" parent="." unique_id=1128510446]
-script = ExtResource("3_844ta")
-length_bonus = 4.0
-near_width = 1.0
-far_width = 2.0
-smoothing = 50000.0
-enter_strength = 0.05
-leave_strength = 0.01
-
-[node name="ShadowCaster" type="Node" parent="." unique_id=702895649]
-script = ExtResource("4_mpnaq")
+[node name="ShadowCaster" parent="." unique_id=2134996495 instance=ExtResource("3_6l8ut")]
+max_shadows = 2
 sources = Array[NodePath]([NodePath("../SwayMaterial"), NodePath("../SolidMaterial")])
 update_interval = 0.2
 moves = false
