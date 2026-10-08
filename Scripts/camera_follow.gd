@@ -12,6 +12,7 @@ extends Camera2D
 var zoom_steps: int = 0
 var target_zoom: float = 1.0
 var zoom_velocity: float = 0.0
+var min_zoom: float = 1.0
 
 func _ready() -> void:
 	position_smoothing_enabled = true
@@ -50,6 +51,7 @@ func update_zoom(animate: bool = false) -> void:
 	var stretch: float = min(window.x / base.x, window.y / base.y)
 	var default_scale: int = max(1, roundi(window.y / target_view_height))
 	var min_scale: int = max(1, ceili(window.y / max_view_height))
+	min_zoom = min_scale / stretch
 	var max_scale: int = max(min_scale, floori(window.y / min_view_height))
 	var pixel_scale: int = clampi(default_scale + zoom_steps, min_scale, max_scale)
 	zoom_steps = pixel_scale - default_scale
@@ -57,3 +59,6 @@ func update_zoom(animate: bool = false) -> void:
 	if not animate:
 		zoom = Vector2(target_zoom, target_zoom)
 		zoom_velocity = 0.0
+
+func max_view_size() -> Vector2:
+	return get_viewport_rect().size / min_zoom

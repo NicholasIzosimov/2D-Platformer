@@ -17,7 +17,7 @@ const SHADER: Shader = preload("res://Resources/Shaders/unit_shadow.gdshader")
 @export var enter_strength: float = 0.1
 @export var leave_strength: float = 0.05
 @export var share_contrast: float = 2.0
-var source: AnimatedSprite2D
+var source: Node2D
 var light_angle: float = PI / 2.0
 var length: float = 0.0
 var shown_light: Node = null
@@ -32,7 +32,6 @@ var layers: ShadowLayers
 func _ready() -> void:
 	if unit == null:
 		unit = get_parent()
-	source = unit.get_node("AnimatedSprite2D")
 	layers = get_tree().get_first_node_in_group(ShadowLayers.GROUP)
 	length = squash
 	material = ShaderMaterial.new()
@@ -43,7 +42,7 @@ func _physics_process(_delta: float) -> void:
 		global_position = unit.global_position
 
 func update_shadow(info: Dictionary, allow_ambient: bool, delta: float) -> void:
-	if shown_light != null and not is_instance_valid(shown_light):
+	if not is_instance_valid(shown_light):
 		shown_light = null
 	var t: float = 1.0 - exp(-smoothing * delta)
 	var light: Node = info.get("light")
@@ -80,22 +79,25 @@ func update_shadow(info: Dictionary, allow_ambient: bool, delta: float) -> void:
 	update_projection(direction * length, shown_lit)
 
 func update_projection(shift: Vector2, lit_amount: float) -> void:
-	var texture: Texture2D = source.sprite_frames.get_frame_texture(source.animation, source.frame)
+	var texture: Texture2D = source.sprite_frames.get_frame_texture(source.animation, source.frame) if source is AnimatedSprite2D else source.texture
 	if texture == null:
 		return
 	if abs(shift.y) < min_vertical:
 		shift.y = min_vertical if shift.y >= 0.0 else -min_vertical
-	var frame_size: Vector2 = texture.get_size()
+	var atlas: Texture2D = texture
+	var frame_rect := Rect2(Vector2.ZERO, texture.get_size())
+	if texture is AtlasTexture:
+		atlas = texture.atlas
+		frame_rect = texture.region
+	elif source is Sprite2D and source.region_enabled:
+		frame_rect = source.region_rect
+	var atlas_size: Vector2 = atlas.get_size()
+	var region := Vector4(frame_rect.position.x / atlas_size.x, frame_rect.position.y / atlas_size.y, frame_rect.size.x / atlas_size.x, frame_rect.size.y / atlas_size.y)
+	var frame_size: Vector2 = frame_rect.size
 	var body_size: Vector2 = frame_size * source.scale.abs()
 	var center_offset: Vector2 = source.offset + (Vector2.ZERO if source.centered else frame_size / 2.0)
 	var body_center: Vector2 = source.position + center_offset * source.scale
 	var top_height: float = max(body_size.y / 2.0 - body_center.y, 1.0)
-	var atlas: Texture2D = texture
-	var region := Vector4(0.0, 0.0, 1.0, 1.0)
-	if texture is AtlasTexture:
-		atlas = texture.atlas
-		var atlas_size: Vector2 = atlas.get_size()
-		region = Vector4(texture.region.position.x / atlas_size.x, texture.region.position.y / atlas_size.y, texture.region.size.x / atlas_size.x, texture.region.size.y / atlas_size.y)
 	var far: float = lerp(1.0, far_width, lit_amount)
 	material.set_shader_parameter("body", atlas)
 	material.set_shader_parameter("region", region)

@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://h14qxjnmopb6"]
+
+[ext_resource type="PackedScene" uid="uid://ccc1hmmxmapdf" path="res://Scenes/prop.tscn" id="1_4ftun"]
+[ext_resource type="Shader" uid="uid://ch7tgdw66vh3x" path="res://Resources/Shaders/sway.gdshader" id="2_tb7dq"]
+[ext_resource type="Texture2D" uid="uid://bfv0mdivfd0ai" path="res://Assets/Environment/Pine Tree.png" id="3_xiytw"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4ftun"]
+resource_local_to_scene = true
+shader = ExtResource("2_tb7dq")
+shader_parameter/strength = 0.03
+shader_parameter/speed = 1.2
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4ftun"]
+size = Vector2(17, 8)
+
+[node name="PineSmall" unique_id=1413736599 instance=ExtResource("1_4ftun")]
+
+[node name="SolidMaterial" parent="." index="0" unique_id=1643662631]
+position = Vector2(0, -4)
+texture = ExtResource("3_xiytw")
+region_enabled = true
+region_rect = Rect2(25, 64, 16, 8.153389)
+
+[node name="SwayMaterial" parent="." index="1" unique_id=1144367935]
+material = SubResource("ShaderMaterial_4ftun")
+position = Vector2(0, -9)
+texture = ExtResource("3_xiytw")
+centered = false
+offset = Vector2(-32, -42)
+region_enabled = true
+region_rect = Rect2(0, 20, 64, 44)
+
+[node name="CollisionShape2D" parent="StaticBody2D" parent_id_path=PackedInt32Array(498950714) index="0" unique_id=2025183214]
+position = Vector2(0, -4)
+shape = SubResource("RectangleShape2D_4ftun")

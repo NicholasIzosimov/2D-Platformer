@@ -16,6 +16,7 @@
 [ext_resource type="Script" uid="uid://hh0g0qnqves" path="res://Scripts/world_generator.gd" id="11_f12wh"]
 [ext_resource type="Script" uid="uid://iljt3cqmf55k" path="res://Scripts/ResourceScripts/meadow_shape.gd" id="13_efsqc"]
 [ext_resource type="Script" uid="uid://drniy7ox0d5uy" path="res://Scripts/flow_field.gd" id="14_4nmng"]
+[ext_resource type="PackedScene" uid="uid://h14qxjnmopb6" path="res://Scenes/Props/pine_small.tscn" id="15_kikm5"]
 [ext_resource type="Script" uid="uid://4nvgpejblxaf" path="res://Scripts/spawn_director.gd" id="16_y63gj"]
 [ext_resource type="Resource" uid="uid://brgvfw2nty8s5" path="res://Resources/Spawning/spawn_table.tres" id="17_1br8s"]
 [ext_resource type="Script" uid="uid://dgv1x1fa5gbcc" path="res://Scripts/moon_light.gd" id="19_ej3m1"]
@@ -117,6 +118,11 @@ sources/0 = SubResource("TileSetAtlasSource_cy4jt")
 
 [sub_resource type="Resource" id="Resource_efsqc"]
 script = ExtResource("13_efsqc")
+prop_chance = 0.005
+obstacle_frequency = 0.0
+props = Dictionary[PackedScene, float]({
+ExtResource("15_kikm5"): 1.0
+})
 metadata/_custom_type_script = "uid://iljt3cqmf55k"
 
 [node name="CombatScene" type="Node2D" unique_id=312659833]
@@ -146,6 +152,9 @@ collision_enabled = false
 y_sort_enabled = true
 scale = Vector2(0.25, 0.25)
 tile_set = SubResource("TileSet_pm0ju")
+
+[node name="Props" type="Node2D" parent="." unique_id=2013660122]
+y_sort_enabled = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=653473165]
 
@@ -204,12 +213,13 @@ spawn_point = NodePath("../player/SpawnPoint")
 [node name="NameplateStacker" type="Node" parent="." unique_id=1547484641]
 script = ExtResource("9_cy4jt")
 
-[node name="WorldGenerator" type="Node" parent="." unique_id=1442959269 node_paths=PackedStringArray("ground", "obstacles", "player")]
+[node name="WorldGenerator" type="Node" parent="." unique_id=1442959269 node_paths=PackedStringArray("ground", "obstacles", "player", "props_parent")]
 script = ExtResource("11_f12wh")
 ground = NodePath("../Ground")
 obstacles = NodePath("../Obstacles")
 player = NodePath("../player")
 shape = SubResource("Resource_efsqc")
+props_parent = NodePath("../Props")
 
 [node name="FlowField" type="Node" parent="." unique_id=441218998 node_paths=PackedStringArray("world", "player")]
 script = ExtResource("14_4nmng")

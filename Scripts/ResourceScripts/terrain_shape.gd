@@ -13,3 +13,9 @@ func get_ground_tile(_x: int, _y: int) -> Vector2i:
 
 func get_obstacle_tile(_x: int, _y: int) -> Vector2i:
 	return EMPTY
+
+func get_prop(_x: int, _y: int) -> PackedScene:
+	return null
+
+func cell_random(x: int, y: int, salt: int = 0) -> float:
+	return float(hash(Vector3i(x, y, world_seed + salt)) & 0xFFFFFF) / 16777216.0
