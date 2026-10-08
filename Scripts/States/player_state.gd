@@ -19,6 +19,7 @@ var xp_curve: XpCurve
 var bag_size: int = 16
 var bag: Array[ItemData] = []
 var quests: Array[Quest] = []
+var in_combat: bool = false
 
 signal loadout_changed
 signal gold_changed(new_amount)
@@ -30,6 +31,7 @@ signal gear_changed
 signal bag_changed
 signal quests_changed
 signal quest_completed(quest)
+signal action_failed(reason)
 
 func _init() -> void:
 	xp_curve = load("res://Resources/Progression/xp_curve.tres")
@@ -200,11 +202,20 @@ func equip_from_bag(index: int) -> void:
 	var item: ItemData = bag[index]
 	if item == null:
 		return
+	if in_combat:
+		action_failed.emit("Can't do that in combat")
+		return
 	bag[index] = equip_item(item)
 	bag_changed.emit()
 
 func unequip_to_bag(slot: ItemData.Slot) -> bool:
-	if not equipped_gear.has(slot) or bag.find(null) == -1:
+	if not equipped_gear.has(slot):
+		return false
+	if in_combat:
+		action_failed.emit("Can't do that in combat")
+		return false
+	if bag.find(null) == -1:
+		action_failed.emit("Inventory is full")
 		return false
 	add_to_bag(unequip_item(slot))
 	return true

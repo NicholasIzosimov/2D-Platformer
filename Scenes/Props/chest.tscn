@@ -1,10 +1,15 @@
 [gd_scene format=3 uid="uid://borw6t26ji7xi"]
 
 [ext_resource type="PackedScene" uid="uid://ccc1hmmxmapdf" path="res://Scenes/prop.tscn" id="1_wsjyd"]
-[ext_resource type="Texture2D" uid="uid://cq6xnfslrotm5" path="res://Assets/WorldObjects/Chest.png" id="2_s5dow"]
+[ext_resource type="Script" uid="uid://vsgvg15l7ron" path="res://Scripts/chest.gd" id="2_5fyjq"]
 [ext_resource type="Shader" uid="uid://ch7tgdw66vh3x" path="res://Resources/Shaders/sway.gdshader" id="3_5fyjq"]
+[ext_resource type="Resource" uid="uid://bd2jv1w5vsq26" path="res://Resources/Loot/chest_loot.tres" id="3_8p1xy"]
+[ext_resource type="Resource" uid="uid://muk03tvj2dbx" path="res://Resources/Items/item_rules.tres" id="4_td3jd"]
+[ext_resource type="PackedScene" uid="uid://dmm0vsh7o03to" path="res://Scenes/Components/interactable.tscn" id="5_5fyjq"]
+[ext_resource type="Resource" uid="uid://c7540lyin7m0l" path="res://Resources/Items/Rarities/uncommon.tres" id="5_ar7rh"]
+[ext_resource type="Texture2D" uid="uid://bxm40li68phjf" path="res://Assets/WorldObjects/Chest/ChestSprite.png" id="6_0q862"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_wsjyd"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0q862"]
 resource_local_to_scene = true
 shader = ExtResource("3_5fyjq")
 shader_parameter/strength = 0.03
@@ -13,14 +18,123 @@ shader_parameter/speed = 1.2
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6yf4v"]
 size = Vector2(22, 11)
 
-[node name="Chest" unique_id=1413736599 instance=ExtResource("1_wsjyd")]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0q862"]
+size = Vector2(26, 24)
 
-[node name="SolidMaterial" parent="." index="0" unique_id=1643662631]
-texture = ExtResource("2_s5dow")
+[sub_resource type="AtlasTexture" id="AtlasTexture_dxl30"]
+atlas = ExtResource("6_0q862")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8p1xy"]
+atlas = ExtResource("6_0q862")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_td3jd"]
+atlas = ExtResource("6_0q862")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ar7rh"]
+atlas = ExtResource("6_0q862")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g21h0"]
+atlas = ExtResource("6_0q862")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lbsor"]
+atlas = ExtResource("6_0q862")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_igad7"]
+atlas = ExtResource("6_0q862")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5fyjq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dxl30")
+}],
+"loop": 1,
+"name": &"closed",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8p1xy")
+}],
+"loop": 1,
+"name": &"empty",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_td3jd")
+}],
+"loop": 1,
+"name": &"full",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ar7rh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g21h0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lbsor")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_igad7")
+}],
+"loop": 0,
+"name": &"opening",
+"speed": 9.0
+}]
+
+[sub_resource type="Gradient" id="Gradient_4ftun"]
+colors = PackedColorArray(0, 0, 0, 0.5686275, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_5fyjq"]
+gradient = SubResource("Gradient_4ftun")
+width = 32
+height = 32
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+
+[node name="Chest" unique_id=1413736599 instance=ExtResource("1_wsjyd")]
+script = ExtResource("2_5fyjq")
+loot = ExtResource("3_8p1xy")
+item_rules = ExtResource("4_td3jd")
+min_rarity = ExtResource("5_ar7rh")
 
 [node name="SwayMaterial" parent="." index="1" unique_id=1144367935]
-material = SubResource("ShaderMaterial_wsjyd")
+material = SubResource("ShaderMaterial_0q862")
 
 [node name="CollisionShape2D" parent="StaticBody2D" parent_id_path=PackedInt32Array(498950714) index="0" unique_id=2025183214]
 position = Vector2(0, 4.5)
 shape = SubResource("RectangleShape2D_6yf4v")
+
+[node name="Interactable" parent="." index="4" unique_id=149145649 node_paths=PackedStringArray("visual") instance=ExtResource("5_5fyjq")]
+visual = NodePath("../Sprite")
+
+[node name="CollisionShape2D" parent="Interactable" index="0" unique_id=1384125965]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_0q862")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="." index="5" unique_id=1117872720]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_5fyjq")
+animation = &"opening"
+frame = 3
+frame_progress = 1.0
+
+[node name="ShadeBlob" type="Sprite2D" parent="." index="6" unique_id=1778812998]
+z_index = -1
+position = Vector2(0, 9)
+scale = Vector2(1.1591797, 0.453125)
+texture = SubResource("GradientTexture2D_5fyjq")
+
+[editable path="Interactable"]

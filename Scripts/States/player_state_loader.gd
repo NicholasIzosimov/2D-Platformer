@@ -11,6 +11,7 @@ func _ready() -> void:
 	PlayerState.gear_changed.connect(_on_gear_changed)
 	get_node("../CombatHandler").unit_killed.connect(_on_unit_killed)
 	PlayerState.quest_completed.connect(_on_quest_completed)
+	get_node("../CombatState").combat_changed.connect(func(value): PlayerState.in_combat = value)
 	
 func _on_gear_changed() -> void:
 	get_node("../UnitStats").weapon_speed = PlayerState.weapon_speed()

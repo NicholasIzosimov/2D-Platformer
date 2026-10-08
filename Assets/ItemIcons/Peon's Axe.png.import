@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bfv0mdivfd0ai"
-path="res://.godot/imported/Pine Tree.png-563f4475ac7da284221bf24e27cca9b0.ctex"
+uid="uid://f1ps040niw2j"
+path="res://.godot/imported/Peon's Axe.png-d4b5004cf536e5c4ddd3d2dba19c7d2d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Environment/Pine Tree.png"
-dest_files=["res://.godot/imported/Pine Tree.png-563f4475ac7da284221bf24e27cca9b0.ctex"]
+source_file="res://Assets/ItemIcons/Peon's Axe.png"
+dest_files=["res://.godot/imported/Peon's Axe.png-d4b5004cf536e5c4ddd3d2dba19c7d2d.ctex"]
 
 [params]
 

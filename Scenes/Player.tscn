@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://jc8jxde5nqiu" path="res://Scripts/States/player_state_loader.gd" id="3_nn08x"]
 [ext_resource type="Script" uid="uid://ba0wgjxma3xui" path="res://Scripts/camera_follow.gd" id="6_nn08x"]
 [ext_resource type="Script" uid="uid://bs6beqb88dx4m" path="res://Scripts/endurance_bar.gd" id="8_bhhdu"]
+[ext_resource type="Script" uid="uid://dkqp3dmrbrsm7" path="res://Scripts/interactor.gd" id="8_megsn"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bhhdu"]
 radius = 1.5
@@ -79,3 +80,6 @@ debug_color = Color(0.8279168, 0.34091237, 0.52965045, 0.41960785)
 
 [node name="CollisionShape2D" parent="AttackPivot/AttackHitbox" parent_id_path=PackedInt32Array(861350790) index="0" unique_id=832845284]
 debug_color = Color(0.5568628, 0.53333336, 0.49411765, 0.7647059)
+
+[node name="Interactor" type="Node" parent="." index="21" unique_id=1979303608]
+script = ExtResource("8_megsn")

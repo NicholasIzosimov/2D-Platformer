@@ -125,8 +125,8 @@ ExtResource("15_kikm5"): 1.0
 })
 prop_chance = 0.1
 structures = Dictionary[PackedScene, float]({
-ExtResource("17_8erdv"): 1.0,
-ExtResource("18_pu3pn"): 3.0
+ExtResource("17_8erdv"): 3.0,
+ExtResource("18_pu3pn"): 1.0
 })
 structure_chance = 0.05
 metadata/_custom_type_script = "uid://iljt3cqmf55k"

@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://ccc1hmmxmapdf" path="res://Scenes/prop.tscn" id="1_4ftun"]
 [ext_resource type="Shader" uid="uid://ch7tgdw66vh3x" path="res://Resources/Shaders/sway.gdshader" id="2_tb7dq"]
-[ext_resource type="Texture2D" uid="uid://bfv0mdivfd0ai" path="res://Assets/Environment/Pine Tree.png" id="3_xiytw"]
+[ext_resource type="Texture2D" uid="uid://bfv0mdivfd0ai" path="res://Assets/WorldObjects/Environment/Trees/Pine Tree.png" id="3_xiytw"]
 
 [sub_resource type="Gradient" id="Gradient_4ftun"]
 colors = PackedColorArray(0, 0, 0, 0.32156864, 0, 0, 0, 0)

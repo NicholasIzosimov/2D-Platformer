@@ -12,7 +12,7 @@ func roll_gold(level: int) -> int:
 	var amount: float = (gold_base + gold_per_level * (level - 1)) * randf_range(1.0 - gold_variance, 1.0 + gold_variance)
 	return max(roundi(amount), 0)
 
-func roll_item(rules: ItemRules, level: int) -> ItemData:
+func roll_item(rules: ItemRules, level: int, min_rarity: Rarity = null) -> ItemData:
 	if templates.is_empty() or randf() >= item_chance:
 		return null
 	var total: float = 0.0
@@ -22,5 +22,5 @@ func roll_item(rules: ItemRules, level: int) -> ItemData:
 	for template in templates:
 		r -= templates[template]
 		if r < 0.0:
-			return rules.generate(template, level)
+			return rules.generate(template, level, min_rarity)
 	return null

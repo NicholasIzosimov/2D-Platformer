@@ -15,6 +15,8 @@ func _ready() -> void:
 	combat_handler.cast_started.connect(_on_cast_started)
 	combat_handler.cast_failed.connect(func(reason): error_text.show_message(reason))
 	get_node("../player/Endurance").not_enough_endurance.connect(func(): error_text.show_message("Not enough endurance"))
+	get_node("../player/Interactor").interact_failed.connect(func(reason): error_text.show_message(reason))
+	PlayerState.action_failed.connect(func(reason): error_text.show_message(reason))
 	hud.slot_activated.connect(try_cast_slot)
 	target_changed.connect(hud.show_target)
 	

@@ -14,29 +14,31 @@ class_name ItemRules
 @export var armor_per_budget: float = 2.0
 @export var armor_slots: Array[ItemData.Slot] = []
 
-func roll_rarity() -> Rarity:
+func roll_rarity(min_rarity: Rarity = null) -> Rarity:
+	var options: Array[Rarity] = rarities.slice(max(rarities.find(min_rarity), 0))
 	var total: float = 0.0
-	for rarity in rarities:
+	for rarity in options:
 		total += rarity.weight
 	var r: float = randf() * total
-	for rarity in rarities:
+	for rarity in options:
 		r -= rarity.weight
 		if r < 0.0:
 			return rarity
-	return rarities.back()
+	return options.back()
 
 func budget(item_level: int, rarity: Rarity, slot: ItemData.Slot) -> float:
 	var level_budget: float = budget_base + budget_per_level * pow(max(item_level - 1, 0), budget_exponent)
 	return level_budget * rarity.budget_multiplier * slot_budget.get(slot, 1.0)
 
-func generate(template: ItemTemplate, item_level: int) -> ItemData:
+func generate(template: ItemTemplate, item_level: int, min_rarity: Rarity = null) -> ItemData:
+	assert(template.slot != ItemData.Slot.MAIN_HAND or template.attack_speed > 0.0, "%s: Main Hand template needs an Attack Speed" % template.name)
 	var item := ItemData.new()
 	item.name = template.name if template.name != "" else ItemData.Slot.keys()[template.slot].capitalize()
 	item.slot = template.slot
 	item.icon = template.icon
 	item.attack_speed = template.attack_speed
 	item.item_level = item_level
-	item.rarity = template.fixed_rarity if template.fixed_rarity else roll_rarity()
+	item.rarity = template.fixed_rarity if template.fixed_rarity else roll_rarity(min_rarity)
 	var total_budget: float = budget(item_level, item.rarity, template.slot)
 	var has_armor: bool = armor_slots.has(item.slot)
 	var weights: Dictionary = pick_stats(template, item.rarity.stat_count - (1 if has_armor else 0))
