@@ -15,6 +15,9 @@ extends Node
 @export var aggro_range: float = 22.0
 @export var wander_radius: float = 3.0
 @export var social_radius: float = 5.0
+@export var wander_interval: Vector2 = Vector2(2.0, 4.0)
+@export var return_grace: float = 3.0
+@export var steering_smoothing: float = 12.0
 var target: Node
 var flow: Node
 var feet_offset: Vector2
@@ -27,6 +30,10 @@ var wander_target: Vector2
 var wander_timer: float = 0.0
 var dead: bool = false
 var retreating: bool = false
+var home: Vector2
+var returning: bool = false
+var return_timer: float = 0.0
+var smoothed_velocity: Vector2 = Vector2.ZERO
 
 func _ready() -> void:
 	target = get_tree().get_first_node_in_group("player")
@@ -40,12 +47,14 @@ func _ready() -> void:
 	bias = deg_to_rad(randf_range(-path_bias, path_bias))
 	weave_phase = randf() * TAU
 	wander_target = enemy.global_position
+	home = enemy.global_position
 	stats.damage_taken.connect(_on_damage_taken)
 	
 func _physics_process(delta: float) -> void:
 	if dead:
 		return
 	time += delta
+	return_timer = max(return_timer - delta, 0.0)
 	var enemy = get_parent()
 	var stats = get_node("../UnitStats")
 	var combat_handler = get_node("../CombatHandler")
@@ -53,16 +62,16 @@ func _physics_process(delta: float) -> void:
 	var in_range: bool = combat_handler.in_reach(stats.unit_data.auto_attack, target)
 	update_retreat(stats, combat_handler, distance)
 	var sees_player: bool = distance <= Yards.to_px(aggro_range) and combat_handler.units_have_line_of_sight(enemy, target)
-	if sees_player:
+	if sees_player and return_timer <= 0.0:
 		start_aggro()
 	elif aggro:
 		out_of_range_timer += delta
 		if out_of_range_timer >= leash_time:
-			aggro = false
-			wander_target = enemy.global_position
-			wander_timer = 0.0
+			drop_aggro()
 
-	if not aggro:
+	if returning:
+		return_home(enemy, stats)
+	elif not aggro:
 		idle_wander(enemy, stats, delta)
 	elif combat_handler.is_casting:
 		enemy.velocity = Vector2.ZERO
@@ -90,9 +99,18 @@ func _physics_process(delta: float) -> void:
 		target.get_node("CombatState").refresh()
 	if aggro and sees_player and not combat_handler.is_casting:
 		use_abilities(stats, combat_handler)
-	enemy.velocity += get_separation(enemy)
+	var desired: Vector2 = enemy.velocity
+	var push: Vector2 = get_separation(enemy)
+	if desired.length() > 0.01:
+		var forward: Vector2 = desired.normalized()
+		push -= forward * min(push.dot(forward), 0.0)
+	elif push.length() < Yards.to_px(0.2):
+		push = Vector2.ZERO
+	smoothed_velocity = smoothed_velocity.lerp(desired + push, 1.0 - exp(-steering_smoothing * delta))
+	enemy.velocity = smoothed_velocity
 	enemy.move_and_slide()
-
+	smoothed_velocity = enemy.velocity
+	
 func _on_died() -> void:
 	dead = true
 	var enemy = get_parent()
@@ -124,12 +142,12 @@ func get_separation(enemy: Node2D) -> Vector2:
 func idle_wander(enemy: Node2D, stats: Node, delta: float) -> void:
 	wander_timer -= delta
 	if wander_timer <= 0.0:
-		wander_timer = randf_range(2.0, 4.0)
+		wander_timer = randf_range(wander_interval.x, wander_interval.y)
 		wander_target = enemy.global_position
 		var combat_handler = get_node("../CombatHandler")
 		for attempt in 5:
-			var candidate: Vector2 = enemy.global_position + Vector2.RIGHT.rotated(randf() * TAU) * Yards.to_px(randf_range(0.8, wander_radius))
-			if combat_handler.has_line_of_sight(enemy.global_position + feet_offset, candidate + feet_offset):
+			var candidate: Vector2 = home + Vector2.RIGHT.rotated(randf() * TAU) * Yards.to_px(randf_range(0.3, wander_radius))
+			if combat_handler.has_line_of_sight(enemy.global_position + feet_offset, candidate + feet_offset) and not crowded(candidate):
 				wander_target = candidate
 				break
 	var to_target: Vector2 = wander_target - enemy.global_position
@@ -146,9 +164,10 @@ func start_aggro() -> void:
 	if aggro:
 		return
 	aggro = true
+	returning = false
 	get_node("../CombatState").refresh()
 	alert_nearby()
-
+	
 func alert_nearby() -> void:
 	var enemy = get_parent()
 	var combat_handler = get_node("../CombatHandler")
@@ -182,5 +201,28 @@ func update_retreat(stats: Node, combat_handler: Node, distance: float) -> void:
 func has_close_attack(stats: Node, combat_handler: Node) -> bool:
 	for ability in stats.unit_data.abilities:
 		if ability.requires_target and combat_handler.in_reach(ability, target):
+			return true
+	return false
+	
+func drop_aggro() -> void:
+	aggro = false
+	returning = true
+	return_timer = return_grace
+	get_node("../UnitStats").heal_to_full()
+
+func return_home(enemy: Node2D, stats: Node) -> void:
+	var to_home: Vector2 = home - enemy.global_position
+	if to_home.length() < Yards.to_px(0.5):
+		returning = false
+		wander_target = enemy.global_position
+		wander_timer = randf_range(wander_interval.x, wander_interval.y)
+		enemy.velocity = Vector2.ZERO
+		return
+	enemy.velocity = to_home.normalized() * Yards.to_px(stats.get_stat(Stat.Type.MOVE_SPEED))
+
+func crowded(point: Vector2) -> bool:
+	var enemy = get_parent()
+	for other in get_tree().get_nodes_in_group("enemies"):
+		if other != enemy and other.global_position.distance_to(point) < Yards.to_px(separation_radius * 2.0):
 			return true
 	return false

@@ -9,6 +9,7 @@ const NODE_SIZE: Vector2 = Vector2(48, 48)
 		icon = talent.icon if talent else null
 @export var parents: Array[TalentNode] = []
 var rank_label: Label
+var tooltip: String = ""
 
 func _ready() -> void:
 	size = NODE_SIZE
@@ -54,7 +55,7 @@ func refresh() -> void:
 	var requirement: String = ""
 	if PlayerState.points_spent() < talent.points_required:
 		requirement = "\n[color=red]Requires %d points spent in the tree[/color]" % talent.points_required
-	tooltip_text = "[b]%s[/b]\n[color=gray]Rank %d/%d[/color]%s\n\n%s" % [talent.name, rank, talent.max_ranks, requirement, body]
+	tooltip = "[b]%s[/b]\n[color=gray]Rank %d/%d[/color]%s\n\n%s" % [talent.name, rank, talent.max_ranks, requirement, body]
 	var tint: Color = Color.WHITE
 	if rank >= talent.max_ranks:
 		rank_label.add_theme_color_override("font_color", Color(1.0, 0.85, 0.3))

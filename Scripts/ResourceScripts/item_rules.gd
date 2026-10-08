@@ -45,7 +45,10 @@ func generate(template: ItemTemplate, item_level: int) -> ItemData:
 		total_weight += weights[stat]
 	for stat in weights:
 		var amount: float = total_budget * weights[stat] / total_weight / stat_costs.get(stat, 1.0)
-		var rounded: float = snappedf(amount, 0.1) if Stat.PERCENT_STATS.has(stat) else roundf(amount)
+		var percent: bool = Stat.PERCENT_STATS.has(stat)
+		var rounded: float = snappedf(amount, 0.1) if percent else roundf(amount)
+		if rounded == 0.0 and template.forced_stats.has(stat):
+			rounded = 0.1 if percent else 1.0
 		if rounded != 0.0:
 			item.stats[stat] = rounded
 	if item.attack_speed > 0.0:

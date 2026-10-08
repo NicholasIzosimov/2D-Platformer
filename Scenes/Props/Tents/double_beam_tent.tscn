@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://c4hjt7fmixuag"]
+
+[ext_resource type="PackedScene" uid="uid://ccc1hmmxmapdf" path="res://Scenes/prop.tscn" id="1_ynhup"]
+[ext_resource type="Texture2D" uid="uid://bhlvfhyh18arh" path="res://Assets/WorldObjects/Tents/DoubleTent/DoubleTentBeams.png" id="2_ynhup"]
+[ext_resource type="Shader" uid="uid://ch7tgdw66vh3x" path="res://Resources/Shaders/sway.gdshader" id="3_d6isw"]
+[ext_resource type="Texture2D" uid="uid://rsi6e2ihj4go" path="res://Assets/WorldObjects/Tents/DoubleTent/DoubleTentTop.png" id="4_h70xa"]
+[ext_resource type="Texture2D" uid="uid://dsy80gi4p71j1" path="res://Assets/WorldObjects/Tents/DoubleTent/DoubleTentBass.png" id="5_d6isw"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2oxrh"]
+resource_local_to_scene = true
+shader = ExtResource("3_d6isw")
+shader_parameter/strength = 0.03
+shader_parameter/speed = 1.2
+
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_wrb0v"]
+points = PackedVector2Array(-10, 20.769234, 40.769234, 20.769234, 40, 3.0769234, -8.461538, 3.0769234)
+
+[node name="DoubleBeamTent" unique_id=1413736599 instance=ExtResource("1_ynhup")]
+scale = Vector2(1.3, 1.3)
+
+[node name="SolidMaterial" parent="." index="0" unique_id=1643662631]
+position = Vector2(0, -16.153847)
+texture = ExtResource("2_ynhup")
+region_enabled = true
+region_rect = Rect2(0, 16, 64, 32)
+
+[node name="SwayMaterial2" type="Sprite2D" parent="." index="1" unique_id=70595470]
+texture_filter = 1
+material = SubResource("ShaderMaterial_2oxrh")
+position = Vector2(0, -23.846157)
+texture = ExtResource("4_h70xa")
+region_enabled = true
+region_rect = Rect2(0, 0, 64, 48)
+
+[node name="SwayMaterial" parent="." index="2" unique_id=1144367935]
+show_behind_parent = true
+material = SubResource("ShaderMaterial_2oxrh")
+position = Vector2(0, -23.846155)
+texture = ExtResource("5_d6isw")
+region_enabled = true
+region_rect = Rect2(0, 0, 64, 48)
+
+[node name="CollisionShape2D" parent="StaticBody2D" parent_id_path=PackedInt32Array(498950714) index="0" unique_id=2025183214]
+position = Vector2(-17.692308, -22.307693)
+scale = Vector2(1.0000001, 0.99999994)
+shape = SubResource("ConvexPolygonShape2D_wrb0v")

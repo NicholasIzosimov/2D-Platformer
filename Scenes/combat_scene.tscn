@@ -19,6 +19,8 @@
 [ext_resource type="PackedScene" uid="uid://h14qxjnmopb6" path="res://Scenes/Props/pine_small.tscn" id="15_kikm5"]
 [ext_resource type="Script" uid="uid://4nvgpejblxaf" path="res://Scripts/spawn_director.gd" id="16_y63gj"]
 [ext_resource type="Resource" uid="uid://brgvfw2nty8s5" path="res://Resources/Spawning/spawn_table.tres" id="17_1br8s"]
+[ext_resource type="PackedScene" uid="uid://on1vjstcccbw" path="res://Scenes/Structures/basic_camp.tscn" id="17_8erdv"]
+[ext_resource type="PackedScene" uid="uid://bbqwdekuqbjh5" path="res://Scenes/Structures/lone_tent.tscn" id="18_pu3pn"]
 [ext_resource type="Script" uid="uid://dgv1x1fa5gbcc" path="res://Scripts/moon_light.gd" id="19_ej3m1"]
 [ext_resource type="Script" uid="uid://vl1x00ipjii7" path="res://Scripts/quest_director.gd" id="20_kikm5"]
 [ext_resource type="Script" uid="uid://bmutwim3mttm1" path="res://Scripts/shadow_layers.gd" id="21_l8kal"]
@@ -118,11 +120,15 @@ sources/0 = SubResource("TileSetAtlasSource_cy4jt")
 
 [sub_resource type="Resource" id="Resource_efsqc"]
 script = ExtResource("13_efsqc")
-prop_chance = 0.005
-obstacle_frequency = 0.0
 props = Dictionary[PackedScene, float]({
 ExtResource("15_kikm5"): 1.0
 })
+prop_chance = 0.1
+structures = Dictionary[PackedScene, float]({
+ExtResource("17_8erdv"): 1.0,
+ExtResource("18_pu3pn"): 3.0
+})
+structure_chance = 0.05
 metadata/_custom_type_script = "uid://iljt3cqmf55k"
 
 [node name="CombatScene" type="Node2D" unique_id=312659833]
@@ -179,11 +185,14 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -0.5
-offset_top = -11.5
+offset_top = -320.0
 offset_right = 0.5
-offset_bottom = -373.0
+offset_bottom = -297.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_colors/font_color = Color(0.7137621, 0.41134292, 0.48484385, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("2_vtehv")
@@ -213,13 +222,15 @@ spawn_point = NodePath("../player/SpawnPoint")
 [node name="NameplateStacker" type="Node" parent="." unique_id=1547484641]
 script = ExtResource("9_cy4jt")
 
-[node name="WorldGenerator" type="Node" parent="." unique_id=1442959269 node_paths=PackedStringArray("ground", "obstacles", "player", "props_parent")]
+[node name="WorldGenerator" type="Node" parent="." unique_id=1442959269 node_paths=PackedStringArray("ground", "obstacles", "props_parent", "player", "enemy_spawner")]
 script = ExtResource("11_f12wh")
 ground = NodePath("../Ground")
 obstacles = NodePath("../Obstacles")
-player = NodePath("../player")
 shape = SubResource("Resource_efsqc")
 props_parent = NodePath("../Props")
+player = NodePath("../player")
+enemy_spawner = NodePath("../EnemySpawner")
+enemy_scene = ExtResource("2_2ip8y")
 
 [node name="FlowField" type="Node" parent="." unique_id=441218998 node_paths=PackedStringArray("world", "player")]
 script = ExtResource("14_4nmng")

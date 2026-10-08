@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://on1vjstcccbw"]
+
+[ext_resource type="Script" uid="uid://ctiapyxulwiyu" path="res://Scripts/structure.gd" id="1_xk7x8"]
+[ext_resource type="PackedScene" uid="uid://bqy6vq8v2idbf" path="res://Scenes/campfire.tscn" id="2_6yf4v"]
+[ext_resource type="Script" uid="uid://ctyvswh6f6tb4" path="res://Scripts/unit_spawn_point.gd" id="3_wwsmi"]
+[ext_resource type="Resource" uid="uid://brgvfw2nty8s5" path="res://Resources/Spawning/spawn_table.tres" id="4_s07r6"]
+[ext_resource type="PackedScene" uid="uid://c4hjt7fmixuag" path="res://Scenes/Props/Tents/double_beam_tent.tscn" id="6_s07r6"]
+[ext_resource type="PackedScene" uid="uid://borw6t26ji7xi" path="res://Scenes/Props/chest.tscn" id="6_wwsmi"]
+
+[node name="BasicCamp" type="Node2D" unique_id=1964226556]
+y_sort_enabled = true
+script = ExtResource("1_xk7x8")
+
+[node name="Campfire" parent="." unique_id=1413736599 instance=ExtResource("2_6yf4v")]
+
+[node name="SpawnPoint1" type="Marker2D" parent="." unique_id=1146812967]
+position = Vector2(59, 32)
+script = ExtResource("3_wwsmi")
+spawn_table = ExtResource("4_s07r6")
+
+[node name="SpawnPoint2" type="Marker2D" parent="." unique_id=1432738236]
+position = Vector2(-43, 48)
+script = ExtResource("3_wwsmi")
+spawn_table = ExtResource("4_s07r6")
+
+[node name="SpawnPoint3" type="Marker2D" parent="." unique_id=166408750]
+position = Vector2(-47, -45)
+script = ExtResource("3_wwsmi")
+spawn_table = ExtResource("4_s07r6")
+
+[node name="SpawnPoint4" type="Marker2D" parent="." unique_id=1895877446]
+position = Vector2(56, -67)
+script = ExtResource("3_wwsmi")
+spawn_table = ExtResource("4_s07r6")
+
+[node name="DoubleBeamTent" parent="." unique_id=1717376264 instance=ExtResource("6_s07r6")]
+position = Vector2(2.0000076, -74)
+
+[node name="Chest" parent="." unique_id=621115906 instance=ExtResource("6_wwsmi")]
+position = Vector2(0, -70)
+scale = Vector2(0.8, 0.8)

@@ -25,7 +25,7 @@ func _process(delta: float) -> void:
 	for enemy in get_tree().get_nodes_in_group("enemies"):
 		if population.has_point(enemy.global_position):
 			nearby += 1
-		elif not enemy.get_node("EnemyCombatController").aggro:
+		elif not enemy.get_node("EnemyCombatController").aggro and not (enemy.has_meta("structure") and is_instance_valid(enemy.get_meta("structure"))):
 			enemy.queue_free()
 	if nearby < max_enemies:
 		try_spawn(view)

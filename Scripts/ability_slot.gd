@@ -38,7 +38,6 @@ func set_ability(new_ability: AbilityData) -> void:
 func refresh_look() -> void:
 	var shown: AbilityData = null if dragging else ability
 	icon = shown.icon if shown else null
-	tooltip_text = shown.name if shown else ""
 	if shown == null:
 		self_modulate = EMPTY_TINT
 		material.set_shader_parameter("saturation", 1.0)
@@ -112,10 +111,10 @@ func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
 func _drop_data(_at_position: Vector2, data: Variant) -> void:
 	PlayerState.swap_slots(data["slot_index"], slot_index)
 
-func _make_custom_tooltip(_for_text: String) -> Object:
+func tooltip_sections() -> Array:
 	if ability == null or dragging:
-		return null
-	return RichTooltip.make(build_tooltip())
+		return []
+	return [build_tooltip()]
 
 func build_tooltip() -> String:
 	var lines: Array[String] = ["[b]%s[/b]" % ability.name]

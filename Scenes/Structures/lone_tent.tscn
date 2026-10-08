@@ -1,0 +1,60 @@
+[gd_scene format=3 uid="uid://bbqwdekuqbjh5"]
+
+[ext_resource type="PackedScene" uid="uid://uo1sbpg885bh" path="res://Scenes/Props/Tents/poor_tent.tscn" id="1_m6yen"]
+[ext_resource type="Script" uid="uid://ctiapyxulwiyu" path="res://Scripts/structure.gd" id="1_s3toc"]
+[ext_resource type="Script" uid="uid://ctyvswh6f6tb4" path="res://Scripts/unit_spawn_point.gd" id="2_dotpu"]
+[ext_resource type="Resource" uid="uid://brgvfw2nty8s5" path="res://Resources/Spawning/spawn_table.tres" id="3_3n6d2"]
+[ext_resource type="PackedScene" uid="uid://bqy6vq8v2idbf" path="res://Scenes/campfire.tscn" id="4_3n6d2"]
+[ext_resource type="Shader" uid="uid://ch7tgdw66vh3x" path="res://Resources/Shaders/sway.gdshader" id="5_xegi2"]
+[ext_resource type="Script" uid="uid://cipmqph0n5inp" path="res://Scripts/ResourceScripts/light_preset.gd" id="6_ai4uy"]
+[ext_resource type="Texture2D" uid="uid://nd12inl3cgex" path="res://Resources/Lights/Textures/soft_glow.tres" id="7_s3toc"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s3toc"]
+resource_local_to_scene = true
+shader = ExtResource("5_xegi2")
+shader_parameter/strength = 0.03
+shader_parameter/speed = 1.2
+
+[sub_resource type="Resource" id="Resource_kv0mo"]
+script = ExtResource("6_ai4uy")
+texture = ExtResource("7_s3toc")
+texture_scale = 1.5
+energy = 0.3
+color = Color(0.64705884, 0.44313726, 0.2784314, 1)
+ground_height = 8.0
+metadata/_custom_type_script = "uid://cipmqph0n5inp"
+
+[node name="LoneTent" type="Node2D" unique_id=499293247]
+script = ExtResource("1_s3toc")
+
+[node name="PoorTent" parent="." unique_id=1413736599 instance=ExtResource("1_m6yen")]
+
+[node name="SpawnPoint1" type="Marker2D" parent="." unique_id=1612198429]
+position = Vector2(0, 5)
+script = ExtResource("2_dotpu")
+spawn_table = ExtResource("3_3n6d2")
+
+[node name="SpawnPoint2" type="Marker2D" parent="." unique_id=1483355528]
+position = Vector2(0, 80)
+script = ExtResource("2_dotpu")
+spawn_table = ExtResource("3_3n6d2")
+
+[node name="Campfire" parent="." unique_id=1501336710 instance=ExtResource("4_3n6d2")]
+position = Vector2(0, 50)
+scale = Vector2(0.7, 0.7)
+
+[node name="SwayMaterial" parent="Campfire" index="1" unique_id=1144367935]
+material = SubResource("ShaderMaterial_s3toc")
+
+[node name="ShadowCaster" parent="Campfire" index="4" unique_id=2134996495]
+max_shadows = null
+ambient_light = null
+wake_duration = null
+min_secondary_share = null
+
+[node name="PointLight2D" parent="Campfire" index="7" unique_id=80748638]
+color = Color(0.64705884, 0.44313726, 0.2784314, 0.7529412)
+texture_scale = 1.0
+preset = SubResource("Resource_kv0mo")
+
+[editable path="Campfire"]

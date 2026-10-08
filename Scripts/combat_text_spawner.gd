@@ -5,6 +5,8 @@ extends Node
 @export var drift: float = 25.0
 @export var player_damage_color: Color = Color(1.0, 0.3, 0.3)
 @export var ability_damage_color: Color = Color(1.0, 0.85, 0.2)
+@export var damage_font: Font
+@export var text_height: float = -85.0
 var unit_stats: Node
 var side: float = 1.0
 var anchor: Node2D
@@ -21,6 +23,8 @@ func _on_damage_taken(amount: float, crit_multiplier: float, from_ability: bool)
 		return
 	var number = create_number()
 	number.set_value(-amount)
+	if damage_font:
+		number.add_theme_font_override("font", damage_font)
 	if crit_multiplier > 1.0:
 		number.set_crit(crit_multiplier)
 	elif from_ability:
@@ -44,7 +48,7 @@ func _on_power_changed(amount: float, show_text: bool) -> void:
 func create_number() -> Node:
 	side = -side
 	var number = floating_number_scene.instantiate()
-	number.position = Vector2(side * randf_range(5.0, spread), -85.0 + randf_range(-8.0, 8.0))
+	number.position = Vector2(side * randf_range(5.0, spread), text_height + randf_range(-8.0, 8.0))
 	number.drift_x = side * drift
 	number.z_index = 20
 	return number

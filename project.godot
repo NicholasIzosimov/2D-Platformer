@@ -18,6 +18,7 @@ config/icon="res://Z/icon.svg"
 [autoload]
 
 PlayerState="*uid://cfxohuibdl81p"
+Tooltip="*uid://bjg03onsccvfj"
 
 [display]
 

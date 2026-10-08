@@ -6,6 +6,7 @@
 [node name="ShadowCaster" type="Node" unique_id=2134996495]
 script = ExtResource("1_vm1pr")
 max_shadows = 3
+min_secondary_share = 0.0
 
 [node name="Shadow" type="Node2D" parent="." unique_id=1067717364]
 script = ExtResource("2_de8fc")
@@ -13,5 +14,6 @@ length_bonus = 3.0
 near_width = 1.0
 far_width = 2.0
 smoothing = 50000.0
+fade_out_speed = 5.0
 enter_strength = 0.05
 leave_strength = 0.01

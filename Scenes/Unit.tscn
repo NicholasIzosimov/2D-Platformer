@@ -6,6 +6,7 @@
 [ext_resource type="Resource" uid="uid://bl5puig3wbk7d" path="res://Resources/Units/base_unit.tres" id="2_20lhf"]
 [ext_resource type="Script" uid="uid://dmdwmq035cfu4" path="res://Scripts/combat_text_spawner.gd" id="3_e33bx"]
 [ext_resource type="PackedScene" uid="uid://bt46q120wyags" path="res://Scenes/FloatingNumber.tscn" id="4_u1ivc"]
+[ext_resource type="FontFile" uid="uid://bd7tflqq3dcyc" path="res://Assets/Fonts/fat_pixel_font.png" id="5_4rtpo"]
 [ext_resource type="Script" uid="uid://dmh1qeuf6bior" path="res://Scripts/screen_sized.gd" id="6_bn6fq"]
 [ext_resource type="Script" uid="uid://cdnq7w2sfu37e" path="res://Scripts/combat_handler.gd" id="6_ppost"]
 [ext_resource type="Script" uid="uid://cehn4vot2wra" path="res://Scripts/debuff_container.gd" id="8_b652i"]
@@ -87,6 +88,9 @@ unit_data = ExtResource("2_20lhf")
 [node name="CombatTextSpawner" type="Node" parent="." unique_id=1163598000]
 script = ExtResource("3_e33bx")
 floating_number_scene = ExtResource("4_u1ivc")
+spread = 10.0
+drift = 20.0
+damage_font = ExtResource("5_4rtpo")
 
 [node name="CombatHandler" type="Node" parent="." unique_id=1304008402]
 script = ExtResource("6_ppost")

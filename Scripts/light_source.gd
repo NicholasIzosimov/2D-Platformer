@@ -1,5 +1,6 @@
 class_name LightSource
 extends PointLight2D
+const REFERENCE_ENERGY: float = 1.0
 
 @export var preset: LightPreset
 @export var ground_height: float = 0.0
@@ -50,4 +51,4 @@ func light_info(at: Vector2) -> Dictionary:
 	if distance >= radius() or distance < 0.01:
 		return {}
 	var reach: float = 1.0 - distance / radius()
-	return {"light": self, "strength": reach * brightness(), "spread": 1.0, "direction": offset / distance, "distance_ratio": distance / radius()}
+	return {"light": self, "strength": reach * energy / REFERENCE_ENERGY, "spread": 1.0, "direction": offset / distance, "distance_ratio": distance / radius()}

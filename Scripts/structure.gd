@@ -2,6 +2,7 @@ class_name Structure
 extends Node2D
 
 @export var clear_radius: int = 4
+var units: Array = []
 
 func get_props() -> Array[Prop]:
 	var result: Array[Prop] = []
