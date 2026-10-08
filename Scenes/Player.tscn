@@ -37,6 +37,7 @@ script = ExtResource("3_nn08x")
 
 [node name="CombatTextSpawner" parent="." index="4" unique_id=1163598000]
 text_height = -15.0
+incoming_window = 0.5
 
 [node name="Bars" parent="." index="6" unique_id=1050830573]
 z_index = 10

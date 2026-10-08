@@ -82,6 +82,7 @@ static func item(data: ItemData) -> String:
 	for stat in data.stats:
 		var amount: float = data.stats[stat]
 		lines.append("%s%s %s" % ["+" if amount >= 0.0 else "-", Stat.format(stat, absf(amount)), Stat.label(stat)])
+	lines.append("%d [img=16x24]res://Assets/UI/gold_coin.png[/img]" % data.gold_value())
 	return "\n".join(lines)
 
 static func item_comparison(candidate: ItemData, equipped: ItemData) -> String:

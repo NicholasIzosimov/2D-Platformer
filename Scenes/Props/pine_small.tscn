@@ -4,6 +4,17 @@
 [ext_resource type="Shader" uid="uid://ch7tgdw66vh3x" path="res://Resources/Shaders/sway.gdshader" id="2_tb7dq"]
 [ext_resource type="Texture2D" uid="uid://bfv0mdivfd0ai" path="res://Assets/Environment/Pine Tree.png" id="3_xiytw"]
 
+[sub_resource type="Gradient" id="Gradient_4ftun"]
+colors = PackedColorArray(0, 0, 0, 0.32156864, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_pm0ju"]
+gradient = SubResource("Gradient_4ftun")
+width = 32
+height = 32
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4ftun"]
 resource_local_to_scene = true
 shader = ExtResource("2_tb7dq")
@@ -15,13 +26,19 @@ size = Vector2(17, 8)
 
 [node name="PineSmall" unique_id=1413736599 instance=ExtResource("1_4ftun")]
 
-[node name="SolidMaterial" parent="." index="0" unique_id=1643662631]
+[node name="ShadeBlob" type="Sprite2D" parent="." index="0" unique_id=1416321907]
+z_index = -1
+position = Vector2(0.99999994, 0)
+scale = Vector2(1.5234375, 0.28125)
+texture = SubResource("GradientTexture2D_pm0ju")
+
+[node name="SolidMaterial" parent="." index="1" unique_id=1643662631]
 position = Vector2(0, -4)
 texture = ExtResource("3_xiytw")
 region_enabled = true
 region_rect = Rect2(25, 64, 16, 8.153389)
 
-[node name="SwayMaterial" parent="." index="1" unique_id=1144367935]
+[node name="SwayMaterial" parent="." index="2" unique_id=1144367935]
 material = SubResource("ShaderMaterial_4ftun")
 position = Vector2(0, -9)
 texture = ExtResource("3_xiytw")
