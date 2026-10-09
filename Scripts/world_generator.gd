@@ -210,7 +210,7 @@ func structure_layout(scene: PackedScene) -> Dictionary:
 		var blocked_offsets: Array[Vector2i] = []
 		for prop in sample.get_props():
 			if prop.blocks_cell:
-				blocked_offsets.append(Vector2i((prop.position / cell_size).round()))
+				blocked_offsets.append(Vector2i((sample.position_of(prop) / cell_size).round()))
 		structure_layouts[scene] = {"clear_radius": sample.clear_radius, "blocked": blocked_offsets}
 		sample.free()
 	return structure_layouts[scene]

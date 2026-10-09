@@ -34,3 +34,11 @@ func take(index: int) -> bool:
 
 func is_empty() -> bool:
 	return stacks.all(func(stack): return stack == null)
+
+static func roll_stock(table: LootTable, rules: GearRules, level: int, count: int, min_rarity: Rarity = null) -> LootContents:
+	var contents := LootContents.new()
+	for i in count:
+		var item: GearData = table.generate_item(rules, level, min_rarity)
+		if item:
+			contents.stacks.append(ItemStack.new(item))
+	return contents

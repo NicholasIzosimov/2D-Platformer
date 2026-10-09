@@ -18,6 +18,10 @@ func set_active(value: bool) -> void:
 			caster.create_shadows()
 		else:
 			caster.free_shadows()
+	for light in find_children("*", "PointLight2D", true, false):
+		if light is LightSource:
+			light.enabled = value
+			Lighting.wake_casters(get_tree(), light)
 
 func save_state() -> Variant:
 	return null

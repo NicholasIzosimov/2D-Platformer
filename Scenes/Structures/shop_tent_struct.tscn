@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://dvuqtd71se1lr"]
+
+[ext_resource type="PackedScene" uid="uid://cbe3d5jbrn5xc" path="res://Scenes/Props/Tents/shop_tent.tscn" id="1_u61mp"]
+[ext_resource type="Script" uid="uid://ctiapyxulwiyu" path="res://Scripts/structure.gd" id="2_f6hsq"]
+[ext_resource type="Shader" uid="uid://ch7tgdw66vh3x" path="res://Resources/Shaders/sway.gdshader" id="2_s5lkj"]
+[ext_resource type="Resource" uid="uid://dpwg6ui48lx77" path="res://Resources/ShopTables(insertLootTable)/general_shop.tres" id="5_65eea"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s5lkj"]
+resource_local_to_scene = true
+shader = ExtResource("2_s5lkj")
+shader_parameter/strength = 0.03
+shader_parameter/speed = 1.2
+
+[node name="ShopTentStruct" type="Node2D" unique_id=679588980]
+script = ExtResource("2_f6hsq")
+
+[node name="ShopTent" parent="." unique_id=1413736599 instance=ExtResource("1_u61mp")]
+
+[node name="ParasolBack" parent="ShopTent" index="0" unique_id=629675500]
+material = SubResource("ShaderMaterial_s5lkj")
+
+[node name="Shopkeeper" parent="ShopTent" index="1" unique_id=580722462]
+shop = ExtResource("5_65eea")
+
+[node name="SwayMaterial" parent="ShopTent" index="3" unique_id=1144367935]
+material = SubResource("ShaderMaterial_s5lkj")
+
+[editable path="ShopTent"]

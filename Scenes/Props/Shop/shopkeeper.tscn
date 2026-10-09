@@ -1,0 +1,157 @@
+[gd_scene format=3 uid="uid://d3wxfhsm5eo7q"]
+
+[ext_resource type="PackedScene" uid="uid://ccc1hmmxmapdf" path="res://Scenes/prop.tscn" id="1_slhk2"]
+[ext_resource type="Script" uid="uid://cad5veesb03q7" path="res://Scripts/shopkeeper.gd" id="2_ticfw"]
+[ext_resource type="Resource" uid="uid://muk03tvj2dbx" path="res://Resources/Items/Gear/gear_rules.tres" id="3_30sa0"]
+[ext_resource type="Shader" uid="uid://ch7tgdw66vh3x" path="res://Resources/Shaders/sway.gdshader" id="4_0rh6f"]
+[ext_resource type="Texture2D" uid="uid://6vjgqiu26jma" path="res://Assets/Sprites/FriendlyNPCs/Hamster/HamsterIdle.png" id="5_wdvtr"]
+[ext_resource type="PackedScene" uid="uid://dmm0vsh7o03to" path="res://Scenes/Components/interactable.tscn" id="6_jq2ls"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_iwm0v"]
+resource_local_to_scene = true
+shader = ExtResource("4_0rh6f")
+shader_parameter/strength = 0.03
+shader_parameter/speed = 1.2
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3h6ce"]
+size = Vector2(20, 4)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m7box"]
+atlas = ExtResource("5_wdvtr")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6uk2a"]
+atlas = ExtResource("5_wdvtr")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_thkhb"]
+atlas = ExtResource("5_wdvtr")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fpi8c"]
+atlas = ExtResource("5_wdvtr")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2xsuy"]
+atlas = ExtResource("5_wdvtr")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dlfvb"]
+atlas = ExtResource("5_wdvtr")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4bt2o"]
+atlas = ExtResource("5_wdvtr")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7md75"]
+atlas = ExtResource("5_wdvtr")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_86le5"]
+atlas = ExtResource("5_wdvtr")
+region = Rect2(256, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2xmp6"]
+atlas = ExtResource("5_wdvtr")
+region = Rect2(288, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yd57b"]
+atlas = ExtResource("5_wdvtr")
+region = Rect2(320, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qhbbr"]
+atlas = ExtResource("5_wdvtr")
+region = Rect2(352, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5i8mr"]
+atlas = ExtResource("5_wdvtr")
+region = Rect2(384, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y05ac"]
+atlas = ExtResource("5_wdvtr")
+region = Rect2(416, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pm0ju"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m7box")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6uk2a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_thkhb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fpi8c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2xsuy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dlfvb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4bt2o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7md75")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_86le5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2xmp6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yd57b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qhbbr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5i8mr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y05ac")
+}],
+"loop": 1,
+"name": &"hamster_idle",
+"speed": 8.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pkrlc"]
+
+[node name="Shopkeeper" unique_id=1413736599 instance=ExtResource("1_slhk2")]
+script = ExtResource("2_ticfw")
+shop = null
+gear_rules = ExtResource("3_30sa0")
+
+[node name="SwayMaterial" parent="." index="1" unique_id=1144367935]
+material = SubResource("ShaderMaterial_iwm0v")
+
+[node name="CollisionShape2D" parent="StaticBody2D" parent_id_path=PackedInt32Array(498950714) index="0" unique_id=2025183214]
+position = Vector2(0, -2)
+shape = SubResource("RectangleShape2D_3h6ce")
+
+[node name="ShadowCaster" parent="." index="3" unique_id=2134996495]
+sources = Array[NodePath]([NodePath("../Sprite")])
+
+[node name="Sprite" type="AnimatedSprite2D" parent="." index="4" unique_id=1990856212]
+position = Vector2(0, -12)
+sprite_frames = SubResource("SpriteFrames_pm0ju")
+animation = &"hamster_idle"
+frame = 11
+frame_progress = 0.63541734
+
+[node name="Interactable" parent="." index="5" unique_id=149145649 node_paths=PackedStringArray("visual") instance=ExtResource("6_jq2ls")]
+visual = NodePath("../Sprite")
+action_text = "trade"
+
+[node name="CollisionShape2D" parent="Interactable" index="0" unique_id=1384125965]
+position = Vector2(0, -14)
+shape = SubResource("RectangleShape2D_pkrlc")
+
+[editable path="Interactable"]

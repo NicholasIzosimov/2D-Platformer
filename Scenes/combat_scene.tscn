@@ -24,6 +24,7 @@
 [ext_resource type="PackedScene" uid="uid://bbqwdekuqbjh5" path="res://Scenes/Structures/lone_tent.tscn" id="18_pu3pn"]
 [ext_resource type="Script" uid="uid://dgv1x1fa5gbcc" path="res://Scripts/moon_light.gd" id="19_ej3m1"]
 [ext_resource type="Script" uid="uid://vl1x00ipjii7" path="res://Scripts/quest_director.gd" id="20_kikm5"]
+[ext_resource type="PackedScene" uid="uid://dvuqtd71se1lr" path="res://Scenes/Structures/shop_tent_struct.tscn" id="20_lslnu"]
 [ext_resource type="Script" uid="uid://bmutwim3mttm1" path="res://Scripts/shadow_layers.gd" id="21_l8kal"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cy4jt"]
@@ -126,10 +127,11 @@ ExtResource("15_kikm5"): 1.0
 })
 prop_chance = 0.1
 structures = Dictionary[PackedScene, float]({
-ExtResource("17_8erdv"): 3.0,
-ExtResource("18_pu3pn"): 1.0
+ExtResource("17_8erdv"): 1.0,
+ExtResource("18_pu3pn"): 1.0,
+ExtResource("20_lslnu"): 5.0
 })
-structure_chance = 0.05
+structure_chance = 1.0
 metadata/_custom_type_script = "uid://iljt3cqmf55k"
 
 [node name="CombatScene" type="Node2D" unique_id=312659833]

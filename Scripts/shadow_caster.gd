@@ -8,6 +8,7 @@ extends Node
 @export var lazy: bool = false
 @export var wake_duration: float = 0.5
 @export var min_secondary_share: float = 0.25
+@export var ignore_own_lights: bool = true
 var template: Node
 var slots: Array = []
 var elapsed: float = 0.0
@@ -58,7 +59,7 @@ func _process(delta: float) -> void:
 	var step: float = elapsed
 	elapsed = 0.0
 	var unit: Node = get_parent()
-	var lights: Array[Dictionary] = Lighting.lights_at(get_tree(), unit.global_position, unit)
+	var lights: Array[Dictionary] = Lighting.lights_at(get_tree(), unit.global_position, unit if ignore_own_lights else null)
 	var total: float = ambient_light
 	for info in lights:
 		total += info.strength

@@ -23,8 +23,13 @@ func all_templates() -> Dictionary:
 	return result
 
 func roll_item(rules: GearRules, level: int, min_rarity: Rarity = null) -> GearData:
+	if randf() >= item_chance:
+		return null
+	return generate_item(rules, level, min_rarity)
+
+func generate_item(rules: GearRules, level: int, min_rarity: Rarity = null) -> GearData:
 	var pool: Dictionary = all_templates()
-	if pool.is_empty() or randf() >= item_chance:
+	if pool.is_empty():
 		return null
 	var total: float = 0.0
 	for template in pool:
