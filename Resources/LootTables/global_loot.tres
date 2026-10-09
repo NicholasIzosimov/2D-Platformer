@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" uid="uid://0flf12yjfjnx" path="res://Scripts/ResourceScripts/loot_table.gd" id="1_ie0d6"]
 [ext_resource type="Script" uid="uid://ds4vabwfl1g5r" path="res://Scripts/ResourceScripts/gear_template.gd" id="2_ofhdo"]
-[ext_resource type="Resource" uid="uid://vj1s4clspq1a" path="res://Resources/Items/Templates/wraith's_hood.tres" id="3_lbumq"]
-[ext_resource type="Resource" uid="uid://d1fax26moo3bf" path="res://Resources/Items/Templates/quick_gloves.tres" id="4_5gn7v"]
-[ext_resource type="Resource" uid="uid://ckclhi35iebdh" path="res://Resources/Items/Templates/vigourous_ring.tres" id="5_lbumq"]
-[ext_resource type="Resource" uid="uid://cgtbxw4aukjjl" path="res://Resources/Items/Templates/peon's_axe.tres" id="6_nnfa7"]
+[ext_resource type="Resource" uid="uid://vj1s4clspq1a" path="res://Resources/Items/Gear/Templates/GlobalLoot/wraith's_hood.tres" id="3_lbumq"]
+[ext_resource type="Resource" uid="uid://d1fax26moo3bf" path="res://Resources/Items/Gear/Templates/GlobalLoot/quick_gloves.tres" id="4_5gn7v"]
+[ext_resource type="Resource" uid="uid://ckclhi35iebdh" path="res://Resources/Items/Gear/Templates/GlobalLoot/vigourous_ring.tres" id="5_lbumq"]
+[ext_resource type="Resource" uid="uid://cgtbxw4aukjjl" path="res://Resources/Items/Gear/Templates/GlobalLoot/peon's_axe.tres" id="6_nnfa7"]
 
 [resource]
 script = ExtResource("1_ie0d6")

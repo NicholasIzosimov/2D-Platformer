@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="ItemTemplate" format=3 uid="uid://ckclhi35iebdh"]
 
-[ext_resource type="Texture2D" uid="uid://h770l3mpig0r" path="res://Assets/ItemIcons/vigourous_ring.png" id="1_nqdhe"]
-[ext_resource type="Resource" uid="uid://c7540lyin7m0l" path="res://Resources/Items/Rarities/uncommon.tres" id="1_w02pt"]
+[ext_resource type="Texture2D" uid="uid://h770l3mpig0r" path="res://Assets/ItemIcons/Gear/vigourous_ring.png" id="1_nqdhe"]
+[ext_resource type="Resource" uid="uid://c7540lyin7m0l" path="res://Resources/Items/Gear/Rarities/uncommon.tres" id="1_w02pt"]
 [ext_resource type="Script" uid="uid://ds4vabwfl1g5r" path="res://Scripts/ResourceScripts/gear_template.gd" id="2_w02pt"]
 
 [resource]

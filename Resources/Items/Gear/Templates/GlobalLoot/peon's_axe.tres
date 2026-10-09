@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="ItemTemplate" format=3 uid="uid://cgtbxw4aukjjl"]
 
-[ext_resource type="Texture2D" uid="uid://f1ps040niw2j" path="res://Assets/ItemIcons/Peon's Axe.png" id="1_bsddg"]
+[ext_resource type="Texture2D" uid="uid://f1ps040niw2j" path="res://Assets/ItemIcons/Gear/Peon's Axe.png" id="1_bsddg"]
 [ext_resource type="Script" uid="uid://ds4vabwfl1g5r" path="res://Scripts/ResourceScripts/gear_template.gd" id="2_8oy2k"]
 
 [resource]

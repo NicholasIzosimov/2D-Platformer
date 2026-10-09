@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="GearTemplate" format=3 uid="uid://d1fax26moo3bf"]
 
-[ext_resource type="Texture2D" uid="uid://c5xtoxm2f0xho" path="res://Assets/ItemIcons/quick_gloves.png" id="2_4h0ga"]
+[ext_resource type="Texture2D" uid="uid://c5xtoxm2f0xho" path="res://Assets/ItemIcons/Gear/quick_gloves.png" id="2_4h0ga"]
 [ext_resource type="Script" uid="uid://ds4vabwfl1g5r" path="res://Scripts/ResourceScripts/gear_template.gd" id="2_l2x7i"]
 
 [resource]

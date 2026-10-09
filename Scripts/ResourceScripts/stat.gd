@@ -49,6 +49,7 @@ const LABELS: Dictionary = {
 	Type.HASTE_RATING: "Haste Rating",
 }
 const PERCENT_STATS: Array = [Type.CRIT_CHANCE, Type.CRIT_DAMAGE, Type.MISS_CHANCE, Type.HIT_CHANCE, Type.DAMAGE_PERCENT, Type.DAMAGE_REDUCTION, Type.HASTE, Type.DODGE, Type.PARRY, Type.BLOCK]
+const BASE_STATS: Array = [Type.WEAPON_DAMAGE, Type.ARMOR]
 const DISPLAY_SCALE: Dictionary = {Type.CRIT_DAMAGE: 100.0}
 
 static func label(type: Type) -> String:

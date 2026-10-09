@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://f1ps040niw2j"
-path="res://.godot/imported/Peon's Axe.png-d4b5004cf536e5c4ddd3d2dba19c7d2d.ctex"
+uid="uid://h770l3mpig0r"
+path="res://.godot/imported/vigourous_ring.png-d504b948e480556b663894304277d7ae.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/ItemIcons/Peon's Axe.png"
-dest_files=["res://.godot/imported/Peon's Axe.png-d4b5004cf536e5c4ddd3d2dba19c7d2d.ctex"]
+source_file="res://Assets/ItemIcons/Gear/vigourous_ring.png"
+dest_files=["res://.godot/imported/vigourous_ring.png-d504b948e480556b663894304277d7ae.ctex"]
 
 [params]
 

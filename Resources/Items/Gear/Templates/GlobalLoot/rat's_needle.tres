@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="GearTemplate" format=3 uid="uid://divfvkc8e3hwm"]
+
+[ext_resource type="Texture2D" uid="uid://xu5u8q00hu47" path="res://Assets/ItemIcons/Gear/RatsNeedle.png" id="2_cl74m"]
+[ext_resource type="Script" uid="uid://ds4vabwfl1g5r" path="res://Scripts/ResourceScripts/gear_template.gd" id="3_bp14i"]
+
+[resource]
+script = ExtResource("3_bp14i")
+name = "Rat's Needle"
+slot = 9
+icon = ExtResource("2_cl74m")
+attack_speed = 1.4
+metadata/_custom_type_script = "uid://ds4vabwfl1g5r"

@@ -5,8 +5,8 @@
 [ext_resource type="Script" uid="uid://c84jrct7xjue7" path="res://Scripts/enemy_combat_controller.gd" id="2_wovta"]
 [ext_resource type="Script" uid="uid://bpvmhj2ristro" path="res://Scripts/rewards.gd" id="5_mo1ky"]
 [ext_resource type="PackedScene" uid="uid://bt46q120wyags" path="res://Scenes/FloatingNumber.tscn" id="6_6bs3c"]
-[ext_resource type="Resource" uid="uid://e35u731gdcaj" path="res://Resources/Loot/global_loot.tres" id="6_mo1ky"]
-[ext_resource type="Resource" uid="uid://muk03tvj2dbx" path="res://Resources/Items/gear_rules.tres" id="7_6bs3c"]
+[ext_resource type="Resource" uid="uid://e35u731gdcaj" path="res://Resources/LootTables/global_loot.tres" id="6_mo1ky"]
+[ext_resource type="Resource" uid="uid://muk03tvj2dbx" path="res://Resources/Items/Gear/gear_rules.tres" id="7_6bs3c"]
 
 [node name="Unit" unique_id=1164345268 groups=["enemies"] instance=ExtResource("1_m1htj")]
 collision_layer = 4

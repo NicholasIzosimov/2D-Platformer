@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bvkychi3yyunm"
-path="res://.godot/imported/wraith's_hood.png-d000b50c8ed82a0ed561a2729aad71cd.ctex"
+path="res://.godot/imported/wraith's_hood.png-91304402d4ff772ebf4f917929f26419.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/ItemIcons/wraith's_hood.png"
-dest_files=["res://.godot/imported/wraith's_hood.png-d000b50c8ed82a0ed561a2729aad71cd.ctex"]
+source_file="res://Assets/ItemIcons/Gear/wraith's_hood.png"
+dest_files=["res://.godot/imported/wraith's_hood.png-91304402d4ff772ebf4f917929f26419.ctex"]
 
 [params]
 

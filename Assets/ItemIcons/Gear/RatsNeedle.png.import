@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ctiotx4xvcpq4"
-path="res://.godot/imported/Base_sword.png-0c695d77fd7e5bc0c74661f6009cb3aa.ctex"
+uid="uid://xu5u8q00hu47"
+path="res://.godot/imported/RatsNeedle.png-5a4fb00d15d0ea3b56564ddad09f022d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/ItemIcons/Base_sword.png"
-dest_files=["res://.godot/imported/Base_sword.png-0c695d77fd7e5bc0c74661f6009cb3aa.ctex"]
+source_file="res://Assets/ItemIcons/Gear/RatsNeedle.png"
+dest_files=["res://.godot/imported/RatsNeedle.png-5a4fb00d15d0ea3b56564ddad09f022d.ctex"]
 
 [params]
 

@@ -20,6 +20,7 @@ var bag_size: int = 16
 var bag: Array[ItemData] = []
 var quests: Array[Quest] = []
 var in_combat: bool = false
+var gear_rules: GearRules
 
 signal loadout_changed
 signal gold_changed(new_amount)
@@ -35,6 +36,7 @@ signal action_failed(reason)
 
 func _init() -> void:
 	xp_curve = load("res://Resources/Progression/xp_curve.tres")
+	gear_rules = load("uid://muk03tvj2dbx")
 	player_data = load(PLAYER_DATA_PATH)
 	start_run()
 
@@ -55,8 +57,8 @@ func start_run() -> void:
 		equip_ability(learn_ability(player_data.abilities[i]), i)
 	bag.clear()
 	bag.resize(bag_size)
-	for item in player_data.starting_gear:
-		equip_item(item)
+	for template in player_data.starting_gear:
+		equip_item(gear_rules.generate(template, level))
 
 func get_ability(original: AbilityData) -> AbilityData:
 	if not ability_copies.has(original):

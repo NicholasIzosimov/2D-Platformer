@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="GearTemplate" format=3 uid="uid://b7qg6p3jd851b"]
+
+[ext_resource type="Resource" uid="uid://0pfy4vkmm1ld" path="res://Resources/Items/Gear/Rarities/common.tres" id="1_f3138"]
+[ext_resource type="Texture2D" uid="uid://bmih5nb4j1dmu" path="res://Assets/ItemIcons/Gear/broken_dagger.png" id="2_sdsie"]
+[ext_resource type="Script" uid="uid://ds4vabwfl1g5r" path="res://Scripts/ResourceScripts/gear_template.gd" id="2_xm3mw"]
+
+[resource]
+script = ExtResource("2_xm3mw")
+name = "Broken Dagger"
+slot = 9
+icon = ExtResource("2_sdsie")
+attack_speed = 1.0
+fixed_rarity = ExtResource("1_f3138")
+metadata/_custom_type_script = "uid://ds4vabwfl1g5r"

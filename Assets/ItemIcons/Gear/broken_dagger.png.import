@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c5xtoxm2f0xho"
-path="res://.godot/imported/quick_gloves.png-b6513425f9ee70416e55c9a85e32263b.ctex"
+uid="uid://bmih5nb4j1dmu"
+path="res://.godot/imported/broken_dagger.png-05839a16b71b9adb3d78bfb6fb24d6f7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/ItemIcons/quick_gloves.png"
-dest_files=["res://.godot/imported/quick_gloves.png-b6513425f9ee70416e55c9a85e32263b.ctex"]
+source_file="res://Assets/ItemIcons/Gear/broken_dagger.png"
+dest_files=["res://.godot/imported/broken_dagger.png-05839a16b71b9adb3d78bfb6fb24d6f7.ctex"]
 
 [params]
 
