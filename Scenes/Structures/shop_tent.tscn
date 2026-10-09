@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://cbe3d5jbrn5xc"]
+
+[ext_resource type="PackedScene" uid="uid://ccc1hmmxmapdf" path="res://Scenes/prop.tscn" id="1_wvk4j"]
+[ext_resource type="Shader" uid="uid://ch7tgdw66vh3x" path="res://Resources/Shaders/sway.gdshader" id="2_fbqdw"]
+[ext_resource type="Texture2D" uid="uid://egv5sdt6mhj3" path="res://Assets/WorldObjects/Tents/ShopTent/ShopParasolBack.png" id="3_gihjq"]
+[ext_resource type="Texture2D" uid="uid://cba5mdgww5yp3" path="res://Assets/WorldObjects/Tents/ShopTent/ShopSolidMaterial.png" id="4_npkqo"]
+[ext_resource type="Texture2D" uid="uid://yni4ofxua8j8" path="res://Assets/WorldObjects/Tents/ShopTent/ShopParasolFront.png" id="5_wv6ue"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pipm5"]
+resource_local_to_scene = true
+shader = ExtResource("2_fbqdw")
+shader_parameter/strength = 0.03
+shader_parameter/speed = 1.2
+
+[node name="ShopTent" unique_id=1413736599 instance=ExtResource("1_wvk4j")]
+
+[node name="ParasolBack" type="Sprite2D" parent="." index="0" unique_id=629675500]
+texture_filter = 1
+material = SubResource("ShaderMaterial_pipm5")
+position = Vector2(0, -49)
+texture = ExtResource("3_gihjq")
+
+[node name="SolidMaterial" parent="." index="1" unique_id=1643662631]
+position = Vector2(0, -56)
+texture = ExtResource("4_npkqo")
+region_enabled = true
+region_rect = Rect2(0, 0, 128, 112)
+
+[node name="SwayMaterial" parent="." index="2" unique_id=1144367935]
+material = SubResource("ShaderMaterial_pipm5")
+position = Vector2(0, -49)
+texture = ExtResource("5_wv6ue")
+
+[node name="ShadowCaster" parent="." index="4" unique_id=2134996495]
+sources = Array[NodePath]([NodePath("../SwayMaterial"), NodePath("../SolidMaterial"), NodePath("")])

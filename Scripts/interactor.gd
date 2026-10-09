@@ -9,7 +9,7 @@ func _process(_delta: float) -> void:
 	hovered = interactable_under_mouse()
 	nearest = nearest_in_range()
 	for interactable in get_tree().get_nodes_in_group("interactables"):
-		interactable.set_highlight(interactable.enabled and (interactable == hovered or interactable == nearest))
+		interactable.set_highlight(interactable.enabled and interactable == nearest)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("interact") and nearest:

@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b36fxje43yhhb" path="res://Scripts/bag_pane.gd" id="1_ryv2d"]
 [ext_resource type="PackedScene" uid="uid://cr3sddidhicqq" path="res://Scenes/gear_slot.tscn" id="2_cea84"]
+[ext_resource type="PackedScene" uid="uid://d33iosv4iwsx5" path="res://Scenes/Components/window_header.tscn" id="3_5ogwt"]
 [ext_resource type="Texture2D" uid="uid://du02qapws2xaj" path="res://Assets/UI/gold_coin.png" id="3_cftyi"]
 
 [node name="BagPane" type="PanelContainer" unique_id=1487114124]
@@ -23,6 +24,11 @@ theme_override_constants/margin_bottom = 8
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1586512975]
 layout_mode = 2
 theme_override_constants/separation = 6
+
+[node name="Header" parent="MarginContainer/VBoxContainer" unique_id=635836019 instance=ExtResource("3_5ogwt")]
+unique_name_in_owner = true
+layout_mode = 2
+title = "Bag"
 
 [node name="BagSlots" type="GridContainer" parent="MarginContainer/VBoxContainer" unique_id=2120705134]
 unique_name_in_owner = true

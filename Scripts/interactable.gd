@@ -8,6 +8,7 @@ signal interacted(unit)
 @export var highlight_color: Color = Color(1.4, 1.4, 1.4)
 @export var highlight_scale: float = 1.1
 @export var highlight_time: float = 0.1
+@export var action_text: String = "open"
 var enabled: bool = true
 var highlighted: bool = false
 var tween: Tween
@@ -16,11 +17,14 @@ func _ready() -> void:
 	add_to_group("interactables")
 	if visual == null:
 		visual = get_parent()
+	$Prompt.visible = false
+	$Prompt/Label.text = "Press %s to %s" % [Keybinds.text("interact"), action_text]
 
 func set_highlight(value: bool) -> void:
 	if value == highlighted:
 		return
 	highlighted = value
+	$Prompt.visible = value
 	visual.modulate = highlight_color if value else Color.WHITE
 	if tween:
 		tween.kill()

@@ -4,6 +4,7 @@ extends Prop
 @export var loot: LootTable
 @export var gear_rules: GearRules
 @export var min_rarity: Rarity
+@export var title: String = "Chest"
 enum State {CLOSED, FULL, EMPTY}
 var state: State = State.CLOSED
 var contents: LootContents
@@ -16,11 +17,15 @@ func _ready() -> void:
 func _on_interacted(_unit: Node) -> void:
 	if state == State.CLOSED:
 		contents = LootContents.roll(loot, gear_rules, PlayerState.level, min_rarity)
+		contents.changed.connect(_on_contents_changed)
 		set_state(State.FULL)
 		$Sprite.play("opening")
+	if contents.is_empty():
+		_on_contents_changed()
 		return
-	for i in contents.stacks.size():
-		contents.take(i)
+	get_tree().get_first_node_in_group("loot_window").open(contents, $Interactable, title)
+
+func _on_contents_changed() -> void:
 	if contents.is_empty():
 		set_state(State.EMPTY)
 		show_state()

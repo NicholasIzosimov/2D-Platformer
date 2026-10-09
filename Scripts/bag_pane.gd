@@ -17,6 +17,7 @@ func _ready() -> void:
 	PlayerState.bag_changed.connect(refresh)
 	PlayerState.gold_changed.connect(func(_amount): refresh())
 	refresh()
+	%Header.close_pressed.connect(close)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("bags") or (visible and event.is_action_pressed("ui_cancel")):
@@ -34,3 +35,7 @@ func refresh() -> void:
 	for i in slots.size():
 		slots[i].set_stack(PlayerState.bag[i])
 	%GoldLabel.text = str(PlayerState.gold)
+
+func close() -> void:
+	open = false
+	visible = false

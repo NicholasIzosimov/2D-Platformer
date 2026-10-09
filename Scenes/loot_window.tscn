@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://dcxq4jryx3qya"]
+
+[ext_resource type="Script" uid="uid://bhvqkdmpi6mvh" path="res://Scripts/loot_window.gd" id="1_hi50k"]
+[ext_resource type="PackedScene" uid="uid://cr3sddidhicqq" path="res://Scenes/gear_slot.tscn" id="2_o5yqj"]
+[ext_resource type="PackedScene" uid="uid://d33iosv4iwsx5" path="res://Scenes/Components/window_header.tscn" id="3_dtcjw"]
+
+[node name="LootWindow" type="PanelContainer" unique_id=1476513622]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_hi50k")
+slot_scene = ExtResource("2_o5yqj")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=452363079]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1944652899]
+layout_mode = 2
+
+[node name="Header" parent="MarginContainer/VBoxContainer" unique_id=635836019 instance=ExtResource("3_dtcjw")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="LootSlots" type="GridContainer" parent="MarginContainer/VBoxContainer" unique_id=266888488]
+unique_name_in_owner = true
+layout_mode = 2

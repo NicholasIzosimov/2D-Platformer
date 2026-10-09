@@ -20,7 +20,7 @@ func _ready() -> void:
 	combat_handler = get_tree().get_first_node_in_group("player").get_node("CombatHandler")
 	if keybind_action != "":
 		var key_label := Label.new()
-		key_label.text = keybind_text(keybind_action)
+		key_label.text = Keybinds.text(keybind_action)
 		key_label.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
 		key_label.grow_horizontal = Control.GROW_DIRECTION_BEGIN
 		key_label.offset_right = -4
@@ -133,13 +133,6 @@ func build_tooltip() -> String:
 		lines.append("")
 		lines.append("[color=gray]%s[/color]" % ability.description)
 	return "\n".join(lines)
-
-static func keybind_text(action: String) -> String:
-	for event in InputMap.action_get_events(action):
-		if event is InputEventKey:
-			var code: int = event.physical_keycode if event.physical_keycode != 0 else event.keycode
-			return OS.get_keycode_string(code)
-	return ""
 	
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_DRAG_END and dragging:

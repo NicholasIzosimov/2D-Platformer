@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dmm0vsh7o03to"]
 
 [ext_resource type="Script" uid="uid://bdttnpjvgtag2" path="res://Scripts/interactable.gd" id="1_iwnww"]
+[ext_resource type="Script" uid="uid://dmh1qeuf6bior" path="res://Scripts/screen_sized.gd" id="2_ir6b7"]
 
 [node name="Interactable" type="Area2D" unique_id=149145649]
 collision_layer = 32
@@ -8,3 +9,22 @@ collision_mask = 0
 script = ExtResource("1_iwnww")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1384125965]
+
+[node name="Prompt" type="Node2D" parent="." unique_id=1486423571]
+position = Vector2(0, -24)
+script = ExtResource("2_ir6b7")
+
+[node name="Label" type="Label" parent="Prompt" unique_id=1543462921]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 25
+horizontal_alignment = 1

@@ -10,6 +10,7 @@
 [node name="BasicCamp" type="Node2D" unique_id=1964226556]
 y_sort_enabled = true
 script = ExtResource("1_xk7x8")
+clear_radius = 8
 
 [node name="Campfire" parent="." unique_id=1413736599 instance=ExtResource("2_6yf4v")]
 
@@ -29,8 +30,9 @@ script = ExtResource("3_wwsmi")
 spawn_table = ExtResource("4_s07r6")
 
 [node name="DoubleBeamTent" parent="." unique_id=1717376264 instance=ExtResource("6_s07r6")]
-position = Vector2(2.0000076, -74)
+position = Vector2(2, -81)
 
 [node name="Chest" parent="." unique_id=621115906 instance=ExtResource("6_wwsmi")]
 position = Vector2(0, -70)
 scale = Vector2(0.8, 0.8)
+title = "Chest"
