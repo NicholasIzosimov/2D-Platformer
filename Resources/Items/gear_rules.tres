@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c7l51n6l7foec" path="res://Scripts/ResourceScripts/rarity.gd" id="1_v2bnd"]
 [ext_resource type="Resource" uid="uid://0pfy4vkmm1ld" path="res://Resources/Items/Rarities/common.tres" id="2_17po6"]
-[ext_resource type="Script" uid="uid://bn8bhdy7dvuoi" path="res://Scripts/ResourceScripts/item_rules.gd" id="2_wlugu"]
+[ext_resource type="Script" uid="uid://bn8bhdy7dvuoi" path="res://Scripts/ResourceScripts/gear_rules.gd" id="2_wlugu"]
 [ext_resource type="Resource" uid="uid://c7540lyin7m0l" path="res://Resources/Items/Rarities/uncommon.tres" id="3_8wc7q"]
 [ext_resource type="Resource" uid="uid://beanc0bw87gfg" path="res://Resources/Items/Rarities/rare.tres" id="4_ku6su"]
 [ext_resource type="Resource" uid="uid://cngxodcvvm36h" path="res://Resources/Items/Rarities/epic.tres" id="5_efc7m"]
@@ -14,13 +14,13 @@ slot_budget = Dictionary[int, float]({
 0: 1.0,
 1: 0.4,
 2: 0.7,
-3: 1.2,
+3: 1.1,
 4: 0.5,
 5: 0.6,
 6: 1.1,
 7: 0.6,
 8: 0.2,
-9: 2.0,
+9: 1.2,
 10: 0.3
 })
 stat_costs = Dictionary[int, float]({

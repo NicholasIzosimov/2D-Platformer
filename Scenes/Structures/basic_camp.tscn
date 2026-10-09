@@ -14,22 +14,17 @@ script = ExtResource("1_xk7x8")
 [node name="Campfire" parent="." unique_id=1413736599 instance=ExtResource("2_6yf4v")]
 
 [node name="SpawnPoint1" type="Marker2D" parent="." unique_id=1146812967]
-position = Vector2(59, 32)
+position = Vector2(64, -31)
 script = ExtResource("3_wwsmi")
 spawn_table = ExtResource("4_s07r6")
 
 [node name="SpawnPoint2" type="Marker2D" parent="." unique_id=1432738236]
-position = Vector2(-43, 48)
+position = Vector2(-19, 31)
 script = ExtResource("3_wwsmi")
 spawn_table = ExtResource("4_s07r6")
 
 [node name="SpawnPoint3" type="Marker2D" parent="." unique_id=166408750]
-position = Vector2(-47, -45)
-script = ExtResource("3_wwsmi")
-spawn_table = ExtResource("4_s07r6")
-
-[node name="SpawnPoint4" type="Marker2D" parent="." unique_id=1895877446]
-position = Vector2(56, -67)
+position = Vector2(-41, -51)
 script = ExtResource("3_wwsmi")
 spawn_table = ExtResource("4_s07r6")
 

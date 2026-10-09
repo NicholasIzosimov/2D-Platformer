@@ -1,7 +1,7 @@
 extends PanelContainer
 
 @export var gear_slot_scene: PackedScene
-@export var slot_order: Array[ItemData.Slot] = []
+@export var slot_order: Array[GearData.Slot] = []
 var slots: Dictionary = {}
 
 func _ready() -> void:
@@ -11,7 +11,7 @@ func _ready() -> void:
 	for slot_type in slot_order:
 		var gear_slot = gear_slot_scene.instantiate()
 		gear_slot.slot = slot_type
-		gear_slot.empty_text = ItemData.Slot.keys()[slot_type].capitalize()
+		gear_slot.empty_text = GearData.Slot.keys()[slot_type].capitalize()
 		gear_slot.right_clicked.connect(func(): PlayerState.unequip_to_bag(slot_type))
 		%GearSlots.add_child(gear_slot)
 		slots[slot_type] = gear_slot

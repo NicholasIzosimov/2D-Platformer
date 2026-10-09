@@ -4,12 +4,12 @@
 [ext_resource type="Script" uid="uid://vsgvg15l7ron" path="res://Scripts/chest.gd" id="2_5fyjq"]
 [ext_resource type="Shader" uid="uid://ch7tgdw66vh3x" path="res://Resources/Shaders/sway.gdshader" id="3_5fyjq"]
 [ext_resource type="Resource" uid="uid://bd2jv1w5vsq26" path="res://Resources/Loot/chest_loot.tres" id="3_8p1xy"]
-[ext_resource type="Resource" uid="uid://muk03tvj2dbx" path="res://Resources/Items/item_rules.tres" id="4_td3jd"]
+[ext_resource type="Resource" uid="uid://muk03tvj2dbx" path="res://Resources/Items/gear_rules.tres" id="4_td3jd"]
 [ext_resource type="PackedScene" uid="uid://dmm0vsh7o03to" path="res://Scenes/Components/interactable.tscn" id="5_5fyjq"]
 [ext_resource type="Resource" uid="uid://c7540lyin7m0l" path="res://Resources/Items/Rarities/uncommon.tres" id="5_ar7rh"]
 [ext_resource type="Texture2D" uid="uid://bxm40li68phjf" path="res://Assets/WorldObjects/Chest/ChestSprite.png" id="6_0q862"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_0q862"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8p1xy"]
 resource_local_to_scene = true
 shader = ExtResource("3_5fyjq")
 shader_parameter/strength = 0.03
@@ -107,11 +107,11 @@ fill_to = Vector2(0.5, 0)
 [node name="Chest" unique_id=1413736599 instance=ExtResource("1_wsjyd")]
 script = ExtResource("2_5fyjq")
 loot = ExtResource("3_8p1xy")
-item_rules = ExtResource("4_td3jd")
+gear_rules = ExtResource("4_td3jd")
 min_rarity = ExtResource("5_ar7rh")
 
 [node name="SwayMaterial" parent="." index="1" unique_id=1144367935]
-material = SubResource("ShaderMaterial_0q862")
+material = SubResource("ShaderMaterial_8p1xy")
 
 [node name="CollisionShape2D" parent="StaticBody2D" parent_id_path=PackedInt32Array(498950714) index="0" unique_id=2025183214]
 position = Vector2(0, 4.5)

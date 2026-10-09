@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://h770l3mpig0r" path="res://Assets/ItemIcons/vigourous_ring.png" id="1_nqdhe"]
 [ext_resource type="Resource" uid="uid://c7540lyin7m0l" path="res://Resources/Items/Rarities/uncommon.tres" id="1_w02pt"]
-[ext_resource type="Script" uid="uid://ds4vabwfl1g5r" path="res://Scripts/ResourceScripts/item_template.gd" id="2_w02pt"]
+[ext_resource type="Script" uid="uid://ds4vabwfl1g5r" path="res://Scripts/ResourceScripts/gear_template.gd" id="2_w02pt"]
 
 [resource]
 script = ExtResource("2_w02pt")

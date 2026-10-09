@@ -4,7 +4,7 @@ extends RefCounted
 signal changed
 var entries: Array[LootEntry] = []
 
-static func roll(table: LootTable, rules: ItemRules, level: int, min_rarity: Rarity = null) -> LootContents:
+static func roll(table: LootTable, rules: GearRules, level: int, min_rarity: Rarity = null) -> LootContents:
 	var contents := LootContents.new()
 	var gold: int = table.roll_gold(level)
 	if gold > 0:

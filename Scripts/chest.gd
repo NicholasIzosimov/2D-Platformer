@@ -2,7 +2,7 @@ class_name Chest
 extends Prop
 
 @export var loot: LootTable
-@export var item_rules: ItemRules
+@export var gear_rules: GearRules
 @export var min_rarity: Rarity
 enum State {CLOSED, FULL, EMPTY}
 var state: State = State.CLOSED
@@ -15,7 +15,7 @@ func _ready() -> void:
 
 func _on_interacted(_unit: Node) -> void:
 	if state == State.CLOSED:
-		contents = LootContents.roll(loot, item_rules, PlayerState.level, min_rarity)
+		contents = LootContents.roll(loot, gear_rules, PlayerState.level, min_rarity)
 		set_state(State.FULL)
 		$Sprite.play("opening")
 		return

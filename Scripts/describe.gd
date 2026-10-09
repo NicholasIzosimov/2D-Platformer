@@ -75,17 +75,19 @@ static func talent(data: TalentData, rank: int) -> String:
 static func item(data: ItemData) -> String:
 	var color: Color = data.rarity.color if data.rarity else Color.WHITE
 	var lines: Array[String] = ["[b][color=#%s]%s[/color][/b]" % [color.to_html(false), data.name]]
-	lines.append("[color=gray]Item Level %d[/color]" % data.item_level)
-	lines.append("[color=gray]%s[/color]" % ItemData.Slot.keys()[data.slot].capitalize())
-	if data.attack_speed > 0.0:
-		lines.append("Speed %.2f" % data.attack_speed)
-	for stat in data.stats:
-		var amount: float = data.stats[stat]
-		lines.append("%s%s %s" % ["+" if amount >= 0.0 else "-", Stat.format(stat, absf(amount)), Stat.label(stat)])
-	lines.append("%d [img=16x24]res://Assets/UI/gold_coin.png[/img]" % data.gold_value())
+	if data is GearData:
+		lines.append("[color=gray]Item Level %d[/color]" % data.item_level)
+		lines.append("[color=gray]%s[/color]" % GearData.Slot.keys()[data.slot].capitalize())
+		if data.attack_speed > 0.0:
+			lines.append("Speed %.2f" % data.attack_speed)
+		for stat in data.stats:
+			var amount: float = data.stats[stat]
+			lines.append("%s%s %s" % ["+" if amount >= 0.0 else "-", Stat.format(stat, absf(amount)), Stat.label(stat)])
+	if data.gold_value() > 0:
+		lines.append("%d [img=16x24]res://Assets/UI/gold_coin.png[/img]" % data.gold_value())
 	return "\n".join(lines)
 
-static func item_comparison(candidate: ItemData, equipped: ItemData) -> String:
+static func item_comparison(candidate: GearData, equipped: GearData) -> String:
 	var lines: Array[String] = ["[b]If equipped:[/b]"]
 	var current: Dictionary = equipped.stats if equipped else {}
 	var stats: Array = candidate.stats.keys()

@@ -14,7 +14,7 @@ var level: int = 1
 var xp: float = 0.0
 var talent_points: int = 0
 var talent_ranks: Dictionary = {}
-var equipped_gear: Dictionary[ItemData.Slot, ItemData] = {}
+var equipped_gear: Dictionary[GearData.Slot, GearData] = {}
 var xp_curve: XpCurve
 var bag_size: int = 16
 var bag: Array[ItemData] = []
@@ -168,16 +168,16 @@ func add_xp(amount: float) -> void:
 		talents_changed.emit()
 	xp_changed.emit()
 
-func equip_item(item: ItemData) -> ItemData:
-	var replaced: ItemData = unequip_item(item.slot)
+func equip_item(item: GearData) -> GearData:
+	var replaced: GearData = unequip_item(item.slot)
 	equipped_gear[item.slot] = item
 	for stat in item.stats:
 		add_bonus_stat(stat, item.stats[stat])
 	gear_changed.emit()
 	return replaced
 
-func unequip_item(slot: ItemData.Slot) -> ItemData:
-	var item: ItemData = equipped_gear.get(slot)
+func unequip_item(slot: GearData.Slot) -> GearData:
+	var item: GearData = equipped_gear.get(slot)
 	if item == null:
 		return null
 	equipped_gear.erase(slot)
@@ -187,7 +187,7 @@ func unequip_item(slot: ItemData.Slot) -> ItemData:
 	return item
 
 func weapon_speed() -> float:
-	var weapon: ItemData = equipped_gear.get(ItemData.Slot.MAIN_HAND)
+	var weapon: GearData = equipped_gear.get(GearData.Slot.MAIN_HAND)
 	return weapon.attack_speed if weapon else 0.0
 
 func add_to_bag(item: ItemData) -> bool:
@@ -200,7 +200,7 @@ func add_to_bag(item: ItemData) -> bool:
 
 func equip_from_bag(index: int) -> void:
 	var item: ItemData = bag[index]
-	if item == null:
+	if not (item is GearData):
 		return
 	if in_combat:
 		action_failed.emit("Can't do that in combat")
@@ -208,7 +208,7 @@ func equip_from_bag(index: int) -> void:
 	bag[index] = equip_item(item)
 	bag_changed.emit()
 
-func unequip_to_bag(slot: ItemData.Slot) -> bool:
+func unequip_to_bag(slot: GearData.Slot) -> bool:
 	if not equipped_gear.has(slot):
 		return false
 	if in_combat:

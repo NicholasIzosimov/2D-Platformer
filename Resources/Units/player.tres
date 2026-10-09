@@ -7,7 +7,7 @@
 [ext_resource type="Resource" uid="uid://qassep6py46l" path="res://Resources/Abilities/Utility/campfire.tres" id="4_jm4ap"]
 [ext_resource type="Script" uid="uid://djkq3ofrj4kyw" path="res://Scripts/ResourceScripts/unit_data.gd" id="5_xb6jo"]
 [ext_resource type="Resource" uid="uid://bgffdo0y4gbx5" path="res://Resources/Powers/energy.tres" id="6_j5fhy"]
-[ext_resource type="Script" uid="uid://ce7o4y2ewecva" path="res://Scripts/ResourceScripts/item_data.gd" id="9_c44ix"]
+[ext_resource type="Script" uid="uid://bhchkiqapqnt8" path="res://Scripts/ResourceScripts/gear_data.gd" id="8_xb6jo"]
 [ext_resource type="Resource" uid="uid://c78oflfwbukyy" path="res://Resources/Items/basic_sword.tres" id="10_o86bm"]
 
 [resource]
@@ -21,7 +21,7 @@ base_stats = Dictionary[int, float]({
 name = "Player"
 power = ExtResource("6_j5fhy")
 abilities = Array[ExtResource("1_yx0vs")]([ExtResource("2_j5fhy"), ExtResource("4_jm4ap")])
-starting_gear = Array[ExtResource("9_c44ix")]([ExtResource("10_o86bm")])
+starting_gear = Array[ExtResource("8_xb6jo")]([ExtResource("10_o86bm")])
 base_health = 100.0
 xp_reward = 0.0
 portrait_offset = Vector2(0.4, 0)

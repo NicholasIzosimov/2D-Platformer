@@ -6,7 +6,7 @@ extends ScreenSized
 @export var line_spacing: float = 34.0
 @export var text_hold: float = 1.0
 @export var global_loot: LootTable
-@export var item_rules: ItemRules
+@export var gear_rules: GearRules
 @export var gold_color: Color = Color(1.0, 0.85, 0.2)
 
 var lines_shown: int = 0
@@ -34,7 +34,7 @@ func grant_loot() -> void:
 		if gold > 0:
 			PlayerState.add_gold(gold)
 			show_reward("+%d Gold" % gold, gold_color)
-		var item: ItemData = table.roll_item(item_rules, stats.level)
+		var item: ItemData = table.roll_item(gear_rules, stats.level)
 		if item and PlayerState.add_to_bag(item):
 			show_reward(item.name, item.rarity.color if item.rarity else Color.WHITE)
 			

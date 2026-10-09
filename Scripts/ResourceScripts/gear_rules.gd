@@ -1,18 +1,18 @@
 extends Resource
 
-class_name ItemRules
+class_name GearRules
 
 @export var rarities: Array[Rarity] = []
 @export var budget_base: float = 4.0
 @export var budget_per_level: float = 2.0
 @export var budget_exponent: float = 1.2
-@export var slot_budget: Dictionary[ItemData.Slot, float] = {}
+@export var slot_budget: Dictionary[GearData.Slot, float] = {}
 @export var stat_costs: Dictionary[Stat.Type, float] = {}
 @export var weapon_dps_per_budget: float = 0.5
 @export var stat_pool: Dictionary[Stat.Type, float] = {}
 @export var split_variance: float = 0.5
 @export var armor_per_budget: float = 2.0
-@export var armor_slots: Array[ItemData.Slot] = []
+@export var armor_slots: Array[GearData.Slot] = []
 
 func roll_rarity(min_rarity: Rarity = null) -> Rarity:
 	var options: Array[Rarity] = rarities.slice(max(rarities.find(min_rarity), 0))
@@ -26,14 +26,14 @@ func roll_rarity(min_rarity: Rarity = null) -> Rarity:
 			return rarity
 	return options.back()
 
-func budget(item_level: int, rarity: Rarity, slot: ItemData.Slot) -> float:
+func budget(item_level: int, rarity: Rarity, slot: GearData.Slot) -> float:
 	var level_budget: float = budget_base + budget_per_level * pow(max(item_level - 1, 0), budget_exponent)
 	return level_budget * rarity.budget_multiplier * slot_budget.get(slot, 1.0)
 
-func generate(template: ItemTemplate, item_level: int, min_rarity: Rarity = null) -> ItemData:
-	assert(template.slot != ItemData.Slot.MAIN_HAND or template.attack_speed > 0.0, "%s: Main Hand template needs an Attack Speed" % template.name)
-	var item := ItemData.new()
-	item.name = template.name if template.name != "" else ItemData.Slot.keys()[template.slot].capitalize()
+func generate(template: GearTemplate, item_level: int, min_rarity: Rarity = null) -> GearData:
+	assert(template.slot != GearData.Slot.MAIN_HAND or template.attack_speed > 0.0, "%s: Main Hand template needs an Attack Speed" % template.name)
+	var item := GearData.new()
+	item.name = template.name if template.name != "" else GearData.Slot.keys()[template.slot].capitalize()
 	item.slot = template.slot
 	item.icon = template.icon
 	item.attack_speed = template.attack_speed
@@ -59,7 +59,7 @@ func generate(template: ItemTemplate, item_level: int, min_rarity: Rarity = null
 		item.stats[Stat.Type.ARMOR] = item.stats.get(Stat.Type.ARMOR, 0.0) + roundf(total_budget * armor_per_budget)
 	return item
 
-func pick_stats(template: ItemTemplate, count: int) -> Dictionary:
+func pick_stats(template: GearTemplate, count: int) -> Dictionary:
 	var picked: Dictionary = {}
 	for stat in template.forced_stats:
 		if picked.size() >= count:

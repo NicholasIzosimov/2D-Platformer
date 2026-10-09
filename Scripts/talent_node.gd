@@ -68,5 +68,5 @@ func refresh() -> void:
 	self_modulate = tint
 	rank_label.modulate = tint
 
-func _make_custom_tooltip(for_text: String) -> Object:
-	return RichTooltip.make(for_text)
+func tooltip_sections() -> Array:
+	return [tooltip] if tooltip != "" else []

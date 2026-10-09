@@ -15,7 +15,10 @@ NEXT step 4 — loot window (agreed): LootWindow PanelContainer child of HUD (fi
 Step 5 — world memory: opened chests + leftover contents remembered per structure until world reset (no refills).
 Open: weapon budget — weapon damage currently on top of the stat budget and both × slot_budget (Main Hand 2.0); option: weapon damage from level × rarity only.
 
-**Ground loot (intended mechanic)** — drops still go straight to bag/purse (`rewards.gd` → `add_to_bag`). Planned: loot lies in the world showing its icon; gold walk-over magnet, items click-in-range or E nearest. Then bag-full handling (currently the item is silently lost), drag & drop.
+**Enemy loot window (user 2026-10-10)** — enemy drops (gold + items) open the same loot window as chests (click/E the corpse); ground loot is scrapped for now. Then bag-full handling, drag & drop.
+
+**Items refactor (in progress 2026-10-10)** — types: ItemData base (name, icon, rarity, max_stack, value) → GearData (slot, item level, stats, attack speed; value auto-calculated when 0) / CurrencyData (gold → purse). ItemStack (item + amount) for bag and loot contents (replaces LootEntry; taken slot = null). Slot shows a stack (Amount label when > 1). Steps: 1 split ItemData/GearData → 2 ItemStack bag → 3 slot shows stacks (remove set_gold) → 4 gold item + loot contents as stacks → continue loot window.
+Later (user): same type split for UnitData → PlayerData / EnemyData / NpcData.
 
 **4. Bars artifacty** — scale them cleanly (HUD bars, nameplates).
 
@@ -43,7 +46,7 @@ Open: weapon budget — weapon damage currently on top of the stat budget and bo
 
 **17. Juicy numbers.**
 
-**18. UI options** — incl. which buttons react to hover, per-slot/per-spell target priority (default: selected wins), options menu on Escape (move "Unlock UI" there).
+**18. UI options** — incl. shadow toggles (user 2026-10-10, "a big one"): turn shadows off per group — environment/props, enemy units, all — as the performance fix (costs: ShadowCaster per unit every frame, ShadeReceiver units × shadows, one CanvasGroup pass per light); blob fallback. Also which buttons react to hover, per-slot/per-spell target priority (default: selected wins), options menu on Escape (move "Unlock UI" there).
 
 **19. Folder structure** — one folder per thing (ability folder holds its .tres, icon, effects …), better script naming. Caution: animation keys come from FILE NAMES (`<UnitData file>_<action>`, `<ability file>_projectile/_impact/_aoe`, `<status effect file>_aura`) → renaming files breaks animations unless `animation_key` is set; ~17 hard-coded `res://` paths in scripts aren't updated by the editor; move files only in Godot's FileSystem dock.
 
