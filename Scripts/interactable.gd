@@ -24,12 +24,14 @@ func set_highlight(value: bool) -> void:
 	if value == highlighted:
 		return
 	highlighted = value
-	$Prompt.visible = value
 	visual.modulate = highlight_color if value else Color.WHITE
 	if tween:
 		tween.kill()
 	tween = create_tween()
 	tween.tween_property(visual, "scale", Vector2.ONE * (highlight_scale if value else 1.0), highlight_time)
+
+func set_prompt(value: bool) -> void:
+	$Prompt.visible = value
 
 func in_range(unit: Node2D) -> bool:
 	return unit.global_position.distance_to(global_position) <= Yards.to_px(interact_range)

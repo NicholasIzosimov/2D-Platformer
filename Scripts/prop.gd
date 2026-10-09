@@ -18,3 +18,9 @@ func set_active(value: bool) -> void:
 			caster.create_shadows()
 		else:
 			caster.free_shadows()
+
+func save_state() -> Variant:
+	return null
+
+func load_state(_data: Variant) -> void:
+	pass

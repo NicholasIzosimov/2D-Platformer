@@ -200,6 +200,7 @@ vertical_alignment = 1
 script = ExtResource("2_vtehv")
 
 [node name="LootWindow" parent="CanvasLayer" unique_id=1476513622 instance=ExtResource("7_u82j1")]
+scale = Vector2(1.5, 1.5)
 
 [node name="player" parent="." unique_id=664299930 instance=ExtResource("1_qumoa")]
 motion_mode = 0

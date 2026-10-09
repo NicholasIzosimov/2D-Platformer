@@ -18,6 +18,7 @@ extends Node
 @export var enemy_spawner: Node
 @export var enemy_scene: PackedScene
 
+var prop_memory: Dictionary = {}
 var loaded: Dictionary = {}
 var blocked: Dictionary = {}
 var prop_data: Dictionary = {}
@@ -47,6 +48,7 @@ func start_world() -> void:
 		despawn_structure(c)
 	structure_data.clear()
 	cleared_spawns.clear()
+	prop_memory.clear()
 	player.global_position = ground.to_global(ground.map_to_local(Vector2i.ZERO))
 	var center: Vector2i = player_chunk()
 	for cy in range(center.y - load_radius.y, center.y + load_radius.y + 1):
@@ -55,6 +57,9 @@ func start_world() -> void:
 	player.get_node("Camera2D").reset_smoothing()
 	update_active_props()
 	spawn_queued_props(prop_queue.size())
+
+func memory_key(cell: Vector2i, kind: String, index: int) -> String:
+	return "%d,%d:%s%d" % [cell.x, cell.y, kind, index]
 
 func change_shape(new_shape: TerrainShape) -> void:
 	shape = new_shape
@@ -216,10 +221,20 @@ func spawn_structure(c: Vector2i) -> void:
 	structure.position = props_parent.to_local(ground.to_global(ground.map_to_local(data[1])))
 	props_parent.add_child(structure)
 	structures[c] = structure
+	var structure_props: Array[Prop] = structure.get_props()
+	for i in structure_props.size():
+		var key: String = memory_key(data[1], "prop", i)
+		if prop_memory.has(key):
+			structure_props[i].load_state(prop_memory[key])
 	spawn_units.call_deferred(structure, data[1])
 
 func despawn_structure(c: Vector2i) -> void:
 	var structure: Structure = structures[c]
+	var structure_props: Array[Prop] = structure.get_props()
+	for i in structure_props.size():
+		var state: Variant = structure_props[i].save_state()
+		if state != null:
+			prop_memory[memory_key(structure_data[c][1], "prop", i)] = state
 	for unit in structure.units:
 		if is_instance_valid(unit) and unit.is_in_group("enemies") and not unit.get_node("EnemyCombatController").aggro:
 			unit.queue_free()
@@ -231,7 +246,7 @@ func spawn_units(structure: Structure, cell: Vector2i) -> void:
 		return
 	var points: Array[UnitSpawnPoint] = structure.get_spawn_points()
 	for i in points.size():
-		var key: String = "%d,%d:%d" % [cell.x, cell.y, i]
+		var key: String = memory_key(cell, "unit", i)
 		if cleared_spawns.has(key):
 			continue
 		var unit_data: UnitData = points[i].pick_unit()

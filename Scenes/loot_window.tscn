@@ -24,6 +24,11 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 
+[node name="Title" parent="MarginContainer/VBoxContainer/Header" index="0" unique_id=861392260]
+visible = false
+
 [node name="LootSlots" type="GridContainer" parent="MarginContainer/VBoxContainer" unique_id=266888488]
 unique_name_in_owner = true
 layout_mode = 2
+
+[editable path="MarginContainer/VBoxContainer/Header"]

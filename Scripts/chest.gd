@@ -44,3 +44,13 @@ func show_state() -> void:
 			$Sprite.play("full")
 		State.EMPTY:
 			$Sprite.play("empty")
+
+func save_state() -> Variant:
+	return {"state": state, "contents": contents}
+
+func load_state(data: Variant) -> void:
+	contents = data.contents
+	if contents:
+		contents.changed.connect(_on_contents_changed)
+	set_state(data.state)
+	show_state()
