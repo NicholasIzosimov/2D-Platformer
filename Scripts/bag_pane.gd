@@ -1,4 +1,4 @@
-extends PanelContainer
+extends DraggableWindow
 
 @export var item_slot_scene: PackedScene
 var slots: Array = []

@@ -1,4 +1,4 @@
-extends PanelContainer
+extends DraggableWindow
 
 @export var slot_scene: PackedScene
 @export var cursor_offset: Vector2 = Vector2(32, 64)

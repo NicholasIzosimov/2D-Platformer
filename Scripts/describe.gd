@@ -25,9 +25,15 @@ static func signed(value: float) -> String:
 
 static func ability(data: AbilityData, handler: Node = null) -> String:
 	var lines: Array[String] = []
-	var base: float = handler.base_damage(data) if handler else data.damage
-	if base > 0.0:
-		var damage: float = handler.ability_damage(data) if handler else base
+	if data.uses_weapon_damage:
+		var extra: float = handler.scaled_damage(data.damage, handler.ability_coefficient(data)) if handler else data.damage
+		if handler:
+			var weapon: float = handler.scaled_damage(handler.own_stats.get_stat(Stat.Type.WEAPON_DAMAGE), 0.0)
+			lines.append("Deals Weapon Damage (%s) + %s damage." % [number(weapon), number(extra)])
+		else:
+			lines.append("Deals Weapon Damage + %s damage." % number(extra))
+	elif data.damage > 0.0:
+		var damage: float = handler.ability_damage(data) if handler else data.damage
 		lines.append("Deals %s damage." % number(damage))
 	if data.aoe_radius > 0.0 and data.aoe_max_targets != 1:
 		var who: String = "all nearby enemies" if data.aoe_max_targets <= 0 else "up to %d nearby enemies" % (data.aoe_max_targets - 1)
