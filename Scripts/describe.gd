@@ -80,33 +80,29 @@ static func item(data: ItemData) -> String:
 	if data is GearData:
 		lines.append("[color=gray]Item Level %d[/color]" % data.item_level)
 		lines.append("[color=gray]%s[/color]" % GearData.Slot.keys()[data.slot].capitalize())
-		for stat in Stat.BASE_STATS:
-			if data.stats.has(stat):
-				lines.append(stat_line(stat, data.stats[stat]))
 		if data.attack_speed > 0.0:
 			lines.append("Speed %.2f" % data.attack_speed)
-		for stat in data.stats:
-			if not Stat.BASE_STATS.has(stat):
-				lines.append(stat_line(stat, data.stats[stat]))
+		for stat in Stat.sorted(data.stats.keys()):
+			lines.append(stat_line(stat, data.stats[stat]))
 	if data.gold_value() > 0:
 		lines.append("%d [img=16x24]res://Assets/UI/gold_coin.png[/img]" % data.gold_value())
 	return "\n".join(lines)
 
 static func item_comparison(candidate: GearData, equipped: GearData) -> String:
 	var lines: Array[String] = ["[b]If equipped:[/b]"]
+	if equipped and candidate.attack_speed != equipped.attack_speed and candidate.attack_speed > 0.0:
+		lines.append("Speed %.2f → %.2f" % [equipped.attack_speed, candidate.attack_speed])
 	var current: Dictionary = equipped.stats if equipped else {}
 	var stats: Array = candidate.stats.keys()
 	for stat in current:
 		if not stats.has(stat):
 			stats.append(stat)
-	for stat in stats:
+	for stat in Stat.sorted(stats):
 		var diff: float = candidate.stats.get(stat, 0.0) - current.get(stat, 0.0)
 		if is_zero_approx(diff):
 			continue
 		var color: String = "#5fd35f" if diff > 0.0 else "#e05555"
-		lines.append("[color=%s]%s%s %s[/color]" % [color, "+" if diff > 0.0 else "-", Stat.format(stat, absf(diff)), Stat.label(stat)])
-	if equipped and candidate.attack_speed != equipped.attack_speed and candidate.attack_speed > 0.0:
-		lines.append("Speed %.2f → %.2f" % [equipped.attack_speed, candidate.attack_speed])
+		lines.append("[color=%s]%s[/color]" % [color, stat_line(stat, diff)])
 	if lines.size() == 1:
 		lines.append("[color=gray]No stat changes[/color]")
 	return "\n".join(lines)

@@ -17,10 +17,10 @@ var talent_ranks: Dictionary = {}
 var equipped_gear: Dictionary[GearData.Slot, GearData] = {}
 var xp_curve: XpCurve
 var bag_size: int = 16
-var bag: Array[ItemData] = []
 var quests: Array[Quest] = []
 var in_combat: bool = false
 var gear_rules: GearRules
+var bag: Array[ItemStack] = []
 
 signal loadout_changed
 signal gold_changed(new_amount)
@@ -192,22 +192,37 @@ func weapon_speed() -> float:
 	var weapon: GearData = equipped_gear.get(GearData.Slot.MAIN_HAND)
 	return weapon.attack_speed if weapon else 0.0
 
-func add_to_bag(item: ItemData) -> bool:
-	var index: int = bag.find(null)
-	if index == -1:
-		return false
-	bag[index] = item
-	bag_changed.emit()
-	return true
+func add_to_bag(item: ItemData, amount: int = 1) -> int:
+	var left: int = amount
+	for stack in bag:
+		if left == 0:
+			break
+		if stack and stack.item == item:
+			var moved: int = min(left, stack.space())
+			stack.amount += moved
+			left -= moved
+	while left > 0:
+		var index: int = bag.find(null)
+		if index == -1:
+			break
+		var placed: int = min(left, max(item.max_stack, 1))
+		bag[index] = ItemStack.new(item, placed)
+		left -= placed
+	if left < amount:
+		bag_changed.emit()
+	if left > 0:
+		action_failed.emit("Inventory is full")
+	return left
 
 func equip_from_bag(index: int) -> void:
-	var item: ItemData = bag[index]
-	if not (item is GearData):
+	var stack: ItemStack = bag[index]
+	if stack == null or not (stack.item is GearData):
 		return
 	if in_combat:
 		action_failed.emit("Can't do that in combat")
 		return
-	bag[index] = equip_item(item)
+	var replaced: GearData = equip_item(stack.item)
+	bag[index] = ItemStack.new(replaced) if replaced else null
 	bag_changed.emit()
 
 func unequip_to_bag(slot: GearData.Slot) -> bool:

@@ -1,18 +1,20 @@
 [gd_resource type="Resource" script_class="LootTable" format=3 uid="uid://e35u731gdcaj"]
 
-[ext_resource type="Script" uid="uid://0flf12yjfjnx" path="res://Scripts/ResourceScripts/loot_table.gd" id="1_ie0d6"]
-[ext_resource type="Script" uid="uid://ds4vabwfl1g5r" path="res://Scripts/ResourceScripts/gear_template.gd" id="2_ofhdo"]
-[ext_resource type="Resource" uid="uid://vj1s4clspq1a" path="res://Resources/Items/Gear/Templates/GlobalLoot/wraith's_hood.tres" id="3_lbumq"]
-[ext_resource type="Resource" uid="uid://d1fax26moo3bf" path="res://Resources/Items/Gear/Templates/GlobalLoot/quick_gloves.tres" id="4_5gn7v"]
-[ext_resource type="Resource" uid="uid://ckclhi35iebdh" path="res://Resources/Items/Gear/Templates/GlobalLoot/vigourous_ring.tres" id="5_lbumq"]
-[ext_resource type="Resource" uid="uid://cgtbxw4aukjjl" path="res://Resources/Items/Gear/Templates/GlobalLoot/peon's_axe.tres" id="6_nnfa7"]
+[ext_resource type="Resource" uid="uid://dtro5i4udw2eu" path="res://Resources/Items/Currency/gold.tres" id="1_543w5"]
+[ext_resource type="Script" uid="uid://0flf12yjfjnx" path="res://Scripts/ResourceScripts/loot_table.gd" id="2_qsuor"]
+[ext_resource type="Script" uid="uid://ds4vabwfl1g5r" path="res://Scripts/ResourceScripts/gear_template.gd" id="3_4haaq"]
+[ext_resource type="Resource" uid="uid://vj1s4clspq1a" path="res://Resources/Items/Gear/Templates/GlobalLoot/wraith's_hood.tres" id="4_f0a4t"]
+[ext_resource type="Resource" uid="uid://d1fax26moo3bf" path="res://Resources/Items/Gear/Templates/GlobalLoot/quick_gloves.tres" id="5_pxros"]
+[ext_resource type="Resource" uid="uid://ckclhi35iebdh" path="res://Resources/Items/Gear/Templates/GlobalLoot/vigourous_ring.tres" id="6_nhuqh"]
+[ext_resource type="Resource" uid="uid://cgtbxw4aukjjl" path="res://Resources/Items/Gear/Templates/GlobalLoot/peon's_axe.tres" id="7_oareb"]
 
 [resource]
-script = ExtResource("1_ie0d6")
-templates = Dictionary[ExtResource("2_ofhdo"), float]({
-ExtResource("3_lbumq"): 1.0,
-ExtResource("4_5gn7v"): 1.0,
-ExtResource("5_lbumq"): 1.0,
-ExtResource("6_nnfa7"): 1.0
+script = ExtResource("2_qsuor")
+templates = Dictionary[ExtResource("3_4haaq"), float]({
+ExtResource("4_f0a4t"): 1.0,
+ExtResource("5_pxros"): 1.0,
+ExtResource("6_nhuqh"): 1.0,
+ExtResource("7_oareb"): 1.0
 })
+currency = ExtResource("1_543w5")
 metadata/_custom_type_script = "uid://0flf12yjfjnx"

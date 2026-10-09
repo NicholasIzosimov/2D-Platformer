@@ -4,11 +4,10 @@ extends Panel
 @export var slot: GearData.Slot
 @export var empty_icon: Texture2D = preload("res://Assets/ItemIcons/icon_template.png")
 @export var filled_background: Texture2D = preload("res://Assets/ItemIcons/icon_equipped_background.png")
-@export var gold_icon: Texture2D = preload("res://Assets/UI/gold_coin.png")
-var gold: int = 0
 var item: ItemData
 var empty_text: String = ""
 var compare: bool = false
+var stack: ItemStack
 signal right_clicked
 signal left_clicked
 
@@ -18,21 +17,13 @@ func _ready() -> void:
 	refresh()
 
 func set_item(new_item: ItemData) -> void:
-	item = new_item
-	gold = 0
-	refresh()
-	
-func set_gold(amount: int) -> void:
-	item = null
-	gold = amount
-	refresh()
+	set_stack(ItemStack.new(new_item) if new_item else null)
 	
 func refresh() -> void:
-	var filled: bool = item != null or gold > 0
-	$Background.texture = filled_background if filled else empty_icon
-	$Icon.texture = item.icon if item else (gold_icon if gold > 0 else null)
-	$Amount.visible = gold > 0
-	$Amount.text = str(gold)
+	$Background.texture = filled_background if item else empty_icon
+	$Icon.texture = item.icon if item else null
+	$Amount.visible = stack != null and (stack.amount > 1 or item is CurrencyData)
+	$Amount.text = str(stack.amount) if stack else ""
 	var rarity: Rarity = item.rarity if item else null
 	$RarityBorder.visible = rarity != null
 	if rarity:
@@ -46,10 +37,10 @@ func _gui_input(event: InputEvent) -> void:
 			right_clicked.emit()
 
 func tooltip_sections() -> Array:
-	if gold > 0:
-		return ["%d Gold" % gold]
 	if item == null:
 		return [empty_text] if empty_text != "" else []
+	if item is CurrencyData:
+		return ["%d %s" % [stack.amount, item.name]]
 	if not compare or not (item is GearData):
 		return [Describe.item(item)]
 	if not Input.is_action_pressed("compare_item"):
@@ -60,3 +51,8 @@ func tooltip_sections() -> Array:
 		sections.append("[color=gray]Currently equipped[/color]\n" + Describe.item(equipped))
 	sections.append(Describe.item_comparison(item, equipped))
 	return sections
+
+func set_stack(new_stack: ItemStack) -> void:
+	stack = new_stack
+	item = stack.item if stack else null
+	refresh()

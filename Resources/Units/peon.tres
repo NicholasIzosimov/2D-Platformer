@@ -6,10 +6,11 @@
 [ext_resource type="Resource" uid="uid://buwonyjvswl7g" path="res://Resources/Progression/level_scaling.tres" id="3_cbdpp"]
 [ext_resource type="Resource" uid="uid://d3p0cq81lslwu" path="res://Resources/Powers/bot_power.tres" id="4_7viq4"]
 [ext_resource type="Script" uid="uid://djkq3ofrj4kyw" path="res://Scripts/ResourceScripts/unit_data.gd" id="5_qw0rl"]
+[ext_resource type="Script" uid="uid://ds4vabwfl1g5r" path="res://Scripts/ResourceScripts/gear_template.gd" id="7_cbdpp"]
 
 [resource]
 script = ExtResource("5_qw0rl")
 name = "Peon"
 abilities = Array[ExtResource("1_63apg")]([ExtResource("2_cbdpp")])
-base_health = 5.0
+base_health = 20.0
 metadata/_custom_type_script = "uid://djkq3ofrj4kyw"

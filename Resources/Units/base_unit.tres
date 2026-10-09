@@ -5,9 +5,10 @@
 [ext_resource type="Script" uid="uid://5j6i1rvnlhe2" path="res://Scripts/ResourceScripts/ability_data.gd" id="1_ihbfo"]
 [ext_resource type="Resource" uid="uid://buwonyjvswl7g" path="res://Resources/Progression/level_scaling.tres" id="1_vc7uy"]
 [ext_resource type="Resource" uid="uid://bj6cc47r0o73x" path="res://Resources/Abilities/auto_attack.tres" id="2_qsmp5"]
+[ext_resource type="Script" uid="uid://ds4vabwfl1g5r" path="res://Scripts/ResourceScripts/gear_template.gd" id="6_qsmp5"]
 
 [resource]
 script = ExtResource("1_chb6n")
 name = "Base"
-base_health = 20.0
+base_health = 50.0
 metadata/_custom_type_script = "uid://djkq3ofrj4kyw"

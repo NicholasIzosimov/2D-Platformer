@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="CurrencyData" format=3 uid="uid://dtro5i4udw2eu"]
+
+[ext_resource type="Script" uid="uid://bg1dshh3bqiln" path="res://Scripts/ResourceScripts/currency_data.gd" id="1_3ttvt"]
+[ext_resource type="Texture2D" uid="uid://du02qapws2xaj" path="res://Assets/UI/gold_coin.png" id="1_u3v84"]
+
+[resource]
+script = ExtResource("1_3ttvt")
+name = "Gold"
+icon = ExtResource("1_u3v84")
+metadata/_custom_type_script = "uid://bg1dshh3bqiln"

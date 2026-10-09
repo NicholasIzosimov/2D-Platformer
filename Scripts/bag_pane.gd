@@ -32,5 +32,5 @@ func set_preview(value: bool) -> void:
 
 func refresh() -> void:
 	for i in slots.size():
-		slots[i].set_item(PlayerState.bag[i])
+		slots[i].set_stack(PlayerState.bag[i])
 	%GoldLabel.text = str(PlayerState.gold)

@@ -51,6 +51,7 @@ const LABELS: Dictionary = {
 const PERCENT_STATS: Array = [Type.CRIT_CHANCE, Type.CRIT_DAMAGE, Type.MISS_CHANCE, Type.HIT_CHANCE, Type.DAMAGE_PERCENT, Type.DAMAGE_REDUCTION, Type.HASTE, Type.DODGE, Type.PARRY, Type.BLOCK]
 const BASE_STATS: Array = [Type.WEAPON_DAMAGE, Type.ARMOR]
 const DISPLAY_SCALE: Dictionary = {Type.CRIT_DAMAGE: 100.0}
+const DISPLAY_ORDER: Array = [Type.WEAPON_DAMAGE, Type.ARMOR, Type.VIGOR, Type.PRIMARY, Type.HIT_RATING, Type.CRIT_RATING, Type.HASTE_RATING]
 
 static func label(type: Type) -> String:
 	return LABELS.get(type, "?")
@@ -58,3 +59,12 @@ static func label(type: Type) -> String:
 static func format(type: Type, amount: float) -> String:
 	var text: String = Describe.number(amount * DISPLAY_SCALE.get(type, 1.0))
 	return text + ("%" if PERCENT_STATS.has(type) else "")
+
+static func sorted(stats: Array) -> Array:
+	var result: Array = stats.duplicate()
+	result.sort_custom(func(a, b): return display_rank(a) < display_rank(b))
+	return result
+
+static func display_rank(type: Type) -> int:
+	var index: int = DISPLAY_ORDER.find(type)
+	return index if index != -1 else DISPLAY_ORDER.size() + type

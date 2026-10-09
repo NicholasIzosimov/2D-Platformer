@@ -19,7 +19,7 @@ func _on_interacted(_unit: Node) -> void:
 		set_state(State.FULL)
 		$Sprite.play("opening")
 		return
-	for i in contents.entries.size():
+	for i in contents.stacks.size():
 		contents.take(i)
 	if contents.is_empty():
 		set_state(State.EMPTY)

@@ -35,7 +35,7 @@ func grant_loot() -> void:
 			PlayerState.add_gold(gold)
 			show_reward("+%d Gold" % gold, gold_color)
 		var item: ItemData = table.roll_item(gear_rules, stats.level)
-		if item and PlayerState.add_to_bag(item):
+		if item and PlayerState.add_to_bag(item) == 0:
 			show_reward(item.name, item.rarity.color if item.rarity else Color.WHITE)
 			
 func show_reward(text: String, color: Color) -> void:

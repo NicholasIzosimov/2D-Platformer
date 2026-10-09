@@ -2,34 +2,35 @@ class_name LootContents
 extends RefCounted
 
 signal changed
-var entries: Array[LootEntry] = []
+var stacks: Array[ItemStack] = []
 
 static func roll(table: LootTable, rules: GearRules, level: int, min_rarity: Rarity = null) -> LootContents:
 	var contents := LootContents.new()
 	var gold: int = table.roll_gold(level)
-	if gold > 0:
-		var gold_entry := LootEntry.new()
-		gold_entry.gold = gold
-		contents.entries.append(gold_entry)
-	var item: ItemData = table.roll_item(rules, level, min_rarity)
+	if gold > 0 and table.currency:
+		contents.stacks.append(ItemStack.new(table.currency, gold))
+	var item: GearData = table.roll_item(rules, level, min_rarity)
 	if item:
-		var item_entry := LootEntry.new()
-		item_entry.item = item
-		contents.entries.append(item_entry)
+		contents.stacks.append(ItemStack.new(item))
 	return contents
 
 func take(index: int) -> bool:
-	var entry: LootEntry = entries[index]
-	if entry.taken:
+	var stack: ItemStack = stacks[index]
+	if stack == null:
 		return false
-	if entry.item:
-		if not PlayerState.add_to_bag(entry.item):
-			return false
+	var left: int = 0
+	if stack.item is CurrencyData:
+		PlayerState.add_gold(stack.amount)
 	else:
-		PlayerState.add_gold(entry.gold)
-	entry.taken = true
+		left = PlayerState.add_to_bag(stack.item, stack.amount)
+	if left == stack.amount:
+		return false
+	if left > 0:
+		stack.amount = left
+	else:
+		stacks[index] = null
 	changed.emit()
-	return true
+	return left == 0
 
 func is_empty() -> bool:
-	return entries.all(func(entry): return entry.taken)
+	return stacks.all(func(stack): return stack == null)
