@@ -12,7 +12,7 @@ func _ready() -> void:
 	for i in PlayerState.bag_size:
 		var item_slot = item_slot_scene.instantiate()
 		item_slot.compare = true
-		item_slot.right_clicked.connect(func(): PlayerState.equip_from_bag(i))
+		item_slot.right_clicked.connect(on_right_click.bind(i))
 		%BagSlots.add_child(item_slot)
 		slots.append(item_slot)
 	PlayerState.bag_changed.connect(refresh)
@@ -43,3 +43,10 @@ func refresh() -> void:
 func close() -> void:
 	open = false
 	visible = false
+
+func on_right_click(index: int) -> void:
+	var shop_window = get_tree().get_first_node_in_group("shop_window")
+	if shop_window and shop_window.shopkeeper:
+		shop_window.shopkeeper.sell(index)
+	else:
+		PlayerState.equip_from_bag(index)

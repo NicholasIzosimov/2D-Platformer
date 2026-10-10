@@ -13,6 +13,9 @@ var weapon_dps_per_budget: float = 0.5
 var budget_base: float = 4.0
 var budget_per_level: float = 2.0
 var budget_exponent: float = 1.2
+var gold_per_budget: float = 1.0
+var gold_rarity_exponent: float = 2.0
+var value_variance: float = 0.15
 
 func roll_rarity(min_rarity: Rarity = null) -> Rarity:
 	var options: Array[Rarity] = rarities.slice(max(rarities.find(min_rarity), 0))
@@ -62,6 +65,7 @@ func generate(template: GearTemplate, item_level: int, min_rarity: Rarity = null
 	roll_stats(item, template, item.rarity.stat_count - base.size())
 	for stat in template.bonus_stats:
 		item.stats[stat] = item.stats.get(stat, 0.0) + template.bonus_stats[stat]
+	item.value = item_value(item)
 	return item
 	
 func base_values(item: GearData) -> Dictionary:
@@ -104,3 +108,10 @@ func weighted_pick(chances: Dictionary):
 		if r < 0.0:
 			return key
 	return chances.keys().back()
+
+func item_value(item: GearData) -> int:
+	var points: float = 0.0
+	for stat in item.stats:
+		points += absf(item.stats[stat]) * stat_costs.get(stat, 1.0)
+	var rarity_premium: float = pow(item.rarity.budget_multiplier, gold_rarity_exponent - 1.0)
+	return max(1, roundi(points * rarity_premium * gold_per_budget * randf_range(1.0 - value_variance, 1.0 + value_variance)))

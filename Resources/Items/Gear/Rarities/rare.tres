@@ -6,7 +6,6 @@
 script = ExtResource("1_18oc0")
 name = "Rare"
 color = Color(0.050636567, 0.38788632, 0.67659914, 1)
-weight = 4.5
 budget_multiplier = 1.7
 stat_count = 3
 metadata/_custom_type_script = "uid://c7l51n6l7foec"

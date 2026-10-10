@@ -257,3 +257,7 @@ func complete_quest(quest: Quest) -> void:
 	
 func is_quest_target(unit_data: UnitData) -> bool:
 	return quests.any(func(quest): return quest.target == unit_data)
+
+func remove_from_bag(index: int) -> void:
+	bag[index] = null
+	bag_changed.emit()

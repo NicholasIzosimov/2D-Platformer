@@ -42,3 +42,7 @@ static func roll_stock(table: LootTable, rules: GearRules, level: int, count: in
 		if item:
 			contents.stacks.append(ItemStack.new(item))
 	return contents
+
+func remove(index: int) -> void:
+	stacks[index] = null
+	changed.emit()

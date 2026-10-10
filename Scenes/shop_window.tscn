@@ -26,3 +26,18 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 columns = 3
+
+[node name="BuybackLabel" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1615933216]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Buyback"
+
+[node name="BuybackSlots" type="GridContainer" parent="MarginContainer/VBoxContainer" unique_id=1165124648]
+unique_name_in_owner = true
+layout_mode = 2
+columns = 6
+
+[node name="Confirm" type="ConfirmationDialog" parent="." unique_id=991872966]
+unique_name_in_owner = true
+title = "Buy"
+ok_button_text = "Buy"
