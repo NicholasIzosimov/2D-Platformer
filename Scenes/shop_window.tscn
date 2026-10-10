@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://cuvgp315ewtab"]
+
+[ext_resource type="Script" uid="uid://cygq11l2npd08" path="res://Scripts/shop_window.gd" id="1_ydaer"]
+[ext_resource type="PackedScene" uid="uid://d33iosv4iwsx5" path="res://Scenes/Components/window_header.tscn" id="2_0nyae"]
+
+[node name="ShopWindow" type="PanelContainer" unique_id=1715540959]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_ydaer")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=613606663]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=776424841]
+layout_mode = 2
+
+[node name="Header" parent="MarginContainer/VBoxContainer" unique_id=635836019 instance=ExtResource("2_0nyae")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="StockSlots" type="GridContainer" parent="MarginContainer/VBoxContainer" unique_id=1157556469]
+unique_name_in_owner = true
+layout_mode = 2
+columns = 3

@@ -7,6 +7,7 @@ var open: bool = false
 func _ready() -> void:
 	visible = open
 	add_to_group("layout_preview")
+	add_to_group("bag_pane")
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	for i in PlayerState.bag_size:
 		var item_slot = item_slot_scene.instantiate()
@@ -18,7 +19,10 @@ func _ready() -> void:
 	PlayerState.gold_changed.connect(func(_amount): refresh())
 	refresh()
 	%Header.close_pressed.connect(close)
-
+func show_bag() -> void:
+	open = true
+	visible = true
+	
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("bags") or (visible and event.is_action_pressed("ui_cancel")):
 		toggle()

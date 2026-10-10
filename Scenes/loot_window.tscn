@@ -30,5 +30,6 @@ visible = false
 [node name="LootSlots" type="GridContainer" parent="MarginContainer/VBoxContainer" unique_id=266888488]
 unique_name_in_owner = true
 layout_mode = 2
+columns = 2
 
 [editable path="MarginContainer/VBoxContainer/Header"]

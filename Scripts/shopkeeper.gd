@@ -13,8 +13,10 @@ func _ready() -> void:
 func _on_interacted(_unit: Node) -> void:
 	if stock == null:
 		stock = LootContents.roll_stock(shop.loot, gear_rules, PlayerState.level, shop.stock_count, shop.min_rarity)
-	for stack in stock.stacks:
-		print(stack.item.name if stack else "(sold)")
+	get_tree().get_first_node_in_group("shop_window").open(self)
+
+func price(stack: ItemStack) -> int:
+	return max(1, roundi(stack.item.gold_value() * shop.price_multiplier)) * stack.amount
 
 func save_state() -> Variant:
 	return stock

@@ -7,7 +7,7 @@
 script = ExtResource("1_qmcot")
 texture = ExtResource("2_yr8na")
 texture_scale = 2.0
-energy = 0.45
+energy = 0.6
 color = Color(0.64705884, 0.44313726, 0.2784314, 1)
 ground_height = 11.0
 metadata/_custom_type_script = "uid://cipmqph0n5inp"

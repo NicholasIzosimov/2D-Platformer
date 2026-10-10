@@ -5,8 +5,10 @@
 [ext_resource type="Texture2D" uid="uid://boofidmbpnbr3" path="res://Assets/SkyNight.png" id="1_sso1v"]
 [ext_resource type="PackedScene" uid="uid://b0eqcr5beyybg" path="res://Scenes/Enemy.tscn" id="2_2ip8y"]
 [ext_resource type="Script" uid="uid://c1f27rlg282ua" path="res://Scripts/error_text.gd" id="2_vtehv"]
+[ext_resource type="PackedScene" uid="uid://cuvgp315ewtab" path="res://Scenes/shop_window.tscn" id="3_oisxx"]
 [ext_resource type="Script" uid="uid://cqlwpi23btuns" path="res://Scripts/player_combat_controller.gd" id="4_7uj85"]
 [ext_resource type="PackedScene" uid="uid://dy7tq4pgrtl6q" path="res://Scenes/character_pane.tscn" id="4_efsqc"]
+[ext_resource type="PackedScene" uid="uid://wxpcu4h7aybc" path="res://Scenes/shop_slot.tscn" id="4_kr5vv"]
 [ext_resource type="PackedScene" uid="uid://divn7g3016xhl" path="res://Scenes/talent_pane.tscn" id="5_yw3bn"]
 [ext_resource type="Script" uid="uid://yti72ecb3xss" path="res://Scripts/enemy_spawner.gd" id="6_vtehv"]
 [ext_resource type="Script" uid="uid://yon5ea1deaj3" path="res://Scripts/debug_tools.gd" id="7_loea4"]
@@ -176,10 +178,10 @@ offset_bottom = -20.0
 [node name="CharacterPane" parent="CanvasLayer" unique_id=1357765377 instance=ExtResource("4_efsqc")]
 
 [node name="TalentPane" parent="CanvasLayer" unique_id=413069100 instance=ExtResource("5_yw3bn")]
-offset_left = -562.0
-offset_top = -425.5
-offset_right = 562.0
-offset_bottom = 425.5
+offset_left = -571.0
+offset_top = -431.0
+offset_right = 553.0
+offset_bottom = 420.0
 
 [node name="ErrorText" type="Label" parent="CanvasLayer" unique_id=1617025841]
 anchors_preset = -1
@@ -203,6 +205,21 @@ script = ExtResource("2_vtehv")
 
 [node name="LootWindow" parent="CanvasLayer" unique_id=1476513622 instance=ExtResource("7_u82j1")]
 scale = Vector2(1.5, 1.5)
+
+[node name="ShopWindow" parent="CanvasLayer" unique_id=1715540959 instance=ExtResource("3_oisxx")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.999878
+offset_top = -65.0
+offset_right = 39.000122
+offset_bottom = 35.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.3, 1.3)
+slot_scene = ExtResource("4_kr5vv")
 
 [node name="player" parent="." unique_id=664299930 instance=ExtResource("1_qumoa")]
 motion_mode = 0
