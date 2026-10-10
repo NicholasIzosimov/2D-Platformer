@@ -1,27 +1,16 @@
 # Todo list, status and open decisions
 
-Last updated 2026-10-08 (branch `topdown-prototype`). Numbers = the user's list of 2026-10-08 (below). No fixed order — these are gentle reminders for when there's no clear direction. Remove items when done.
+Last updated 2026-10-10 (branch `topdown-prototype`). Numbers = the user's list of 2026-10-08 (below). No fixed order — these are gentle reminders for when there's no clear direction. Remove items when done.
 
 ## The user's list (2026-10-08)
 
-2 (gold value per rarity: `ItemData.gold_value()` from item level × rarity budget multiplier, constants in `item_data.gd`, coin icon in tooltip) and 3 (rarity border, shared by bag + character pane via `gear_slot.gd`) are DONE.
+Done: 0 (combined incoming damage), 1 (chests + loot window), 2 (gold value: GearRules.item_value from stat weights), 3 (rarity border), 12 (shop).
 Direction (user): move global rules out of Resources into hard-coded constants where resources have become a mess; per-instance data stays on resources.
 
-**0. Incoming damage numbers combined** — ticks are shown summed every 2 s instead of one number per tick. Open: player only or all units; DoT ticks only or all damage. Lives in `combat_text_spawner.gd`. Related: 17.
-
-**1. Chests (IN PROGRESS, 2026-10-09)** — steps 1–3 done: Interactable component + Interactor on player (hover/nearest highlight + scale tween, E or left click, range, out of combat only), chest sprite states (closed → opening → full gold frame → empty frame; empty = no interaction), LootEntry/LootContents (rolled once on first open: gold + 1 item, `min_rarity` = that rarity or better by `item_rules.tres` order, item level = player level). `chest.gd` still has a TEMPORARY "second click takes everything" loop in `_on_interacted` (replaced by step 4).
-Pending code given but maybe not applied: Main Hand assert in `ItemRules.generate`; no gear changes in combat (`PlayerState.in_combat` + `action_failed` signal → ErrorText).
-NEXT step 4 — loot window (agreed): LootWindow PanelContainer child of HUD (fixed, Unlock UI movable, like BagPane), title label (reuse for bag pane too), one slot per entry via `gear_slot.tscn` (needs left-click signal + optional amount label: gold slot = coin icon + number, tooltip "N Gold"), left click takes into bag, taken slot stays visible but empty, "Inventory is full" via `action_failed`. Closes on X button, Esc, walking out of range, or when everything is taken. Chest listens to `contents.changed` → empty frame. Leftovers stay; reopen shows the same slots. Generic `open(contents, interactable)` for future loot sources.
-Step 5 — world memory: opened chests + leftover contents remembered per structure until world reset (no refills).
-Open: weapon budget — weapon damage currently on top of the stat budget and both × slot_budget (Main Hand 2.0); option: weapon damage from level × rarity only.
-
-**Shop (IN PROGRESS 2026-10-10)** — step 1 done (ShopData resource, Shopkeeper prop inside shop_tent, shop structure, stock rolled once + world memory). NEXT step 2a (given, not yet applied): ShopWindow in HUD — NOT draggable (extends PanelContainer, position only via Unlock UI), shared header, ShopSlot = gear_slot + coin/price row, price = value × ShopData.price_multiplier, opening also opens the bag (`bag_pane.show_bag()`), closes on Esc/✕/walking away. Then 2b buy with left click + confirmation; step 3 selling (right-click in bag while shop open, sell for value) + buyback (last 6, per visit).
-
-**Shadow test scene — option C (user 2026-10-10: after the shop)** — screen-space 2.5D shadows: each ShadowCaster makes a height copy (height = distance above sprite origin) on its own visibility layer, a SubViewport sharing the world renders only that layer into a height buffer (pixel-art resolution), per light a ray-step test toward the light darkens occluded pixels → shadows fall on objects and units, every light shadows everything, CPU cost per unit ~nil. Test scene first (6–10 h: few sprites, one light, no merge/perception), judge on real art; then decide. Don't invest further in the current shadow system meanwhile (toggles, ShadeReceiver optimisation). Graphics options would then be tiers within C (steps, resolution, shadowed-light cap, blobs fallback), not two systems.
+**Shadow test scene — option C (NEXT, shop is done)** — full plan + context in `docs/shadow_test_plan.md`. screen-space 2.5D shadows: each ShadowCaster makes a height copy (height = distance above sprite origin) on its own visibility layer, a SubViewport sharing the world renders only that layer into a height buffer (pixel-art resolution), per light a ray-step test toward the light darkens occluded pixels → shadows fall on objects and units, every light shadows everything, CPU cost per unit ~nil. Test scene first (6–10 h: few sprites, one light, no merge/perception), judge on real art; then decide. Don't invest further in the current shadow system meanwhile (toggles, ShadeReceiver optimisation). Graphics options would then be tiers within C (steps, resolution, shadowed-light cap, blobs fallback), not two systems.
 
 **Enemy loot window (user 2026-10-10)** — enemy drops (gold + items) open the same loot window as chests (click/E the corpse); ground loot is scrapped for now. Then bag-full handling, drag & drop.
 
-**Items refactor (in progress 2026-10-10)** — types: ItemData base (name, icon, rarity, max_stack, value) → GearData (slot, item level, stats, attack speed; value auto-calculated when 0) / CurrencyData (gold → purse). ItemStack (item + amount) for bag and loot contents (replaces LootEntry; taken slot = null). Slot shows a stack (Amount label when > 1). Steps: 1 split ItemData/GearData → 2 ItemStack bag → 3 slot shows stacks (remove set_gold) → 4 gold item + loot contents as stacks → continue loot window.
 Later (user): same type split for UnitData → PlayerData / EnemyData / NpcData.
 
 **4. Bars artifacty** — scale them cleanly (HUD bars, nameplates).
@@ -39,8 +28,6 @@ Later (user): same type split for UnitData → PlayerData / EnemyData / NpcData.
 **10. Char stat descriptions** — character pane rows get tooltips (Tooltip autoload: rows implement `tooltip_sections()`).
 
 **11 + 14. Map / minimap + terrain persistence** — M opens a map of the explored seed incl. structures. Decide: is terrain tossed or kept during a run ("Minecraft or random dungeon grinder")? Chunks currently regenerate deterministically from the seed; only `cleared_spawns` is remembered.
-
-**12. Shop.**
 
 **13. Boss arena + shop spawn** — big boss HP bar at the top; dodge-heavy AoE mechanics.
 
