@@ -114,7 +114,10 @@ title = "Chest"
 [node name="SwayMaterial" parent="." index="1" unique_id=1144367935]
 material = SubResource("ShaderMaterial_8p1xy")
 
-[node name="CollisionShape2D" parent="StaticBody2D" parent_id_path=PackedInt32Array(498950714) index="0" unique_id=2025183214]
+[node name="StaticBody2D" parent="." index="2" unique_id=498950714]
+position = Vector2(0, -9)
+
+[node name="CollisionShape2D" parent="StaticBody2D" index="0" unique_id=2025183214]
 position = Vector2(0, 4.5)
 shape = SubResource("RectangleShape2D_6yf4v")
 
@@ -123,17 +126,17 @@ visual = NodePath("../Sprite")
 interact_range = 1.4
 
 [node name="CollisionShape2D" parent="Interactable" index="0" unique_id=1384125965]
-position = Vector2(0, 6)
+position = Vector2(0, -7)
 shape = SubResource("RectangleShape2D_0q862")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="." index="5" unique_id=1117872720]
 texture_filter = 1
+position = Vector2(0, -9)
 sprite_frames = SubResource("SpriteFrames_5fyjq")
 animation = &"closed"
 
 [node name="ShadeBlob" type="Sprite2D" parent="." index="6" unique_id=1778812998]
 z_index = -1
-position = Vector2(0, 9)
 scale = Vector2(1.1591797, 0.453125)
 texture = SubResource("GradientTexture2D_5fyjq")
 
