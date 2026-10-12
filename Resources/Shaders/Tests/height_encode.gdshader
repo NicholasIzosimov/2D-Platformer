@@ -1,12 +1,15 @@
 shader_type canvas_item;
 render_mode unshaded;
 
+#include "res://Resources/Shaders/Tests/sway.gdshaderinc"
+
 const float MAX_HEIGHT = 255.0;
 uniform float ground_y;
 uniform float object_id;
 varying float world_y;
 
 void vertex() {
+	VERTEX = sway_vertex(VERTEX, MODEL_MATRIX, TIME);
 	world_y = (MODEL_MATRIX * vec4(VERTEX, 0.0, 1.0)).y;
 }
 

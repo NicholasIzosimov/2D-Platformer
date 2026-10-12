@@ -3,7 +3,6 @@
 [ext_resource type="Texture2D" uid="uid://h0prnvh3rwo0" path="res://Assets/Tiny Swords (Free Pack)/Terrain/Tileset/Tilemap_color1.png" id="1_5abv8"]
 [ext_resource type="Shader" uid="uid://buwec7ookkb0y" path="res://Resources/Shaders/Tests/lit.gdshader" id="1_c0s1q"]
 [ext_resource type="Script" uid="uid://c8ftieqj8wfpj" path="res://Scripts/Tests/height_source.gd" id="2_f3hxj"]
-[ext_resource type="Shader" uid="uid://jgr7gyccxucn" path="res://Resources/Shaders/Tests/sway_lit.gdshader" id="3_ovt2x"]
 [ext_resource type="Shader" uid="uid://ch7tgdw66vh3x" path="res://Resources/Shaders/sway.gdshader" id="4_mu1c0"]
 [ext_resource type="Texture2D" uid="uid://egv5sdt6mhj3" path="res://Assets/WorldObjects/Tents/ShopTent/ShopParasolBack.png" id="5_men72"]
 [ext_resource type="Texture2D" uid="uid://cba5mdgww5yp3" path="res://Assets/WorldObjects/Tents/ShopTent/ShopSolidMaterial.png" id="7_nbvq6"]
@@ -19,6 +18,8 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_c0s1q"]
 shader = ExtResource("1_c0s1q")
+shader_parameter/strength = 0.0
+shader_parameter/speed = 1.2
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_w0el5"]
 texture = ExtResource("1_5abv8")
@@ -115,13 +116,13 @@ sources/0 = SubResource("TileSetAtlasSource_w0el5")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ihm5s"]
 resource_local_to_scene = true
-shader = ExtResource("3_ovt2x")
+shader = ExtResource("1_c0s1q")
 shader_parameter/strength = 0.03
 shader_parameter/speed = 1.2
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_pyxsk"]
 resource_local_to_scene = true
-shader = ExtResource("3_ovt2x")
+shader = ExtResource("1_c0s1q")
 shader_parameter/strength = 0.1
 shader_parameter/speed = 1.2
 
@@ -205,6 +206,8 @@ animations = [{
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ovt2x"]
 shader = ExtResource("1_c0s1q")
+shader_parameter/strength = 0.0
+shader_parameter/speed = 1.2
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_pm0ju"]
 viewport_path = NodePath("HeightBuffer")
