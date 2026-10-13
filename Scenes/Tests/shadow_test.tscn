@@ -217,7 +217,6 @@ visibility_layer = 3
 y_sort_enabled = true
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=712188150]
-zoom = Vector2(3, 3)
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=1255609747]
 color = Color(0.54901963, 0.54901963, 0.6509804, 1)
@@ -327,8 +326,6 @@ texture_scale = 2.0
 script = ExtResource("12_bh6nw")
 main_camera = NodePath("../Camera2D")
 
-[node name="BufferCamera" type="Camera2D" parent="HeightBuffer" unique_id=820163731]
-
 [node name="Debug" type="CanvasLayer" parent="." unique_id=1406544417]
 layer = 2
 
@@ -349,14 +346,12 @@ offset_right = 56.0
 offset_bottom = 423.0
 theme_override_font_sizes/font_size = 32
 
-[node name="ShadowSettings" type="Node" parent="." unique_id=554389478 node_paths=PackedStringArray("main_camera", "height_buffer")]
+[node name="ShadowSettings" type="Node" parent="." unique_id=554389478]
 script = ExtResource("15_74b74")
-main_camera = NodePath("../Camera2D")
-height_buffer = NodePath("../HeightBuffer")
 
 [node name="StressTest" type="Node" parent="." unique_id=664208044 node_paths=PackedStringArray("world", "camera", "light_template", "prop_templates")]
 script = ExtResource("16_c0s1q")
 world = NodePath("..")
 camera = NodePath("../Camera2D")
 light_template = NodePath("../TestLight2")
-prop_templates = [NodePath("../Chest"), NodePath("../PineSmall"), NodePath("../ShopTent")]
+prop_templates = [NodePath("../ShopTent"), NodePath("../PineSmall"), NodePath("../Chest")]

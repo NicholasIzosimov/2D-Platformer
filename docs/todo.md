@@ -2,6 +2,11 @@
 
 Last updated 2026-10-10 (branch `topdown-prototype`). Numbers = the user's list of 2026-10-08 (below). No fixed order — these are gentle reminders for when there's no clear direction. Remove items when done.
 
+## Current direction (2026-10-13)
+
+1. True-pixel world rendering in `Scenes/Tests/shadow_test.tscn`: world in a low-res SubViewport scaled by a whole number to fill any window, crisp world UI on a full-res layer, animated zoom between steps, sub-pixel smooth camera. Then option-C shadows go with it (see `docs/shadow_test_plan.md`).
+2. New round-based arena scene (old `combat_scene.tscn` kept): map from the existing generator, same combat, rounds spawn x mobs via spawn rules, intermission with shop / breather / retalent (maybe a free campfire), new enemy types. Light mechanic (item 7) parked. Details later — don't over-plan.
+
 ## The user's list (2026-10-08)
 
 Done: 0 (combined incoming damage), 1 (chests + loot window), 2 (gold value: GearRules.item_value from stat weights), 3 (rarity border), 12 (shop).

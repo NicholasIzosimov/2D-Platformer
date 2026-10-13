@@ -1,11 +1,8 @@
 extends SubViewport
-## Shadow test: renders only the height copies (visibility layer 2) of the main world,
-## one texel per art pixel, following the main camera.
 
-const HEIGHT_LAYER_BIT: int = 1 # bit 1 = layer 2
+const HEIGHT_LAYER_BIT: int = 1
 
 @export var main_camera: Camera2D
-@onready var buffer_camera: Camera2D = $BufferCamera
 
 func _ready() -> void:
 	var main_view: Viewport = main_camera.get_viewport()
@@ -14,9 +11,17 @@ func _ready() -> void:
 	render_target_update_mode = SubViewport.UPDATE_ALWAYS
 	canvas_cull_mask = 1 << HEIGHT_LAYER_BIT
 	main_view.set_canvas_cull_mask_bit(HEIGHT_LAYER_BIT, false)
+	RenderingServer.global_shader_parameter_set("shadow_buffer", get_texture())
+	connect_sync.call_deferred()
 
-func _process(_delta: float) -> void:
-	var view_size := Vector2i((main_camera.get_viewport().get_visible_rect().size / main_camera.zoom).ceil())
+func sync_to_main_view() -> void:
+	var main_view: Viewport = main_camera.get_viewport()
+	var view_size := Vector2i((main_view.get_visible_rect().size / main_camera.zoom).ceil())
 	if size != view_size:
 		size = view_size
-	buffer_camera.global_position = main_camera.get_screen_center_position()
+	canvas_transform = Transform2D().scaled(Vector2.ONE / main_camera.zoom) * main_view.canvas_transform
+	var corner: Vector2 = canvas_transform.affine_inverse() * Vector2.ZERO
+	RenderingServer.global_shader_parameter_set("shadow_buffer_rect", Vector4(corner.x, corner.y, size.x, size.y))
+
+func connect_sync() -> void:
+	RenderingServer.frame_pre_draw.connect(sync_to_main_view)

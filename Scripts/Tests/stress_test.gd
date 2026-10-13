@@ -6,16 +6,11 @@ extends Node
 @export var prop_templates: Array[Node2D] = []
 @export var camera_speed: float = 200.0
 @export var spread: float = 300.0
+
 @onready var stats_label: Label = %StatsLabel
 
-var base_size: Vector2i
-var base_zoom: Vector2
 var light_count: int = 0
 var prop_count: int = 0
-
-func _ready() -> void:
-	base_size = get_window().content_scale_size
-	base_zoom = camera.zoom
 
 func _process(delta: float) -> void:
 	var move := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
@@ -35,8 +30,6 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		spawn_lights(5)
 	elif key.keycode == KEY_P:
 		spawn_props(10)
-	elif key.keycode == KEY_V:
-		toggle_pixel_mode()
 
 func random_point() -> Vector2:
 	var offset := Vector2(randf_range(-spread, spread), randf_range(-spread, spread) * 0.6)
@@ -58,16 +51,3 @@ func spawn_props(count: int) -> void:
 		prop.position = random_point()
 		world.add_child(prop)
 		prop_count += 1
-
-func toggle_pixel_mode() -> void:
-	var window := get_window()
-	if window.content_scale_mode == Window.CONTENT_SCALE_MODE_VIEWPORT:
-		window.content_scale_mode = Window.CONTENT_SCALE_MODE_CANVAS_ITEMS
-		window.content_scale_stretch = Window.CONTENT_SCALE_STRETCH_FRACTIONAL
-		window.content_scale_size = base_size
-		camera.zoom = base_zoom
-	else:
-		window.content_scale_mode = Window.CONTENT_SCALE_MODE_VIEWPORT
-		window.content_scale_stretch = Window.CONTENT_SCALE_STRETCH_INTEGER
-		window.content_scale_size = Vector2i(Vector2(base_size) / base_zoom)
-		camera.zoom = Vector2.ONE

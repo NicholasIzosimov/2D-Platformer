@@ -19,11 +19,13 @@ func _process(_delta: float) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if not follow_mouse:
 		return
-	if event is InputEventMouseButton and event.pressed:
-		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-			height = minf(height + height_step, max_height)
-		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-			height = maxf(height - height_step, min_height)
+	var button := event as InputEventMouseButton
+	if button == null or not button.pressed or not button.shift_pressed:
+		return
+	if button.button_index == MOUSE_BUTTON_WHEEL_UP:
+		height = minf(height + height_step, max_height)
+	elif button.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+		height = maxf(height - height_step, min_height)
 
 func _draw() -> void:
 	draw_circle(Vector2.ZERO, 1.5, Color.WHITE)

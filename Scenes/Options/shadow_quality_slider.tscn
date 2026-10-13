@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://b7twwgtn2kipo"]
+
+[ext_resource type="Script" uid="uid://d1bmedcttd4wb" path="res://Scripts/shadow_quality_slider.gd" id="1_1sccd"]
+
+[node name="ShadowQualitySlider" type="HBoxContainer" unique_id=1051514866]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_1sccd")
+
+[node name="Label" type="Label" parent="." unique_id=1368558873]
+layout_mode = 2
+text = "Shadows"
+
+[node name="Slider" type="HSlider" parent="." unique_id=913198797]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+tick_count = 5
+ticks_on_borders = true
+
+[node name="ValueLabel" type="Label" parent="." unique_id=2126210524]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
