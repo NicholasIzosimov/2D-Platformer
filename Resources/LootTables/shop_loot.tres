@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="LootTable" format=3 uid="uid://b3ok7jjys4gl3"]
+
+[ext_resource type="Script" uid="uid://0flf12yjfjnx" path="res://Scripts/ResourceScripts/loot_table.gd" id="1_qjj2a"]
+[ext_resource type="Resource" uid="uid://e35u731gdcaj" path="res://Resources/LootTables/global_loot.tres" id="2_1f1iy"]
+[ext_resource type="Script" uid="uid://ds4vabwfl1g5r" path="res://Scripts/ResourceScripts/gear_template.gd" id="2_bxn8r"]
+
+[resource]
+script = ExtResource("1_qjj2a")
+item_chance = 1.0
+additional_loot_tables = Array[ExtResource("1_qjj2a")]([ExtResource("2_1f1iy")])
+metadata/_custom_type_script = "uid://0flf12yjfjnx"

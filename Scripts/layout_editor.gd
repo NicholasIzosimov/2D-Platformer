@@ -24,6 +24,8 @@ func _ready() -> void:
 	for child in get_parent().get_children():
 		if child is Control and child != self:
 			elements.append(child)
+			if child is DraggableWindow:
+				child.moved.connect(_on_window_moved.bind(child))
 	build_toolbar()
 	load_layout()
 	if unlock_button:
@@ -151,3 +153,8 @@ func save_layout() -> void:
 func _process(_delta: float) -> void:
 	if visible:
 		update_handles()
+
+
+func _on_window_moved(delta: Vector2, element: Control) -> void:
+	moves[element] = moves.get(element, Vector2.ZERO) + delta
+	save_layout()

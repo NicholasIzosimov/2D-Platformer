@@ -6,12 +6,16 @@
 [ext_resource type="Resource" uid="uid://bl5puig3wbk7d" path="res://Resources/Units/base_unit.tres" id="2_20lhf"]
 [ext_resource type="Script" uid="uid://dmdwmq035cfu4" path="res://Scripts/combat_text_spawner.gd" id="3_e33bx"]
 [ext_resource type="PackedScene" uid="uid://bt46q120wyags" path="res://Scenes/FloatingNumber.tscn" id="4_u1ivc"]
+[ext_resource type="FontFile" uid="uid://bd7tflqq3dcyc" path="res://Assets/Fonts/fat_pixel_font.png" id="5_4rtpo"]
 [ext_resource type="Script" uid="uid://dmh1qeuf6bior" path="res://Scripts/screen_sized.gd" id="6_bn6fq"]
 [ext_resource type="Script" uid="uid://cdnq7w2sfu37e" path="res://Scripts/combat_handler.gd" id="6_ppost"]
 [ext_resource type="Script" uid="uid://cehn4vot2wra" path="res://Scripts/debuff_container.gd" id="8_b652i"]
 [ext_resource type="Script" uid="uid://flt2a5sho8vk" path="res://Scripts/level_label.gd" id="8_raq51"]
+[ext_resource type="SpriteFrames" uid="uid://bmhlsjo540hqv" path="res://Resources/Animations/action_icons.tres" id="9_4rtpo"]
+[ext_resource type="Script" uid="uid://c3troea6b8i1f" path="res://Scripts/action_icon.gd" id="9_742ik"]
 [ext_resource type="Resource" uid="uid://c2cw31vjqcfij" path="res://Resources/UI/level_colors.tres" id="9_tuv1f"]
 [ext_resource type="PackedScene" uid="uid://d0cpyodsk2niv" path="res://Scenes/debuff_icon.tscn" id="9_wmjhw"]
+[ext_resource type="Script" uid="uid://c7a2c75i16i6g" path="res://Scripts/name_label.gd" id="11_lwciq"]
 [ext_resource type="Texture2D" uid="uid://hk2fgwo38y5n" path="res://Assets/UI/InCombat.png" id="12_v8cch"]
 [ext_resource type="Script" uid="uid://crh1ik4k8qyl3" path="res://Scripts/combat_icon.gd" id="13_bn6fq"]
 [ext_resource type="Script" uid="uid://cn744cbf4xl18" path="res://Scripts/target_indicator.gd" id="13_ikfb6"]
@@ -22,12 +26,12 @@
 [ext_resource type="Script" uid="uid://cjco03it7q8av" path="res://Scripts/auto_attack.gd" id="17_pim51"]
 [ext_resource type="Script" uid="uid://bisjirjysnn7u" path="res://Scripts/effect_visuals.gd" id="17_tuv1f"]
 [ext_resource type="Script" uid="uid://c72bbgdje377a" path="res://Scripts/combat_state.gd" id="18_raq51"]
-[ext_resource type="Script" uid="uid://dpikkc32pafh7" path="res://Scripts/unit_shadow.gd" id="19_dcdq5"]
-[ext_resource type="Script" uid="uid://cdsgdkr5k1exw" path="res://Scripts/shadow_caster.gd" id="24_k6v23"]
+[ext_resource type="PackedScene" uid="uid://bpisofceoji0e" path="res://Scenes/Components/shadow.tscn" id="26_742ik"]
+[ext_resource type="Script" uid="uid://7h1m2cexvom8" path="res://Scripts/shade_receiver.gd" id="28_omdcc"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bn6fq"]
-radius = 8.14
-height = 16.29
+radius = 1.5
+height = 14.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u1ivc"]
 bg_color = Color(0.36862746, 0.64705884, 0.7254902, 0.22352941)
@@ -36,7 +40,7 @@ bg_color = Color(0.36862746, 0.64705884, 0.7254902, 0.22352941)
 bg_color = Color(0.21365625, 0.6601902, 0.7824375, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uqujc"]
-bg_color = Color(0.6862745, 0.5529412, 0.6431373, 0.2901961)
+bg_color = Color(0.21960784, 0.023529412, 0.03529412, 0.7294118)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
@@ -73,7 +77,9 @@ size = Vector2(17.5, 27)
 motion_mode = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1642381980]
-position = Vector2(0, -8)
+z_index = 4
+position = Vector2(0, -1.5)
+rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_bn6fq")
 
 [node name="UnitStats" type="Node" parent="." unique_id=937660047]
@@ -83,6 +89,9 @@ unit_data = ExtResource("2_20lhf")
 [node name="CombatTextSpawner" type="Node" parent="." unique_id=1163598000]
 script = ExtResource("3_e33bx")
 floating_number_scene = ExtResource("4_u1ivc")
+spread = 10.0
+drift = 20.0
+damage_font = ExtResource("5_4rtpo")
 
 [node name="CombatHandler" type="Node" parent="." unique_id=1304008402]
 script = ExtResource("6_ppost")
@@ -119,6 +128,14 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_x1v5g")
 show_percentage = false
 script = ExtResource("1_x1v5g")
 
+[node name="ActionIcon" type="AnimatedSprite2D" parent="Bars/HealthBar" unique_id=483853817]
+texture_filter = 1
+position = Vector2(35, -35)
+sprite_frames = ExtResource("9_4rtpo")
+animation = &"quest_target"
+frame_progress = 0.68914986
+script = ExtResource("9_742ik")
+
 [node name="LevelLabel" type="Label" parent="Bars/HealthBar" unique_id=803717281]
 layout_mode = 1
 anchors_preset = 7
@@ -127,13 +144,14 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -17.5
-offset_top = 5.0
+offset_top = 3.0
 offset_right = 17.5
-offset_bottom = 25.0
+offset_bottom = 23.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/outline_size = 4
-theme_override_font_sizes/font_size = 21
+theme_override_font_sizes/font_size = 14
+text = "lv."
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("8_raq51")
@@ -156,6 +174,22 @@ texture = ExtResource("12_v8cch")
 expand_mode = 1
 stretch_mode = 5
 script = ExtResource("13_bn6fq")
+
+[node name="NameLabel" type="Label" parent="Bars/HealthBar" unique_id=1679015921]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -26.5
+offset_top = -17.0
+offset_right = 26.5
+offset_bottom = 9.0
+grow_horizontal = 2
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 14
+text = "Name"
+horizontal_alignment = 1
+script = ExtResource("11_lwciq")
 
 [node name="TargetArrows" type="Node2D" parent="Bars" unique_id=1589329949]
 visible = false
@@ -223,15 +257,6 @@ position = Vector2(0, -16)
 sprite_frames = ExtResource("14_7ftqo")
 animation = &"wraith_combat_run"
 
-[node name="Shadow" type="Node2D" parent="." unique_id=1046130201]
-script = ExtResource("19_dcdq5")
-length_bonus = 4.0
-near_width = 1.0
-far_width = 2.0
-smoothing = 50000.0
-enter_strength = 0.05
-leave_strength = 0.01
-
 [node name="CombatText" type="Node2D" parent="." unique_id=415712433]
 script = ExtResource("6_bn6fq")
 pivot = Vector2(0, -40)
@@ -273,6 +298,8 @@ script = ExtResource("17_pim51")
 [node name="CombatState" type="Node" parent="." unique_id=1589695511]
 script = ExtResource("18_raq51")
 
-[node name="ShadowCaster" type="Node" parent="." unique_id=686072573]
-script = ExtResource("24_k6v23")
-max_shadows = 3
+[node name="ShadowCaster" parent="." unique_id=2134996495 instance=ExtResource("26_742ik")]
+
+[node name="ShadeReceiver" type="Node" parent="." unique_id=760237404]
+script = ExtResource("28_omdcc")
+shade_strength = 6.0

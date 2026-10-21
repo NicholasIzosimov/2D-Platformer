@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://b458vgrq526vh"]
+
+[ext_resource type="Texture2D" uid="uid://nd12inl3cgex" path="res://Resources/Lights/Textures/soft_glow.tres" id="1_sasgw"]
+[ext_resource type="Script" uid="uid://kf6hbrgon8v7" path="res://Scripts/light_source.gd" id="2_ownlh"]
+
+[node name="Light" type="PointLight2D" unique_id=80748638]
+texture = ExtResource("1_sasgw")
+script = ExtResource("2_ownlh")

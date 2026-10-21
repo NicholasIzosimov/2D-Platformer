@@ -1,0 +1,111 @@
+[gd_scene format=3 uid="uid://baavtoqbn0eno"]
+
+[ext_resource type="PackedScene" uid="uid://ccc1hmmxmapdf" path="res://Scenes/prop.tscn" id="1_l6uoc"]
+[ext_resource type="Shader" uid="uid://ch7tgdw66vh3x" path="res://Resources/Shaders/sway.gdshader" id="2_p8mju"]
+[ext_resource type="Script" uid="uid://dwdypp0g5jvbv" path="res://Scripts/lantern.gd" id="2_yegrl"]
+[ext_resource type="Texture2D" uid="uid://bi8h71iwuvi4n" path="res://Assets/WorldObjects/Environment/Lights/HangingLantern.png" id="3_p8mju"]
+[ext_resource type="PackedScene" uid="uid://b458vgrq526vh" path="res://Scenes/Components/light.tscn" id="4_dxve5"]
+[ext_resource type="Resource" uid="uid://08vw4ytl7t1f" path="res://Resources/Lights/lantern.tres" id="5_26qvn"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_p8mju"]
+shader = ExtResource("2_p8mju")
+shader_parameter/strength = 0.01
+shader_parameter/speed = 2.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dxve5"]
+atlas = ExtResource("3_p8mju")
+region = Rect2(0, 0, 16, 21)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_26qvn"]
+atlas = ExtResource("3_p8mju")
+region = Rect2(16, 0, 16, 21)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yegrl"]
+atlas = ExtResource("3_p8mju")
+region = Rect2(32, 0, 16, 21)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x7tqi"]
+atlas = ExtResource("3_p8mju")
+region = Rect2(48, 0, 16, 21)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c5465"]
+atlas = ExtResource("3_p8mju")
+region = Rect2(64, 0, 16, 21)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mg6n6"]
+atlas = ExtResource("3_p8mju")
+region = Rect2(80, 0, 16, 21)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g5cpy"]
+atlas = ExtResource("3_p8mju")
+region = Rect2(96, 0, 16, 21)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_47wrw"]
+atlas = ExtResource("3_p8mju")
+region = Rect2(112, 0, 16, 21)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pm0ju"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dxve5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_26qvn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yegrl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x7tqi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c5465")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mg6n6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g5cpy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_47wrw")
+}],
+"loop": 1,
+"name": &"swing",
+"speed": 9.0
+}]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yegrl"]
+resource_local_to_scene = true
+shader = ExtResource("2_p8mju")
+shader_parameter/strength = 0.03
+shader_parameter/speed = 1.2
+
+[node name="Lantern" unique_id=1413736599 instance=ExtResource("1_l6uoc")]
+script = ExtResource("2_yegrl")
+hook_height = 21.0
+blocks_cell = false
+
+[node name="Sprite" type="AnimatedSprite2D" parent="." index="0" unique_id=358982084]
+z_index = 1
+material = SubResource("ShaderMaterial_p8mju")
+position = Vector2(-8, -2)
+sprite_frames = SubResource("SpriteFrames_pm0ju")
+animation = &"swing"
+autoplay = "swing"
+frame_progress = 0.40799928
+centered = false
+
+[node name="SwayMaterial" parent="." index="2" unique_id=1144367935]
+material = SubResource("ShaderMaterial_yegrl")
+
+[node name="CollisionShape2D" parent="StaticBody2D" parent_id_path=PackedInt32Array(498950714) index="0" unique_id=2025183214]
+disabled = true
+
+[node name="ShadowCaster" parent="." index="4" unique_id=2134996495]
+sources = Array[NodePath]([NodePath("../Sprite")])
+
+[node name="Light" parent="." index="5" unique_id=80748638 instance=ExtResource("4_dxve5")]
+position = Vector2(1, 19)
+preset = ExtResource("5_26qvn")

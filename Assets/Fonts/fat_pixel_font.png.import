@@ -1,0 +1,25 @@
+[remap]
+
+importer="font_data_image"
+type="FontFile"
+uid="uid://bd7tflqq3dcyc"
+path="res://.godot/imported/fat_pixel_font.png-bda1be52fc181cf71555055f61f17ef0.fontdata"
+
+[deps]
+
+source_file="res://Assets/Fonts/fat_pixel_font.png"
+dest_files=["res://.godot/imported/fat_pixel_font.png-bda1be52fc181cf71555055f61f17ef0.fontdata"]
+
+[params]
+
+character_ranges=PackedStringArray("0x20-0x22", "0x27", "0x2B-0x3C", "0x3E-0x3F", "0x41-0x5D", "0x5F", "0x61-0x7A")
+kerning_pairs=PackedStringArray()
+columns=16
+rows=5
+image_margin=Rect2i(0, 0, 0, 0)
+character_margin=Rect2i(0, 0, 0, 0)
+ascent=0
+descent=0
+fallbacks=[]
+compress=true
+scaling_mode=2

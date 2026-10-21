@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://d33iosv4iwsx5"]
+
+[ext_resource type="Script" uid="uid://dnadvjvkiranr" path="res://Scripts/window_header.gd" id="1_ka7fp"]
+
+[node name="WindowHeader" type="HBoxContainer" unique_id=635836019]
+script = ExtResource("1_ka7fp")
+
+[node name="Title" type="Label" parent="." unique_id=861392260]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CloseButton" type="Button" parent="." unique_id=1566191596]
+custom_minimum_size = Vector2(24, 24)
+custom_maximum_size = Vector2(24, 24)
+layout_mode = 2
+text = "X"

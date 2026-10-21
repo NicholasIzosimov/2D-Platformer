@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://wxpcu4h7aybc"]
+
+[ext_resource type="Script" uid="uid://chrtasspmyjtx" path="res://Scripts/shop_slot.gd" id="1_w5lup"]
+[ext_resource type="PackedScene" uid="uid://cr3sddidhicqq" path="res://Scenes/gear_slot.tscn" id="2_e7srb"]
+[ext_resource type="Texture2D" uid="uid://du02qapws2xaj" path="res://Assets/UI/gold_coin.png" id="3_vefh6"]
+
+[node name="ShopSlot" type="VBoxContainer" unique_id=1754700095]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_w5lup")
+
+[node name="Slot" parent="." unique_id=930356990 instance=ExtResource("2_e7srb")]
+layout_mode = 2
+
+[node name="Price" type="HBoxContainer" parent="." unique_id=1703881292]
+layout_mode = 2
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="Price" unique_id=385729530]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("3_vefh6")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="Price" unique_id=1261227618]
+layout_mode = 2

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="TalentData" format=3 uid="uid://cuhj7mtxo4eqr"]
+
+[ext_resource type="Script" uid="uid://ddk5gmr8tu4q7" path="res://Scripts/ResourceScripts/ability_mod.gd" id="1_5l60k"]
+[ext_resource type="Script" uid="uid://ccvwsxd5vfeut" path="res://Scripts/ResourceScripts/talent_data.gd" id="2_giy77"]
+[ext_resource type="Texture2D" uid="uid://pc8b3j511ys2" path="res://Assets/AbilityIcons/sweep.png" id="2_qrmh0"]
+
+[resource]
+script = ExtResource("2_giy77")
+name = "Hasty"
+icon = ExtResource("2_qrmh0")
+max_ranks = 5
+stat_bonuses = Dictionary[int, float]({
+10: 1.0
+})
+metadata/_custom_type_script = "uid://ccvwsxd5vfeut"

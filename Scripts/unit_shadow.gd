@@ -1,8 +1,8 @@
 extends Node2D
 
 const SHADER: Shader = preload("res://Resources/Shaders/unit_shadow.gdshader")
+const SWAY_SHADER: Shader = preload("res://Resources/Shaders/sway.gdshader")
 @export var squash: float = 0.25
-@export var shadow_color: Color = Color(0, 0, 0, 1)
 @export var ambient_alpha: float = 0.15
 @export var lit_alpha: float = 0.45
 @export var min_lit_squash: float = 0.4
@@ -18,23 +18,34 @@ const SHADER: Shader = preload("res://Resources/Shaders/unit_shadow.gdshader")
 @export var enter_strength: float = 0.1
 @export var leave_strength: float = 0.05
 @export var share_contrast: float = 2.0
-var source: AnimatedSprite2D
+var source: Node2D
 var light_angle: float = PI / 2.0
 var length: float = 0.0
 var shown_light: Node = null
 var shown_ambient: bool = false
 var fade: float = 0.0
 var bounds: Rect2 = Rect2()
+var shown_alpha: float = 0.0
+var shown_lit: float = 0.0
+var unit: Node2D
+var layers: ShadowLayers
+var cast: Dictionary = {}
+static var image_cache: Dictionary = {}
 
 func _ready() -> void:
-	source = get_node("../AnimatedSprite2D")
-	z_index = -1
+	add_to_group(Lighting.SHADOW_GROUP)
+	layers = get_tree().get_first_node_in_group(ShadowLayers.GROUP)
 	length = squash
 	material = ShaderMaterial.new()
 	material.shader = SHADER
+	apply_sway()
+	
+func _physics_process(_delta: float) -> void:
+	if is_instance_valid(unit):
+		global_position = unit.global_position
 
 func update_shadow(info: Dictionary, allow_ambient: bool, delta: float) -> void:
-	if shown_light != null and not is_instance_valid(shown_light):
+	if not is_instance_valid(shown_light):
 		shown_light = null
 	var t: float = 1.0 - exp(-smoothing * delta)
 	var light: Node = info.get("light")
@@ -57,36 +68,39 @@ func update_shadow(info: Dictionary, allow_ambient: bool, delta: float) -> void:
 	if showing_info:
 		light_angle = lerp_angle(light_angle, target_angle, t)
 		length = lerp(length, lit_length, t)
+		shown_lit = smoothstep(0.0, 1.0, strength) * info.get("spread", 1.0)
+		shown_alpha = lit_alpha * info.get("darkness", 1.0) * pow(info.get("share", 1.0), share_contrast)
 	elif shown_light == null:
 		length = lerp(length, squash, t)
+		shown_lit = 0.0
+		shown_alpha = ambient_alpha if shown_ambient else 0.0
 	var direction: Vector2 = Vector2.from_angle(light_angle) if shown_light else Vector2.DOWN
-	var lit_amount: float = smoothstep(0.0, 1.0, strength) if showing_info else 0.0
-	var alpha: float = 0.0
-	if shown_light:
-		alpha = lit_alpha * info.get("darkness", 1.0) * pow(info.get("share", 1.0), share_contrast)
-	elif shown_ambient:
-		alpha = ambient_alpha
-	modulate = Color(shadow_color, alpha * fade * source.modulate.a)
+	modulate = Color(shown_alpha, shown_alpha, shown_alpha, fade * source.modulate.a)
 	visible = source.visible
-	update_projection(direction * length, lit_amount * info.get("spread", 1.0))
+	if layers:
+		layers.place(self, shown_light)
+	update_projection(direction * length, shown_lit)
 
 func update_projection(shift: Vector2, lit_amount: float) -> void:
-	var texture: Texture2D = source.sprite_frames.get_frame_texture(source.animation, source.frame)
+	var texture: Texture2D = source.sprite_frames.get_frame_texture(source.animation, source.frame) if source is AnimatedSprite2D else source.texture
 	if texture == null:
 		return
 	if abs(shift.y) < min_vertical:
 		shift.y = min_vertical if shift.y >= 0.0 else -min_vertical
-	var frame_size: Vector2 = texture.get_size()
-	var body_size: Vector2 = frame_size * source.scale.abs()
-	var center_offset: Vector2 = source.offset + (Vector2.ZERO if source.centered else frame_size / 2.0)
-	var body_center: Vector2 = source.position + center_offset * source.scale - position
-	var top_height: float = max(body_size.y / 2.0 - body_center.y, 1.0)
 	var atlas: Texture2D = texture
-	var region := Vector4(0.0, 0.0, 1.0, 1.0)
+	var frame_rect := Rect2(Vector2.ZERO, texture.get_size())
 	if texture is AtlasTexture:
 		atlas = texture.atlas
-		var atlas_size: Vector2 = atlas.get_size()
-		region = Vector4(texture.region.position.x / atlas_size.x, texture.region.position.y / atlas_size.y, texture.region.size.x / atlas_size.x, texture.region.size.y / atlas_size.y)
+		frame_rect = texture.region
+	elif source is Sprite2D and source.region_enabled:
+		frame_rect = source.region_rect
+	var atlas_size: Vector2 = atlas.get_size()
+	var region := Vector4(frame_rect.position.x / atlas_size.x, frame_rect.position.y / atlas_size.y, frame_rect.size.x / atlas_size.x, frame_rect.size.y / atlas_size.y)
+	var frame_size: Vector2 = frame_rect.size
+	var body_size: Vector2 = frame_size * source.scale.abs()
+	var center_offset: Vector2 = source.offset + (Vector2.ZERO if source.centered else frame_size / 2.0)
+	var body_center: Vector2 = source.position + center_offset * source.scale
+	var top_height: float = max(body_size.y / 2.0 - body_center.y, 1.0)
 	var far: float = lerp(1.0, far_width, lit_amount)
 	material.set_shader_parameter("body", atlas)
 	material.set_shader_parameter("region", region)
@@ -101,7 +115,55 @@ func update_projection(shift: Vector2, lit_amount: float) -> void:
 	var half: float = body_size.x * 0.5 * max(1.0, far) + abs(body_center.x)
 	var tip: Vector2 = shift * top_height
 	bounds = Rect2(Vector2(-half, 0.0), Vector2.ZERO).expand(Vector2(half, 0.0)).expand(tip + Vector2(-half, 0.0)).expand(tip + Vector2(half, 0.0)).grow(2.0)
+	cast = {"atlas": atlas, "region": region, "center": body_center, "size": body_size, "shift": shift, 
+	"top": top_height, "near": lerp(1.0, near_width, lit_amount), "far": far, "tip": tip_fade * lit_amount, 
+	"flip": source.flip_h, "reach": tip.length() + half}
 	queue_redraw()
 
 func _draw() -> void:
 	draw_rect(bounds, Color.WHITE)
+
+func apply_sway() -> void:
+	if source == null or not source.material is ShaderMaterial:
+		return
+	var sway: ShaderMaterial = source.material
+	if sway.shader != SWAY_SHADER:
+		return
+	var pos: Vector2 = source.global_position
+	material.set_shader_parameter("sway_strength", sway.get_shader_parameter("strength"))
+	material.set_shader_parameter("sway_speed", sway.get_shader_parameter("speed"))
+	material.set_shader_parameter("sway_phase", pos.x * 0.05 + pos.y * 0.03)
+	material.set_shader_parameter("sway_pivot", -source.position.y)
+
+func shade_at(point: Vector2) -> float:
+	var strength: float = shown_alpha * fade
+	if not visible or strength <= 0.01 or cast.is_empty():
+		return 0.0
+	var ground: Vector2 = point - global_position
+	if ground.length() > cast.reach:
+		return 0.0
+	var h: float = ground.y / cast.shift.y
+	if h < 0.0 or h > cast.top:
+		return 0.0
+	var hn: float = h / cast.top
+	var x: float = (ground.x - cast.shift.x * h) / lerp(cast.near, cast.far, hn)
+	var uv: Vector2 = (Vector2(x, -h) - cast.center) / cast.size + Vector2(0.5, 0.5)
+	if cast.flip:
+		uv.x = 1.0 - uv.x
+	if uv.x < 0.0 or uv.x > 1.0 or uv.y < 0.0 or uv.y > 1.0:
+		return 0.0
+	return strength * sample_alpha(uv) * lerp(1.0, 1.0 - cast.tip, hn)
+
+func sample_alpha(uv: Vector2) -> float:
+	var atlas: Texture2D = cast.atlas
+	var image: Image = image_cache.get(atlas)
+	if image == null:
+		image = atlas.get_image()
+		if image.is_compressed():
+			image.decompress()
+		image_cache[atlas] = image
+	var region: Vector4 = cast.region
+	var size: Vector2 = Vector2(image.get_size())
+	var pixel := Vector2i((Vector2(region.x, region.y) + uv * Vector2(region.z, region.w)) * size)
+	pixel = pixel.clamp(Vector2i.ZERO, image.get_size() - Vector2i.ONE)
+	return image.get_pixelv(pixel).a

@@ -13,6 +13,8 @@
 [ext_resource type="PackedScene" uid="uid://d0cpyodsk2niv" path="res://Scenes/debuff_icon.tscn" id="11_4f5kr"]
 [ext_resource type="Texture2D" uid="uid://bfcikulr0jk3b" path="res://Assets/AbilityIcons/GushingWound.png" id="11_piegi"]
 [ext_resource type="Texture2D" uid="uid://s8yki6rbu1rc" path="res://Assets/AbilityIcons/warmth.png" id="12_i2avg"]
+[ext_resource type="PackedScene" uid="uid://o0hb40hrjtx0" path="res://Scenes/quest_log.tscn" id="14_1a2va"]
+[ext_resource type="PackedScene" uid="uid://bepc14y7wgkan" path="res://Scenes/bag_pane.tscn" id="15_ssfue"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lw07u"]
 bg_color = Color(0.19769236, 0.18554819, 0.20661426, 0.67058825)
@@ -82,9 +84,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -200.0
-offset_top = 460.0
+offset_top = 345.0
 offset_right = 200.0
-offset_bottom = 483.0
+offset_bottom = 368.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "In Combat!"
@@ -172,8 +174,8 @@ anchors_preset = 14
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_top = 280.0
-offset_bottom = 280.0
+offset_top = 500.0
+offset_bottom = 500.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
@@ -211,19 +213,22 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="UnlockUIButton" type="Button" parent="." unique_id=1205660125]
+custom_minimum_size = Vector2(200, 50)
 layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
+offset_left = 48.0
+offset_top = 1144.0
+offset_right = 248.0
+offset_bottom = 1194.0
 focus_mode = 0
 text = "Unlock UI"
 
 [node name="Debuffs" type="HFlowContainer" parent="." unique_id=389325966 groups=["layout_fit_content", "layout_preview"]]
 custom_minimum_size = Vector2(136, 24)
 layout_mode = 1
-offset_left = 300.0
-offset_top = 53.0
-offset_right = 600.0
-offset_bottom = 77.0
+offset_left = 612.0
+offset_top = 758.00006
+offset_right = 912.0
+offset_bottom = 782.00006
 scale = Vector2(1.5, 1.5)
 alignment = 2
 script = ExtResource("10_5ep0j")
@@ -238,9 +243,10 @@ preview_interval = 3.0
 [node name="Buffs" type="HFlowContainer" parent="." unique_id=783887801 groups=["layout_fit_content", "layout_preview"]]
 custom_minimum_size = Vector2(136, 24)
 layout_mode = 1
-offset_left = 300.0
-offset_right = 600.0
-offset_bottom = 24.0
+offset_left = 611.0
+offset_top = 906.00006
+offset_right = 911.0
+offset_bottom = 930.00006
 scale = Vector2(1.5, 1.5)
 alignment = 2
 script = ExtResource("10_5ep0j")
@@ -262,3 +268,23 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("9_7gr8i")
 unlock_button = NodePath("../UnlockUIButton")
+
+[node name="QuestLog" parent="." unique_id=66372932 instance=ExtResource("14_1a2va")]
+layout_mode = 0
+offset_left = 2047.0
+offset_top = 345.0
+offset_right = 2263.0
+offset_bottom = 561.0
+
+[node name="BagPane" parent="." unique_id=1487114124 instance=ExtResource("15_ssfue")]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -239.0
+offset_top = -247.0
+offset_right = -189.0
+offset_bottom = -197.0
+scale = Vector2(1.5, 1.5)

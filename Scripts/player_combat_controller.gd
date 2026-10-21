@@ -3,6 +3,8 @@ extends Node
 @export var hud: Node
 @export var error_text: Node
 @export var cast_bar: Node
+@export var combat_cursor: Texture2D = preload("res://Assets/UI/CombatPointer.png")
+@export var combat_cursor_hotspot: Vector2 = Vector2(6, 6)
 var current_target: Node
 var hovered_target: Node
 signal target_changed(target)
@@ -13,6 +15,8 @@ func _ready() -> void:
 	combat_handler.cast_started.connect(_on_cast_started)
 	combat_handler.cast_failed.connect(func(reason): error_text.show_message(reason))
 	get_node("../player/Endurance").not_enough_endurance.connect(func(): error_text.show_message("Not enough endurance"))
+	get_node("../player/Interactor").interact_failed.connect(func(reason): error_text.show_message(reason))
+	PlayerState.action_failed.connect(func(reason): error_text.show_message(reason))
 	hud.slot_activated.connect(try_cast_slot)
 	target_changed.connect(hud.show_target)
 	
@@ -25,7 +29,9 @@ func _on_cast_cancelled() -> void:
 	
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
-		set_target(null)
+		if is_instance_valid(current_target):
+			set_target(null)
+			get_viewport().set_input_as_handled()
 		return
 	if Input.is_action_just_pressed("tab_target"):
 		cycle_target()
@@ -182,3 +188,7 @@ func update_hover() -> void:
 	hovered_target = hovered
 	if is_instance_valid(hovered_target):
 		hovered_target.get_node("TargetIndicator").set_hovered(true)
+	Input.set_custom_mouse_cursor(combat_cursor if is_instance_valid(hovered_target) else null, Input.CURSOR_ARROW, combat_cursor_hotspot)
+
+func _exit_tree() -> void:
+	Input.set_custom_mouse_cursor(null)

@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://ci10uuas4tfpx"]
+
+[ext_resource type="Script" uid="uid://bfrtmglbrgrl7" path="res://Scripts/options_menu.gd" id="1_j5ujc"]
+[ext_resource type="PackedScene" uid="uid://b7twwgtn2kipo" path="res://Scenes/Options/shadow_quality_slider.tscn" id="2_anhmu"]
+[ext_resource type="PackedScene" uid="uid://c6o4xkaemis6w" path="res://Scenes/Options/vsync_toggle.tscn" id="2_b02ho"]
+
+[node name="OptionsMenu" type="PanelContainer" unique_id=1834041540]
+custom_minimum_size = Vector2(700, 400)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -350.0
+offset_top = -200.0
+offset_right = 350.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_j5ujc")
+
+[node name="Tabs" type="TabContainer" parent="." unique_id=358343002]
+layout_mode = 2
+current_tab = 0
+
+[node name="Graphics" type="VBoxContainer" parent="Tabs" unique_id=2114576119]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="VSyncToggle" parent="Tabs/Graphics" unique_id=1957680749 instance=ExtResource("2_b02ho")]
+layout_mode = 2
+
+[node name="ShadowQualitySlider" parent="Tabs/Graphics" unique_id=1051514866 instance=ExtResource("2_anhmu")]
+layout_mode = 2

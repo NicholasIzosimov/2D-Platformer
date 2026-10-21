@@ -6,9 +6,11 @@ const DAMAGE_VARIANCE: float = 0.1
 const HEALTH_PER_VIGOR: float = 10.0
 const RATING_PER_PERCENT_BASE: float = 10.0
 const RATING_PER_PERCENT_GROWTH: float = 0.1
+const ARMOR_K_GROWTH: float = 0.1
 @export var unit_data: UnitData
 var values: Dictionary[Stat.Type, float] = {}
 var power_data: PowerData
+var weapon_speed: float = 0.0
 var current_power: float
 var max_power: float
 var current_health: float
@@ -93,7 +95,8 @@ func take_damage(raw_damage: float, crit_multiplier: float = 1.0, from_ability: 
 	if is_dead:
 		return
 	var damage: float = raw_damage * crit_multiplier
-	damage *= 1.0 - get_armor_reduction()
+	var attacker_level: int = source.own_stats.level if source else level
+	damage *= 1.0 - get_armor_reduction(attacker_level)
 	damage *= 1.0 - clamp(get_stat(Stat.Type.DAMAGE_REDUCTION), 0.0, 100.0) / 100.0
 	damage *= randf_range(1.0 - DAMAGE_VARIANCE, 1.0 + DAMAGE_VARIANCE)
 	damage_taken.emit(damage, crit_multiplier, from_ability)
@@ -123,9 +126,10 @@ func heal(amount: float) -> void:
 	current_health = min(current_health + amount, max_health)
 	health_changed.emit(0.0)
 
-func get_armor_reduction() -> float:
+func get_armor_reduction(attacker_level: int = level) -> float:
 	var armor: float = max(get_stat(Stat.Type.ARMOR), 0.0)
-	return ARMOR_MAX * armor / (armor + ARMOR_K)
+	var k: float = ARMOR_K * (1.0 + ARMOR_K_GROWTH * (attacker_level - 1))
+	return ARMOR_MAX * armor / (armor + k)
 
 func rating_to_percent(rating: float) -> float:
 	return rating / (RATING_PER_PERCENT_BASE * (1.0 + RATING_PER_PERCENT_GROWTH * (level - 1)))
@@ -138,3 +142,12 @@ func crit_percent() -> float:
 
 func ability_power() -> float:
 	return get_stat(Stat.Type.PRIMARY) + get_stat(Stat.Type.ABILITY_POWER)
+
+func base_swing_time() -> float:
+	return weapon_speed if weapon_speed > 0.0 else unit_data.base_swing_time
+
+func haste_percent() -> float:
+	return get_stat(Stat.Type.HASTE) + rating_to_percent(get_stat(Stat.Type.HASTE_RATING))
+
+func hasted(time: float) -> float:
+	return time / (1.0 + haste_percent() / 100.0)

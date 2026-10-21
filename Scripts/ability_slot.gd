@@ -20,7 +20,7 @@ func _ready() -> void:
 	combat_handler = get_tree().get_first_node_in_group("player").get_node("CombatHandler")
 	if keybind_action != "":
 		var key_label := Label.new()
-		key_label.text = keybind_text(keybind_action)
+		key_label.text = Keybinds.text(keybind_action)
 		key_label.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
 		key_label.grow_horizontal = Control.GROW_DIRECTION_BEGIN
 		key_label.offset_right = -4
@@ -38,7 +38,6 @@ func set_ability(new_ability: AbilityData) -> void:
 func refresh_look() -> void:
 	var shown: AbilityData = null if dragging else ability
 	icon = shown.icon if shown else null
-	tooltip_text = shown.name if shown else ""
 	if shown == null:
 		self_modulate = EMPTY_TINT
 		material.set_shader_parameter("saturation", 1.0)
@@ -57,7 +56,7 @@ func _process(_delta: float) -> void:
 		var gcd_left: float = combat_handler.gcd_timer.time_left if ability.triggers_gcd else 0.0
 		if gcd_left > waiting:
 			waiting = gcd_left
-			total = combat_handler.gcd_duration
+			total = combat_handler.gcd_timer.wait_time
 	if effect_left > 0.0:
 		bar.tint_progress = EFFECT_TINT
 		bar.value = effect_left / effect_total * 100
@@ -112,16 +111,16 @@ func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
 func _drop_data(_at_position: Vector2, data: Variant) -> void:
 	PlayerState.swap_slots(data["slot_index"], slot_index)
 
-func _make_custom_tooltip(_for_text: String) -> Object:
+func tooltip_sections() -> Array:
 	if ability == null or dragging:
-		return null
-	return RichTooltip.make(build_tooltip())
+		return []
+	return [build_tooltip()]
 
 func build_tooltip() -> String:
 	var lines: Array[String] = ["[b]%s[/b]" % ability.name]
 	if ability.power_cost > 0.0:
 		lines.append("Cost: %d" % ability.power_cost)
-	lines.append("Instant" if ability.cast_time <= 0.0 else "%.1f sec cast" % ability.cast_time)
+	lines.append("Instant" if ability.cast_time <= 0.0 else "%.1f sec cast" % combat_handler.own_stats.hasted(ability.cast_time))
 	if ability.cooldown > 0.0:
 		lines.append("Cooldown: %s" % TimeFormat.short(ability.cooldown))
 	if ability.requires_target:
@@ -134,13 +133,6 @@ func build_tooltip() -> String:
 		lines.append("")
 		lines.append("[color=gray]%s[/color]" % ability.description)
 	return "\n".join(lines)
-
-static func keybind_text(action: String) -> String:
-	for event in InputMap.action_get_events(action):
-		if event is InputEventKey:
-			var code: int = event.physical_keycode if event.physical_keycode != 0 else event.keycode
-			return OS.get_keycode_string(code)
-	return ""
 	
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_DRAG_END and dragging:

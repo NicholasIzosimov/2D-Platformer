@@ -12,6 +12,7 @@ enum Category {COMBAT, UTILITY}
 @export var triggers_gcd: bool
 @export var uses_hitbox: bool = false
 @export var requires_target: bool = true
+@export var uses_weapon_damage: bool = false
 @export var damage: float = 0.0
 @export var ap_scaling: float = 1.0
 @export var cooldown: float

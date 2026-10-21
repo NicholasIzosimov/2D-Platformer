@@ -2,6 +2,8 @@ class_name Lighting
 extends RefCounted
 
 const GROUP: String = "light_sources"
+const CASTER_GROUP: String = "shadow_casters"
+const SHADOW_GROUP: String = "cast_shadows"
 
 static func lights_at(tree: SceneTree, at: Vector2, ignore: Node = null) -> Array[Dictionary]:
 	var result: Array[Dictionary] = []
@@ -21,3 +23,6 @@ static func light_at(tree: SceneTree, at: Vector2, ignore: Node = null) -> float
 	for info in lights_at(tree, at, ignore):
 		total += info.strength
 	return min(total, 1.0)
+
+static func wake_casters(tree: SceneTree, light: Node2D) -> void:
+	tree.call_group(CASTER_GROUP, "wake", light)

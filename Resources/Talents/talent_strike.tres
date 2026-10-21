@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="TalentData" format=3 uid="uid://c183koonebrb4"]
+
+[ext_resource type="Script" uid="uid://ddk5gmr8tu4q7" path="res://Scripts/ResourceScripts/ability_mod.gd" id="1_2okli"]
+[ext_resource type="Resource" uid="uid://bj4sp8p3c5ljh" path="res://Resources/Abilities/Player/strike.tres" id="2_j1xfv"]
+[ext_resource type="Texture2D" uid="uid://bc1l2vtj4wpj1" path="res://Assets/AbilityIcons/Strike_melee.png" id="3_aqc8a"]
+[ext_resource type="Script" uid="uid://ccvwsxd5vfeut" path="res://Scripts/ResourceScripts/talent_data.gd" id="4_8lxpr"]
+
+[resource]
+script = ExtResource("4_8lxpr")
+name = "Initial Training"
+icon = ExtResource("3_aqc8a")
+grants_ability = ExtResource("2_j1xfv")
+metadata/_custom_type_script = "uid://ccvwsxd5vfeut"

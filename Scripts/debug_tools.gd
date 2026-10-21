@@ -3,6 +3,7 @@ extends Node
 @export var enemy_spawner: Node
 @export var enemy_scene: PackedScene
 @export var spawn_point: Marker2D
+@export var test_item: ItemData
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not OS.is_debug_build():

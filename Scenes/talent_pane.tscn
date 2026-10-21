@@ -41,6 +41,5 @@ script = ExtResource("2_10rn3")
 
 [node name="SkillTree" parent="MarginContainer/VBoxContainer/TreeViewport" unique_id=1027915147 instance=ExtResource("2_n2v3j")]
 layout_mode = 0
-offset_right = 900.0
-offset_bottom = 600.0
-mouse_filter = 2
+offset_right = 0.0
+offset_bottom = 0.0

@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://c6o4xkaemis6w"]
+
+[ext_resource type="Script" uid="uid://cps3gr8aqjvoa" path="res://Scripts/vsync_toggle.gd" id="1_aimch"]
+
+[node name="VSyncToggle" type="CheckButton" unique_id=1957680749]
+offset_right = 44.0
+offset_bottom = 24.0
+script = ExtResource("1_aimch")

@@ -6,11 +6,13 @@
 [ext_resource type="Resource" uid="uid://cuj7dvko15as0" path="res://Resources/Abilities/NPCs/weak_hit.tres" id="2_b6xg6"]
 [ext_resource type="Resource" uid="uid://d3p0cq81lslwu" path="res://Resources/Powers/bot_power.tres" id="2_tyg8u"]
 [ext_resource type="Script" uid="uid://djkq3ofrj4kyw" path="res://Scripts/ResourceScripts/unit_data.gd" id="3_tpv7j"]
+[ext_resource type="Script" uid="uid://ds4vabwfl1g5r" path="res://Scripts/ResourceScripts/gear_template.gd" id="7_dyxbe"]
 
 [resource]
 script = ExtResource("3_tpv7j")
 name = "Warrior"
 abilities = Array[ExtResource("1_tpv7j")]([ExtResource("2_b6xg6")])
+base_health = 30.0
 portrait_offset = Vector2(0, 0.2)
 portrait_zoom = 0.8
 metadata/_custom_type_script = "uid://djkq3ofrj4kyw"

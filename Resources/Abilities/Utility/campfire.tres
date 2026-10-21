@@ -12,6 +12,7 @@ name = "Campfire"
 category = 1
 triggers_gcd = true
 requires_target = false
+cooldown = 60.0
 spawn_scene = ExtResource("4_hru5r")
 spawn_offset = Vector2(1.2, 0.2)
 out_of_combat_only = true

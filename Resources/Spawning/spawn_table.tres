@@ -6,6 +6,7 @@
 [ext_resource type="Resource" uid="uid://bckkr5wuwr6hw" path="res://Resources/Units/archer.tres" id="3_n0tu1"]
 [ext_resource type="Resource" uid="uid://bkev5w2llh52k" path="res://Resources/Units/lancer.tres" id="4_n0tu1"]
 [ext_resource type="Resource" uid="uid://dsmsyh4er8fc1" path="res://Resources/Units/wraith.tres" id="5_q4w8j"]
+[ext_resource type="Resource" uid="uid://dg1dfckbky0ed" path="res://Resources/Units/peon.tres" id="6_42rx5"]
 
 [sub_resource type="Resource" id="Resource_okuij"]
 script = ExtResource("1_kkr2n")
@@ -30,7 +31,12 @@ unit_data = ExtResource("5_q4w8j")
 weight = 0.2
 metadata/_custom_type_script = "uid://bmf03dvh08pkw"
 
+[sub_resource type="Resource" id="Resource_52ee3"]
+script = ExtResource("1_kkr2n")
+unit_data = ExtResource("6_42rx5")
+metadata/_custom_type_script = "uid://bmf03dvh08pkw"
+
 [resource]
 script = ExtResource("2_4s434")
-entries = Array[ExtResource("1_kkr2n")]([SubResource("Resource_okuij"), SubResource("Resource_q4w8j"), SubResource("Resource_raq51"), SubResource("Resource_jvk8i")])
+entries = Array[ExtResource("1_kkr2n")]([SubResource("Resource_okuij"), SubResource("Resource_q4w8j"), SubResource("Resource_raq51"), SubResource("Resource_jvk8i"), SubResource("Resource_52ee3")])
 metadata/_custom_type_script = "uid://cu1d2uf3acmwt"

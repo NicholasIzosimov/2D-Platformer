@@ -9,6 +9,7 @@ script = ExtResource("2_n6c1n")
 icon = ExtResource("2_s3hd0")
 name = "Strike"
 triggers_gcd = true
+uses_weapon_damage = true
 damage = 10.0
 cooldown = 5.0
 power_cost = 35.0

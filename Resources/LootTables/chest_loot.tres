@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="LootTable" format=3 uid="uid://bd2jv1w5vsq26"]
+
+[ext_resource type="Resource" uid="uid://dtro5i4udw2eu" path="res://Resources/Items/Currency/gold.tres" id="1_tsd4p"]
+[ext_resource type="Script" uid="uid://0flf12yjfjnx" path="res://Scripts/ResourceScripts/loot_table.gd" id="2_tkia8"]
+[ext_resource type="Script" uid="uid://ds4vabwfl1g5r" path="res://Scripts/ResourceScripts/gear_template.gd" id="3_4gy3g"]
+[ext_resource type="Resource" uid="uid://e35u731gdcaj" path="res://Resources/LootTables/global_loot.tres" id="3_tkia8"]
+
+[resource]
+script = ExtResource("2_tkia8")
+item_chance = 1.0
+gold_base = 3.0
+currency = ExtResource("1_tsd4p")
+additional_loot_tables = Array[ExtResource("2_tkia8")]([ExtResource("3_tkia8")])
+metadata/_custom_type_script = "uid://0flf12yjfjnx"

@@ -2,8 +2,11 @@ extends Resource
 
 class_name ItemData
 
-enum Slot {HEAD, NECK, SHOULDERS, CHEST, HANDS, LEGS, FEET, RING, MAIN_HAND, OFF_HAND, TRINKET}
-
 @export var name: String
 @export var icon: Texture2D
-@export var slot: Slot
+@export var rarity: Rarity
+@export var max_stack: int = 1
+@export var value: int = 0
+
+func gold_value() -> int:
+	return value
