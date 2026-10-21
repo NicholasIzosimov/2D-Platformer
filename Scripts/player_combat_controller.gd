@@ -29,7 +29,9 @@ func _on_cast_cancelled() -> void:
 	
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
-		set_target(null)
+		if is_instance_valid(current_target):
+			set_target(null)
+			get_viewport().set_input_as_handled()
 		return
 	if Input.is_action_just_pressed("tab_target"):
 		cycle_target()

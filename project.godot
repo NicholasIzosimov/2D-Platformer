@@ -20,6 +20,7 @@ config/icon="res://Z/icon.svg"
 PlayerState="*uid://cfxohuibdl81p"
 Tooltip="*uid://bjg03onsccvfj"
 GraphicsSettings="*uid://d2i2vj6n76qik"
+GameMenu="*uid://u8p6q8m1hjoi"
 
 [display]
 
